@@ -14,12 +14,12 @@ public class UnityEngine_UI_IMaskable_G
     // fields
     // properties
     // methods
-    static bool IMaskable_ParentMaskStateChanged(JSVCall vc, int argc)
+    static bool IMaskable_RecalculateMasking(JSVCall vc, int argc)
     {
         int len = argc;
         if (len == 0)
         {
-            ((UnityEngine.UI.IMaskable)vc.csObj).ParentMaskStateChanged();
+            ((UnityEngine.UI.IMaskable)vc.csObj).RecalculateMasking();
         }
         return true;
     }
@@ -40,7 +40,7 @@ public class UnityEngine_UI_IMaskable_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
-            new JSMgr.MethodCallBackInfo(IMaskable_ParentMaskStateChanged, "ParentMaskStateChanged"),
+            new JSMgr.MethodCallBackInfo(IMaskable_RecalculateMasking, "RecalculateMasking"),
         };
         JSMgr.allCallbackInfo.Add(ci);
     }

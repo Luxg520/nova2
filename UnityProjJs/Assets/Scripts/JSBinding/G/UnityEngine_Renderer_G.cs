@@ -31,21 +31,6 @@ public class UnityEngine_Renderer_G
         var result = _this.bounds;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
-    static void Renderer_castShadows(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            var result = _this.castShadows;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            _this.castShadows = arg0;
-        }
-    }
     static void Renderer_enabled(JSVCall vc)
     {
         if (vc.bGet)
@@ -88,34 +73,49 @@ public class UnityEngine_Renderer_G
             _this.lightmapIndex = arg0;
         }
     }
-    static void Renderer_lightmapTilingOffset(JSVCall vc)
+    static void Renderer_lightmapScaleOffset(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            var result = _this.lightmapTilingOffset;
+            var result = _this.lightmapScaleOffset;
             JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
         }
         else
         {
             UnityEngine.Vector4 arg0 = (UnityEngine.Vector4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            _this.lightmapTilingOffset = arg0;
+            _this.lightmapScaleOffset = arg0;
         }
     }
-    static void Renderer_lightProbeAnchor(JSVCall vc)
+    static void Renderer_lightProbeProxyVolumeOverride(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            var result = _this.lightProbeAnchor;
+            var result = _this.lightProbeProxyVolumeOverride;
             JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
         }
         else
         {
-            UnityEngine.Transform arg0 = (UnityEngine.Transform)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.GameObject arg0 = (UnityEngine.GameObject)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            _this.lightProbeAnchor = arg0;
+            _this.lightProbeProxyVolumeOverride = arg0;
+        }
+    }
+    static void Renderer_lightProbeUsage(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.lightProbeUsage;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.Rendering.LightProbeUsage arg0 = (UnityEngine.Rendering.LightProbeUsage)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.lightProbeUsage = arg0;
         }
     }
     static void Renderer_localToWorldMatrix(JSVCall vc)
@@ -173,6 +173,66 @@ public class UnityEngine_Renderer_G
             _this.materials = arg0;
         }
     }
+    static void Renderer_motionVectors(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.motionVectors;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.motionVectors = arg0;
+        }
+    }
+    static void Renderer_probeAnchor(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.probeAnchor;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Transform arg0 = (UnityEngine.Transform)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.probeAnchor = arg0;
+        }
+    }
+    static void Renderer_realtimeLightmapIndex(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.realtimeLightmapIndex;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+        }
+        else
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.realtimeLightmapIndex = arg0;
+        }
+    }
+    static void Renderer_realtimeLightmapScaleOffset(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.realtimeLightmapScaleOffset;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Vector4 arg0 = (UnityEngine.Vector4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.realtimeLightmapScaleOffset = arg0;
+        }
+    }
     static void Renderer_receiveShadows(JSVCall vc)
     {
         if (vc.bGet)
@@ -186,6 +246,36 @@ public class UnityEngine_Renderer_G
             bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
             UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
             _this.receiveShadows = arg0;
+        }
+    }
+    static void Renderer_reflectionProbeUsage(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.reflectionProbeUsage;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.Rendering.ReflectionProbeUsage arg0 = (UnityEngine.Rendering.ReflectionProbeUsage)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.reflectionProbeUsage = arg0;
+        }
+    }
+    static void Renderer_shadowCastingMode(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            var result = _this.shadowCastingMode;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.Rendering.ShadowCastingMode arg0 = (UnityEngine.Rendering.ShadowCastingMode)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
+            _this.shadowCastingMode = arg0;
         }
     }
     static void Renderer_sharedMaterial(JSVCall vc)
@@ -282,21 +372,6 @@ public class UnityEngine_Renderer_G
             _this.sortingOrder = arg0;
         }
     }
-    static void Renderer_useLightProbes(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            var result = _this.useLightProbes;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
-            _this.useLightProbes = arg0;
-        }
-    }
     static void Renderer_worldToLocalMatrix(JSVCall vc)
     {
         UnityEngine.Renderer _this = (UnityEngine.Renderer)vc.csObj;
@@ -304,6 +379,16 @@ public class UnityEngine_Renderer_G
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     // methods
+    static bool Renderer_GetClosestReflectionProbes__ListT1_ReflectionProbeBlendInfo(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            System.Collections.Generic.List<UnityEngine.Rendering.ReflectionProbeBlendInfo> arg0 = (System.Collections.Generic.List<UnityEngine.Rendering.ReflectionProbeBlendInfo>)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Renderer)vc.csObj).GetClosestReflectionProbes(arg0);
+        }
+        return true;
+    }
     static bool Renderer_GetPropertyBlock__MaterialPropertyBlock(JSVCall vc, int argc)
     {
         int len = argc;
@@ -311,16 +396,6 @@ public class UnityEngine_Renderer_G
         {
             UnityEngine.MaterialPropertyBlock arg0 = (UnityEngine.MaterialPropertyBlock)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             ((UnityEngine.Renderer)vc.csObj).GetPropertyBlock(arg0);
-        }
-        return true;
-    }
-    static bool Renderer_Render__Int32(JSVCall vc, int argc)
-    {
-        int len = argc;
-        if (len == 1)
-        {
-            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
-            ((UnityEngine.Renderer)vc.csObj).Render(arg0);
         }
         return true;
     }
@@ -346,23 +421,28 @@ public class UnityEngine_Renderer_G
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
             Renderer_bounds,
-            Renderer_castShadows,
             Renderer_enabled,
             Renderer_isPartOfStaticBatch,
             Renderer_isVisible,
             Renderer_lightmapIndex,
-            Renderer_lightmapTilingOffset,
-            Renderer_lightProbeAnchor,
+            Renderer_lightmapScaleOffset,
+            Renderer_lightProbeProxyVolumeOverride,
+            Renderer_lightProbeUsage,
             Renderer_localToWorldMatrix,
             Renderer_material,
             Renderer_materials,
+            Renderer_motionVectors,
+            Renderer_probeAnchor,
+            Renderer_realtimeLightmapIndex,
+            Renderer_realtimeLightmapScaleOffset,
             Renderer_receiveShadows,
+            Renderer_reflectionProbeUsage,
+            Renderer_shadowCastingMode,
             Renderer_sharedMaterial,
             Renderer_sharedMaterials,
             Renderer_sortingLayerID,
             Renderer_sortingLayerName,
             Renderer_sortingOrder,
-            Renderer_useLightProbes,
             Renderer_worldToLocalMatrix,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]
@@ -371,8 +451,8 @@ public class UnityEngine_Renderer_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
+            new JSMgr.MethodCallBackInfo(Renderer_GetClosestReflectionProbes__ListT1_ReflectionProbeBlendInfo, "GetClosestReflectionProbes"),
             new JSMgr.MethodCallBackInfo(Renderer_GetPropertyBlock__MaterialPropertyBlock, "GetPropertyBlock"),
-            new JSMgr.MethodCallBackInfo(Renderer_Render__Int32, "Render"),
             new JSMgr.MethodCallBackInfo(Renderer_SetPropertyBlock__MaterialPropertyBlock, "SetPropertyBlock"),
         };
         JSMgr.allCallbackInfo.Add(ci);

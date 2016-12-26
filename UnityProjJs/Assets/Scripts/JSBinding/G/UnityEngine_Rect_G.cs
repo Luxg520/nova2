@@ -56,6 +56,21 @@ public class UnityEngine_Rect_G
         }
         return true;
     }
+    static bool Rect_Rect3(JSVCall vc, int argc)
+    {
+        int _this = JSApi.getObject((int)JSApi.GetType.Arg);
+        JSApi.attachFinalizerObject(_this);
+        --argc;
+         
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Vector2 arg1 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            JSMgr.addJSCSRel(_this, new UnityEngine.Rect(arg0, arg1));
+        }
+        return true;
+    }
     // fields
     // properties
     static void Rect_center(JSVCall vc)
@@ -469,6 +484,7 @@ public class UnityEngine_Rect_G
             new JSMgr.MethodCallBackInfo(Rect_Rect, ".ctor"),
             new JSMgr.MethodCallBackInfo(Rect_Rect1, ".ctor"),
             new JSMgr.MethodCallBackInfo(Rect_Rect2, ".ctor"),
+            new JSMgr.MethodCallBackInfo(Rect_Rect3, ".ctor"),
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace jsb.Test.Logic
@@ -18,16 +17,7 @@ namespace jsb.Test.Logic
             dict["TestVector3"] = () => { gameObject.AddComponent<TestVector3>(); };
             dict["TestDictionary"] = () => { gameObject.AddComponent(typeof(TestDictionary)); };
 
-			// 注意，如果是 JS ，AddComponent(string) 要传全名（包括命名空间和定义类）
-			// 但是 CS 只要类名就可以了
-			// 所以最好是用 AddComponent<T>
-#if JS
-			string scriptName = "jsb.Test.Logic.TestInt64";
-#else
-			string scriptName = "TestInt64";
-#endif
-
-			dict["TestInt64"] = () => { gameObject.AddComponent(scriptName); };
+			dict["TestInt64"] = () => { gameObject.AddComponent<TestInt64>(); };
             dict["TestJSON"] = () => { gameObject.AddComponent<TestJSON>(); };
             // 注意 TestCallJs 是 C# 脚本
             dict["TestCallJs"] = () => { gameObject.AddComponent<TestCallJs>(); };

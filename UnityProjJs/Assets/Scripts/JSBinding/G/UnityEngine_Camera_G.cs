@@ -24,6 +24,132 @@ public class UnityEngine_Camera_G
         return true;
     }
     // fields
+    public static UnityEngine.Camera.CameraCallback Camera_onPreCull_GetDelegate_member0_arg0(CSRepresentedObject objFunction)
+    {
+        if (objFunction == null || objFunction.jsObjID == 0)
+            return null;
+         
+        UnityEngine.Camera.CameraCallback action = JSMgr.getJSFunCSDelegateRel<UnityEngine.Camera.CameraCallback>(objFunction.jsObjID);
+        if (action != null)
+            return action;
+         
+        action = (cam) => 
+        {
+            JSMgr.vCall.CallJSFunctionValue(0, objFunction.jsObjID, cam);
+        };
+        JSMgr.addJSFunCSDelegateRel(objFunction.jsObjID, action);
+        return action;
+
+    }
+    static void Camera_onPreCull(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            var result = UnityEngine.Camera.onPreCull;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Camera.onPreCull = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Camera.CameraCallback>(() => 
+                {
+                    if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
+                    {
+                        return Camera_onPreCull_GetDelegate_member0_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                    }
+                    else
+                    {
+                        return (UnityEngine.Camera.CameraCallback)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+                    }
+                }
+                );
+            ;
+        }
+    }
+    public static UnityEngine.Camera.CameraCallback Camera_onPreRender_GetDelegate_member1_arg0(CSRepresentedObject objFunction)
+    {
+        if (objFunction == null || objFunction.jsObjID == 0)
+            return null;
+         
+        UnityEngine.Camera.CameraCallback action = JSMgr.getJSFunCSDelegateRel<UnityEngine.Camera.CameraCallback>(objFunction.jsObjID);
+        if (action != null)
+            return action;
+         
+        action = (cam) => 
+        {
+            JSMgr.vCall.CallJSFunctionValue(0, objFunction.jsObjID, cam);
+        };
+        JSMgr.addJSFunCSDelegateRel(objFunction.jsObjID, action);
+        return action;
+
+    }
+    static void Camera_onPreRender(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            var result = UnityEngine.Camera.onPreRender;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Camera.onPreRender = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Camera.CameraCallback>(() => 
+                {
+                    if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
+                    {
+                        return Camera_onPreRender_GetDelegate_member1_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                    }
+                    else
+                    {
+                        return (UnityEngine.Camera.CameraCallback)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+                    }
+                }
+                );
+            ;
+        }
+    }
+    public static UnityEngine.Camera.CameraCallback Camera_onPostRender_GetDelegate_member2_arg0(CSRepresentedObject objFunction)
+    {
+        if (objFunction == null || objFunction.jsObjID == 0)
+            return null;
+         
+        UnityEngine.Camera.CameraCallback action = JSMgr.getJSFunCSDelegateRel<UnityEngine.Camera.CameraCallback>(objFunction.jsObjID);
+        if (action != null)
+            return action;
+         
+        action = (cam) => 
+        {
+            JSMgr.vCall.CallJSFunctionValue(0, objFunction.jsObjID, cam);
+        };
+        JSMgr.addJSFunCSDelegateRel(objFunction.jsObjID, action);
+        return action;
+
+    }
+    static void Camera_onPostRender(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            var result = UnityEngine.Camera.onPostRender;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Camera.onPostRender = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Camera.CameraCallback>(() => 
+                {
+                    if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
+                    {
+                        return Camera_onPostRender_GetDelegate_member2_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                    }
+                    else
+                    {
+                        return (UnityEngine.Camera.CameraCallback)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+                    }
+                }
+                );
+            ;
+        }
+    }
     // properties
     static void Camera_actualRenderingPath(JSVCall vc)
     {
@@ -67,6 +193,21 @@ public class UnityEngine_Camera_G
         var result = _this.cameraToWorldMatrix;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
+    static void Camera_cameraType(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.cameraType;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.CameraType arg0 = (UnityEngine.CameraType)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.cameraType = arg0;
+        }
+    }
     static void Camera_clearFlags(JSVCall vc)
     {
         if (vc.bGet)
@@ -97,6 +238,12 @@ public class UnityEngine_Camera_G
             _this.clearStencilAfterLightingPass = arg0;
         }
     }
+    static void Camera_commandBufferCount(JSVCall vc)
+    {
+        UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+        var result = _this.commandBufferCount;
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+    }
     static void Camera_cullingMask(JSVCall vc)
     {
         if (vc.bGet)
@@ -110,6 +257,21 @@ public class UnityEngine_Camera_G
             int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
             UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
             _this.cullingMask = arg0;
+        }
+    }
+    static void Camera_cullingMatrix(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.cullingMatrix;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Matrix4x4 arg0 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.cullingMatrix = arg0;
         }
     }
     static void Camera_depth(JSVCall vc)
@@ -202,21 +364,6 @@ public class UnityEngine_Camera_G
             _this.hdr = arg0;
         }
     }
-    static void Camera_isOrthoGraphic(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
-            var result = _this.isOrthoGraphic;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
-            _this.isOrthoGraphic = arg0;
-        }
-    }
     static void Camera_layerCullDistances(JSVCall vc)
     {
         if (vc.bGet)
@@ -281,6 +428,36 @@ public class UnityEngine_Camera_G
             _this.nearClipPlane = arg0;
         }
     }
+    static void Camera_nonJitteredProjectionMatrix(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.nonJitteredProjectionMatrix;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Matrix4x4 arg0 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.nonJitteredProjectionMatrix = arg0;
+        }
+    }
+    static void Camera_opaqueSortMode(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.opaqueSortMode;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.Rendering.OpaqueSortMode arg0 = (UnityEngine.Rendering.OpaqueSortMode)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.opaqueSortMode = arg0;
+        }
+    }
     static void Camera_orthographic(JSVCall vc)
     {
         if (vc.bGet)
@@ -315,7 +492,7 @@ public class UnityEngine_Camera_G
     {
         UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
         var result = _this.pixelHeight;
-        JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
     }
     static void Camera_pixelRect(JSVCall vc)
     {
@@ -336,7 +513,7 @@ public class UnityEngine_Camera_G
     {
         UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
         var result = _this.pixelWidth;
-        JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
     }
     static void Camera_projectionMatrix(JSVCall vc)
     {
@@ -404,6 +581,21 @@ public class UnityEngine_Camera_G
         var result = _this.stereoEnabled;
         JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
+    static void Camera_stereoMirrorMode(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.stereoMirrorMode;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.stereoMirrorMode = arg0;
+        }
+    }
     static void Camera_stereoSeparation(JSVCall vc)
     {
         if (vc.bGet)
@@ -417,6 +609,36 @@ public class UnityEngine_Camera_G
             float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
             UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
             _this.stereoSeparation = arg0;
+        }
+    }
+    static void Camera_stereoTargetEye(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.stereoTargetEye;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.StereoTargetEyeMask arg0 = (UnityEngine.StereoTargetEyeMask)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.stereoTargetEye = arg0;
+        }
+    }
+    static void Camera_targetDisplay(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            var result = _this.targetDisplay;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+        }
+        else
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Camera _this = (UnityEngine.Camera)vc.csObj;
+            _this.targetDisplay = arg0;
         }
     }
     static void Camera_targetTexture(JSVCall vc)
@@ -512,6 +734,17 @@ public class UnityEngine_Camera_G
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     // methods
+    static bool Camera_AddCommandBuffer__CameraEvent__CommandBuffer(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Rendering.CameraEvent arg0 = (UnityEngine.Rendering.CameraEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Rendering.CommandBuffer arg1 = (UnityEngine.Rendering.CommandBuffer)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Camera)vc.csObj).AddCommandBuffer(arg0, arg1);
+        }
+        return true;
+    }
     static bool Camera_CalculateObliqueMatrix__Vector4(JSVCall vc, int argc)
     {
         int len = argc;
@@ -529,6 +762,52 @@ public class UnityEngine_Camera_G
         {
             UnityEngine.Camera arg0 = (UnityEngine.Camera)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             ((UnityEngine.Camera)vc.csObj).CopyFrom(arg0);
+        }
+        return true;
+    }
+    static bool Camera_GetCommandBuffers__CameraEvent(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Rendering.CameraEvent arg0 = (UnityEngine.Rendering.CameraEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+                var arrRet = (UnityEngine.Rendering.CommandBuffer[])((UnityEngine.Camera)vc.csObj).GetCommandBuffers(arg0);
+    for (int i = 0; arrRet != null && i < arrRet.Length; i++)
+    {
+        JSMgr.datax.setObject((int)JSApi.SetType.SaveAndTempTrace, arrRet[i]);
+        JSApi.moveSaveID2Arr(i);
+    }
+    JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
+        }
+        return true;
+    }
+    static bool Camera_RemoveAllCommandBuffers(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Camera)vc.csObj).RemoveAllCommandBuffers();
+        }
+        return true;
+    }
+    static bool Camera_RemoveCommandBuffer__CameraEvent__CommandBuffer(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Rendering.CameraEvent arg0 = (UnityEngine.Rendering.CameraEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Rendering.CommandBuffer arg1 = (UnityEngine.Rendering.CommandBuffer)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Camera)vc.csObj).RemoveCommandBuffer(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Camera_RemoveCommandBuffers__CameraEvent(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Rendering.CameraEvent arg0 = (UnityEngine.Rendering.CameraEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            ((UnityEngine.Camera)vc.csObj).RemoveCommandBuffers(arg0);
         }
         return true;
     }
@@ -612,6 +891,24 @@ public class UnityEngine_Camera_G
         }
         return true;
     }
+    static bool Camera_ResetCullingMatrix(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Camera)vc.csObj).ResetCullingMatrix();
+        }
+        return true;
+    }
+    static bool Camera_ResetFieldOfView(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Camera)vc.csObj).ResetFieldOfView();
+        }
+        return true;
+    }
     static bool Camera_ResetProjectionMatrix(JSVCall vc, int argc)
     {
         int len = argc;
@@ -627,6 +924,24 @@ public class UnityEngine_Camera_G
         if (len == 0)
         {
             ((UnityEngine.Camera)vc.csObj).ResetReplacementShader();
+        }
+        return true;
+    }
+    static bool Camera_ResetStereoProjectionMatrices(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Camera)vc.csObj).ResetStereoProjectionMatrices();
+        }
+        return true;
+    }
+    static bool Camera_ResetStereoViewMatrices(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Camera)vc.csObj).ResetStereoViewMatrices();
         }
         return true;
     }
@@ -677,6 +992,28 @@ public class UnityEngine_Camera_G
             UnityEngine.Shader arg0 = (UnityEngine.Shader)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             string arg1 = JSApi.getStringS((int)JSApi.GetType.Arg);
             ((UnityEngine.Camera)vc.csObj).SetReplacementShader(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Camera_SetStereoProjectionMatrices__Matrix4x4__Matrix4x4(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Matrix4x4 arg0 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Matrix4x4 arg1 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Camera)vc.csObj).SetStereoProjectionMatrices(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Camera_SetStereoViewMatrices__Matrix4x4__Matrix4x4(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Matrix4x4 arg0 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Matrix4x4 arg1 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Camera)vc.csObj).SetStereoViewMatrices(arg0, arg1);
         }
         return true;
     }
@@ -806,6 +1143,9 @@ public class UnityEngine_Camera_G
         ci.type = typeof(UnityEngine.Camera);
         ci.fields = new JSMgr.CSCallbackField[]
         {
+            Camera_onPreCull,
+            Camera_onPreRender,
+            Camera_onPostRender,
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
@@ -813,19 +1153,23 @@ public class UnityEngine_Camera_G
             Camera_aspect,
             Camera_backgroundColor,
             Camera_cameraToWorldMatrix,
+            Camera_cameraType,
             Camera_clearFlags,
             Camera_clearStencilAfterLightingPass,
+            Camera_commandBufferCount,
             Camera_cullingMask,
+            Camera_cullingMatrix,
             Camera_depth,
             Camera_depthTextureMode,
             Camera_eventMask,
             Camera_farClipPlane,
             Camera_fieldOfView,
             Camera_hdr,
-            Camera_isOrthoGraphic,
             Camera_layerCullDistances,
             Camera_layerCullSpherical,
             Camera_nearClipPlane,
+            Camera_nonJitteredProjectionMatrix,
+            Camera_opaqueSortMode,
             Camera_orthographic,
             Camera_orthographicSize,
             Camera_pixelHeight,
@@ -836,7 +1180,10 @@ public class UnityEngine_Camera_G
             Camera_renderingPath,
             Camera_stereoConvergence,
             Camera_stereoEnabled,
+            Camera_stereoMirrorMode,
             Camera_stereoSeparation,
+            Camera_stereoTargetEye,
+            Camera_targetDisplay,
             Camera_targetTexture,
             Camera_transparencySortMode,
             Camera_useOcclusionCulling,
@@ -853,8 +1200,13 @@ public class UnityEngine_Camera_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
+            new JSMgr.MethodCallBackInfo(Camera_AddCommandBuffer__CameraEvent__CommandBuffer, "AddCommandBuffer"),
             new JSMgr.MethodCallBackInfo(Camera_CalculateObliqueMatrix__Vector4, "CalculateObliqueMatrix"),
             new JSMgr.MethodCallBackInfo(Camera_CopyFrom__Camera, "CopyFrom"),
+            new JSMgr.MethodCallBackInfo(Camera_GetCommandBuffers__CameraEvent, "GetCommandBuffers"),
+            new JSMgr.MethodCallBackInfo(Camera_RemoveAllCommandBuffers, "RemoveAllCommandBuffers"),
+            new JSMgr.MethodCallBackInfo(Camera_RemoveCommandBuffer__CameraEvent__CommandBuffer, "RemoveCommandBuffer"),
+            new JSMgr.MethodCallBackInfo(Camera_RemoveCommandBuffers__CameraEvent, "RemoveCommandBuffers"),
             new JSMgr.MethodCallBackInfo(Camera_Render, "Render"),
             new JSMgr.MethodCallBackInfo(Camera_RenderDontRestore, "RenderDontRestore"),
             new JSMgr.MethodCallBackInfo(Camera_RenderToCubemap__Cubemap, "RenderToCubemap"),
@@ -863,13 +1215,19 @@ public class UnityEngine_Camera_G
             new JSMgr.MethodCallBackInfo(Camera_RenderToCubemap__RenderTexture__Int32, "RenderToCubemap"),
             new JSMgr.MethodCallBackInfo(Camera_RenderWithShader__Shader__String, "RenderWithShader"),
             new JSMgr.MethodCallBackInfo(Camera_ResetAspect, "ResetAspect"),
+            new JSMgr.MethodCallBackInfo(Camera_ResetCullingMatrix, "ResetCullingMatrix"),
+            new JSMgr.MethodCallBackInfo(Camera_ResetFieldOfView, "ResetFieldOfView"),
             new JSMgr.MethodCallBackInfo(Camera_ResetProjectionMatrix, "ResetProjectionMatrix"),
             new JSMgr.MethodCallBackInfo(Camera_ResetReplacementShader, "ResetReplacementShader"),
+            new JSMgr.MethodCallBackInfo(Camera_ResetStereoProjectionMatrices, "ResetStereoProjectionMatrices"),
+            new JSMgr.MethodCallBackInfo(Camera_ResetStereoViewMatrices, "ResetStereoViewMatrices"),
             new JSMgr.MethodCallBackInfo(Camera_ResetWorldToCameraMatrix, "ResetWorldToCameraMatrix"),
             new JSMgr.MethodCallBackInfo(Camera_ScreenPointToRay__Vector3, "ScreenPointToRay"),
             new JSMgr.MethodCallBackInfo(Camera_ScreenToViewportPoint__Vector3, "ScreenToViewportPoint"),
             new JSMgr.MethodCallBackInfo(Camera_ScreenToWorldPoint__Vector3, "ScreenToWorldPoint"),
             new JSMgr.MethodCallBackInfo(Camera_SetReplacementShader__Shader__String, "SetReplacementShader"),
+            new JSMgr.MethodCallBackInfo(Camera_SetStereoProjectionMatrices__Matrix4x4__Matrix4x4, "SetStereoProjectionMatrices"),
+            new JSMgr.MethodCallBackInfo(Camera_SetStereoViewMatrices__Matrix4x4__Matrix4x4, "SetStereoViewMatrices"),
             new JSMgr.MethodCallBackInfo(Camera_SetTargetBuffers__RenderBuffer__RenderBuffer, "SetTargetBuffers"),
             new JSMgr.MethodCallBackInfo(Camera_SetTargetBuffers__RenderBuffer_Array__RenderBuffer, "SetTargetBuffers"),
             new JSMgr.MethodCallBackInfo(Camera_ViewportPointToRay__Vector3, "ViewportPointToRay"),

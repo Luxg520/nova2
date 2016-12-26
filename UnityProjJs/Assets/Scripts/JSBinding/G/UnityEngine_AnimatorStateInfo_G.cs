@@ -27,6 +27,12 @@ public class UnityEngine_AnimatorStateInfo_G
     }
     // fields
     // properties
+    static void AnimatorStateInfo_fullPathHash(JSVCall vc)
+    {
+        UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
+        var result = _this.fullPathHash;
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+    }
     static void AnimatorStateInfo_length(JSVCall vc)
     {
         UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
@@ -39,16 +45,28 @@ public class UnityEngine_AnimatorStateInfo_G
         var result = _this.loop;
         JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
-    static void AnimatorStateInfo_nameHash(JSVCall vc)
-    {
-        UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
-        var result = _this.nameHash;
-        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
-    }
     static void AnimatorStateInfo_normalizedTime(JSVCall vc)
     {
         UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
         var result = _this.normalizedTime;
+        JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+    }
+    static void AnimatorStateInfo_shortNameHash(JSVCall vc)
+    {
+        UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
+        var result = _this.shortNameHash;
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+    }
+    static void AnimatorStateInfo_speed(JSVCall vc)
+    {
+        UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
+        var result = _this.speed;
+        JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+    }
+    static void AnimatorStateInfo_speedMultiplier(JSVCall vc)
+    {
+        UnityEngine.AnimatorStateInfo _this = (UnityEngine.AnimatorStateInfo)vc.csObj;
+        var result = _this.speedMultiplier;
         JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
     }
     static void AnimatorStateInfo_tagHash(JSVCall vc)
@@ -93,10 +111,13 @@ public class UnityEngine_AnimatorStateInfo_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
+            AnimatorStateInfo_fullPathHash,
             AnimatorStateInfo_length,
             AnimatorStateInfo_loop,
-            AnimatorStateInfo_nameHash,
             AnimatorStateInfo_normalizedTime,
+            AnimatorStateInfo_shortNameHash,
+            AnimatorStateInfo_speed,
+            AnimatorStateInfo_speedMultiplier,
             AnimatorStateInfo_tagHash,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]

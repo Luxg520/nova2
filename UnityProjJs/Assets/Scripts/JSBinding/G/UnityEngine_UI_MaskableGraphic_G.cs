@@ -28,37 +28,69 @@ public class UnityEngine_UI_MaskableGraphic_G
             _this.maskable = arg0;
         }
     }
-    static void MaskableGraphic_material(JSVCall vc)
+    static void MaskableGraphic_onCullStateChanged(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.UI.MaskableGraphic _this = (UnityEngine.UI.MaskableGraphic)vc.csObj;
-            var result = _this.material;
+            var result = _this.onCullStateChanged;
             JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
         }
         else
         {
-            UnityEngine.Material arg0 = (UnityEngine.Material)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.UI.MaskableGraphic.CullStateChangedEvent arg0 = (UnityEngine.UI.MaskableGraphic.CullStateChangedEvent)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             UnityEngine.UI.MaskableGraphic _this = (UnityEngine.UI.MaskableGraphic)vc.csObj;
-            _this.material = arg0;
+            _this.onCullStateChanged = arg0;
         }
     }
     // methods
-    static bool MaskableGraphic_ParentMaskStateChanged(JSVCall vc, int argc)
+    static bool MaskableGraphic_Cull__Rect__Boolean(JSVCall vc, int argc)
     {
         int len = argc;
-        if (len == 0)
+        if (len == 2)
         {
-            ((UnityEngine.UI.MaskableGraphic)vc.csObj).ParentMaskStateChanged();
+            UnityEngine.Rect arg0 = (UnityEngine.Rect)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            bool arg1 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            ((UnityEngine.UI.MaskableGraphic)vc.csObj).Cull(arg0, arg1);
         }
         return true;
     }
-    static bool MaskableGraphic_SetMaterialDirty(JSVCall vc, int argc)
+    static bool MaskableGraphic_GetModifiedMaterial__Material(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Material arg0 = (UnityEngine.Material)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, ((UnityEngine.UI.MaskableGraphic)vc.csObj).GetModifiedMaterial(arg0));
+        }
+        return true;
+    }
+    static bool MaskableGraphic_RecalculateClipping(JSVCall vc, int argc)
     {
         int len = argc;
         if (len == 0)
         {
-            ((UnityEngine.UI.MaskableGraphic)vc.csObj).SetMaterialDirty();
+            ((UnityEngine.UI.MaskableGraphic)vc.csObj).RecalculateClipping();
+        }
+        return true;
+    }
+    static bool MaskableGraphic_RecalculateMasking(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.MaskableGraphic)vc.csObj).RecalculateMasking();
+        }
+        return true;
+    }
+    static bool MaskableGraphic_SetClipRect__Rect__Boolean(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Rect arg0 = (UnityEngine.Rect)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            bool arg1 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            ((UnityEngine.UI.MaskableGraphic)vc.csObj).SetClipRect(arg0, arg1);
         }
         return true;
     }
@@ -74,15 +106,18 @@ public class UnityEngine_UI_MaskableGraphic_G
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
             MaskableGraphic_maskable,
-            MaskableGraphic_material,
+            MaskableGraphic_onCullStateChanged,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]
         {
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
-            new JSMgr.MethodCallBackInfo(MaskableGraphic_ParentMaskStateChanged, "ParentMaskStateChanged"),
-            new JSMgr.MethodCallBackInfo(MaskableGraphic_SetMaterialDirty, "SetMaterialDirty"),
+            new JSMgr.MethodCallBackInfo(MaskableGraphic_Cull__Rect__Boolean, "Cull"),
+            new JSMgr.MethodCallBackInfo(MaskableGraphic_GetModifiedMaterial__Material, "GetModifiedMaterial"),
+            new JSMgr.MethodCallBackInfo(MaskableGraphic_RecalculateClipping, "RecalculateClipping"),
+            new JSMgr.MethodCallBackInfo(MaskableGraphic_RecalculateMasking, "RecalculateMasking"),
+            new JSMgr.MethodCallBackInfo(MaskableGraphic_SetClipRect__Rect__Boolean, "SetClipRect"),
         };
         JSMgr.allCallbackInfo.Add(ci);
     }

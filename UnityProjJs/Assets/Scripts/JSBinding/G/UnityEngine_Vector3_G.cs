@@ -337,6 +337,18 @@ public class UnityEngine_Vector3_G
         }
         return true;
     }
+    static bool Vector3_LerpUnclamped__Vector3__Vector3__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Vector3 arg0 = (UnityEngine.Vector3)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Vector3 arg1 = (UnityEngine.Vector3)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Vector3.LerpUnclamped(arg0, arg1, arg2));
+        }
+        return true;
+    }
     static bool Vector3_Magnitude__Vector3(JSVCall vc, int argc)
     {
         int len = argc;
@@ -553,6 +565,18 @@ public class UnityEngine_Vector3_G
         }
         return true;
     }
+    static bool Vector3_SlerpUnclamped__Vector3__Vector3__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Vector3 arg0 = (UnityEngine.Vector3)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Vector3 arg1 = (UnityEngine.Vector3)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Vector3.SlerpUnclamped(arg0, arg1, arg2));
+        }
+        return true;
+    }
     static bool Vector3_SmoothDamp__Vector3__Vector3__Vector3__Single(JSVCall vc, int argc)
     {
         int len = argc;
@@ -663,6 +687,7 @@ public class UnityEngine_Vector3_G
             new JSMgr.MethodCallBackInfo(Vector3_Distance__Vector3__Vector3, "Distance"),
             new JSMgr.MethodCallBackInfo(Vector3_Dot__Vector3__Vector3, "Dot"),
             new JSMgr.MethodCallBackInfo(Vector3_Lerp__Vector3__Vector3__Single, "Lerp"),
+            new JSMgr.MethodCallBackInfo(Vector3_LerpUnclamped__Vector3__Vector3__Single, "LerpUnclamped"),
             new JSMgr.MethodCallBackInfo(Vector3_Magnitude__Vector3, "Magnitude"),
             new JSMgr.MethodCallBackInfo(Vector3_Max__Vector3__Vector3, "Max"),
             new JSMgr.MethodCallBackInfo(Vector3_Min__Vector3__Vector3, "Min"),
@@ -684,6 +709,7 @@ public class UnityEngine_Vector3_G
             new JSMgr.MethodCallBackInfo(Vector3_RotateTowards__Vector3__Vector3__Single__Single, "RotateTowards"),
             new JSMgr.MethodCallBackInfo(Vector3_Scale__Vector3__Vector3, "Scale"),
             new JSMgr.MethodCallBackInfo(Vector3_Slerp__Vector3__Vector3__Single, "Slerp"),
+            new JSMgr.MethodCallBackInfo(Vector3_SlerpUnclamped__Vector3__Vector3__Single, "SlerpUnclamped"),
             new JSMgr.MethodCallBackInfo(Vector3_SmoothDamp__Vector3__Vector3__Vector3__Single, "SmoothDamp"),
             new JSMgr.MethodCallBackInfo(Vector3_SmoothDamp__Vector3__Vector3__Vector3__Single__Single, "SmoothDamp"),
             new JSMgr.MethodCallBackInfo(Vector3_SmoothDamp__Vector3__Vector3__Vector3__Single__Single__Single, "SmoothDamp"),

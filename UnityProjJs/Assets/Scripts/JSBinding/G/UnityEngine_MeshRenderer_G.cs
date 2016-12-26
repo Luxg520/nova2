@@ -25,6 +25,21 @@ public class UnityEngine_MeshRenderer_G
     }
     // fields
     // properties
+    static void MeshRenderer_additionalVertexStreams(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.MeshRenderer _this = (UnityEngine.MeshRenderer)vc.csObj;
+            var result = _this.additionalVertexStreams;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
+        }
+        else
+        {
+            UnityEngine.Mesh arg0 = (UnityEngine.Mesh)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.MeshRenderer _this = (UnityEngine.MeshRenderer)vc.csObj;
+            _this.additionalVertexStreams = arg0;
+        }
+    }
     // methods
      
     // register
@@ -37,6 +52,7 @@ public class UnityEngine_MeshRenderer_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
+            MeshRenderer_additionalVertexStreams,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]
         {

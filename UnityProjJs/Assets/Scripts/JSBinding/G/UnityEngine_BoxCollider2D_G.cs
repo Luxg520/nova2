@@ -25,21 +25,6 @@ public class UnityEngine_BoxCollider2D_G
     }
     // fields
     // properties
-    static void BoxCollider2D_center(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.BoxCollider2D _this = (UnityEngine.BoxCollider2D)vc.csObj;
-            var result = _this.center;
-            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-        }
-        else
-        {
-            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
-            UnityEngine.BoxCollider2D _this = (UnityEngine.BoxCollider2D)vc.csObj;
-            _this.center = arg0;
-        }
-    }
     static void BoxCollider2D_size(JSVCall vc)
     {
         if (vc.bGet)
@@ -67,7 +52,6 @@ public class UnityEngine_BoxCollider2D_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
-            BoxCollider2D_center,
             BoxCollider2D_size,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]

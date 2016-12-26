@@ -159,6 +159,12 @@ public class UnityEngine_Color_G
         var result = _this.linear;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
+    static void Color_maxColorComponent(JSVCall vc)
+    {
+        UnityEngine.Color _this = (UnityEngine.Color)vc.csObj;
+        var result = _this.maxColorComponent;
+        JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+    }
     static void Color_black(JSVCall vc)
     {
         var result = UnityEngine.Color.black;
@@ -261,6 +267,31 @@ public class UnityEngine_Color_G
         }
         return true;
     }
+    static bool Color_HSVToRGB__Single__Single__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Color.HSVToRGB(arg0, arg1, arg2));
+        }
+        return true;
+    }
+    static bool Color_HSVToRGB__Single__Single__Single__Boolean(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 4)
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            bool arg3 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Color.HSVToRGB(arg0, arg1, arg2, arg3));
+        }
+        return true;
+    }
     static bool Color_Lerp__Color__Color__Single(JSVCall vc, int argc)
     {
         int len = argc;
@@ -270,6 +301,18 @@ public class UnityEngine_Color_G
             UnityEngine.Color arg1 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
             JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Color.Lerp(arg0, arg1, arg2));
+        }
+        return true;
+    }
+    static bool Color_LerpUnclamped__Color__Color__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Color arg0 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Color arg1 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Color.LerpUnclamped(arg0, arg1, arg2));
         }
         return true;
     }
@@ -341,6 +384,28 @@ public class UnityEngine_Color_G
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, arg0 - arg1);
         return true;
     }
+    static bool Color_RGBToHSV__Color__Single__Single__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 4)
+        {
+            UnityEngine.Color arg0 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            int r_arg1 = JSApi.incArgIndex();
+            float arg1;
+            int r_arg2 = JSApi.incArgIndex();
+            float arg2;
+            int r_arg3 = JSApi.incArgIndex();
+            float arg3;
+            UnityEngine.Color.RGBToHSV(arg0, out arg1, out arg2, out arg3);
+            JSApi.setArgIndex(r_arg1);
+            JSApi.setSingle((int)JSApi.SetType.ArgRef, arg1);
+            JSApi.setArgIndex(r_arg2);
+            JSApi.setSingle((int)JSApi.SetType.ArgRef, arg2);
+            JSApi.setArgIndex(r_arg3);
+            JSApi.setSingle((int)JSApi.SetType.ArgRef, arg3);
+        }
+        return true;
+    }
      
     // register
     public static void __Register()
@@ -360,6 +425,7 @@ public class UnityEngine_Color_G
             Color_grayscale,
             Color_Item_Int32,
             Color_linear,
+            Color_maxColorComponent,
             Color_black,
             Color_blue,
             Color_clear,
@@ -384,7 +450,10 @@ public class UnityEngine_Color_G
             new JSMgr.MethodCallBackInfo(Color_GetHashCode, "GetHashCode"),
             new JSMgr.MethodCallBackInfo(Color_ToString, "ToString"),
             new JSMgr.MethodCallBackInfo(Color_ToString__String, "ToString"),
+            new JSMgr.MethodCallBackInfo(Color_HSVToRGB__Single__Single__Single, "HSVToRGB"),
+            new JSMgr.MethodCallBackInfo(Color_HSVToRGB__Single__Single__Single__Boolean, "HSVToRGB"),
             new JSMgr.MethodCallBackInfo(Color_Lerp__Color__Color__Single, "Lerp"),
+            new JSMgr.MethodCallBackInfo(Color_LerpUnclamped__Color__Color__Single, "LerpUnclamped"),
             new JSMgr.MethodCallBackInfo(Color_op_Addition__Color__Color, "op_Addition"),
             new JSMgr.MethodCallBackInfo(Color_op_Division__Color__Single, "op_Division"),
             new JSMgr.MethodCallBackInfo(Color_op_Equality__Color__Color, "op_Equality"),
@@ -395,6 +464,7 @@ public class UnityEngine_Color_G
             new JSMgr.MethodCallBackInfo(Color_op_Multiply__Color__Single, "op_Multiply"),
             new JSMgr.MethodCallBackInfo(Color_op_Multiply__Color__Color, "op_Multiply"),
             new JSMgr.MethodCallBackInfo(Color_op_Subtraction__Color__Color, "op_Subtraction"),
+            new JSMgr.MethodCallBackInfo(Color_RGBToHSV__Color__Single__Single__Single, "RGBToHSV"),
         };
         JSMgr.allCallbackInfo.Add(ci);
     }

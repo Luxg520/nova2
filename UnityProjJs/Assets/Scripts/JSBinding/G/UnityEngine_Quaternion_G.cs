@@ -358,6 +358,18 @@ public class UnityEngine_Quaternion_G
         }
         return true;
     }
+    static bool Quaternion_LerpUnclamped__Quaternion__Quaternion__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Quaternion arg0 = (UnityEngine.Quaternion)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Quaternion arg1 = (UnityEngine.Quaternion)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Quaternion.LerpUnclamped(arg0, arg1, arg2));
+        }
+        return true;
+    }
     static bool Quaternion_LookRotation__Vector3(JSVCall vc, int argc)
     {
         int len = argc;
@@ -431,6 +443,18 @@ public class UnityEngine_Quaternion_G
         }
         return true;
     }
+    static bool Quaternion_SlerpUnclamped__Quaternion__Quaternion__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Quaternion arg0 = (UnityEngine.Quaternion)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.Quaternion arg1 = (UnityEngine.Quaternion)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, UnityEngine.Quaternion.SlerpUnclamped(arg0, arg1, arg2));
+        }
+        return true;
+    }
      
     // register
     public static void __Register()
@@ -475,6 +499,7 @@ public class UnityEngine_Quaternion_G
             new JSMgr.MethodCallBackInfo(Quaternion_FromToRotation__Vector3__Vector3, "FromToRotation"),
             new JSMgr.MethodCallBackInfo(Quaternion_Inverse__Quaternion, "Inverse"),
             new JSMgr.MethodCallBackInfo(Quaternion_Lerp__Quaternion__Quaternion__Single, "Lerp"),
+            new JSMgr.MethodCallBackInfo(Quaternion_LerpUnclamped__Quaternion__Quaternion__Single, "LerpUnclamped"),
             new JSMgr.MethodCallBackInfo(Quaternion_LookRotation__Vector3, "LookRotation"),
             new JSMgr.MethodCallBackInfo(Quaternion_LookRotation__Vector3__Vector3, "LookRotation"),
             new JSMgr.MethodCallBackInfo(Quaternion_op_Equality__Quaternion__Quaternion, "op_Equality"),
@@ -483,6 +508,7 @@ public class UnityEngine_Quaternion_G
             new JSMgr.MethodCallBackInfo(Quaternion_op_Multiply__Quaternion__Vector3, "op_Multiply"),
             new JSMgr.MethodCallBackInfo(Quaternion_RotateTowards__Quaternion__Quaternion__Single, "RotateTowards"),
             new JSMgr.MethodCallBackInfo(Quaternion_Slerp__Quaternion__Quaternion__Single, "Slerp"),
+            new JSMgr.MethodCallBackInfo(Quaternion_SlerpUnclamped__Quaternion__Quaternion__Single, "SlerpUnclamped"),
         };
         JSMgr.allCallbackInfo.Add(ci);
     }

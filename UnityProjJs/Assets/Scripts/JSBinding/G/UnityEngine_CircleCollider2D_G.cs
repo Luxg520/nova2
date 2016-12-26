@@ -25,21 +25,6 @@ public class UnityEngine_CircleCollider2D_G
     }
     // fields
     // properties
-    static void CircleCollider2D_center(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.CircleCollider2D _this = (UnityEngine.CircleCollider2D)vc.csObj;
-            var result = _this.center;
-            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-        }
-        else
-        {
-            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
-            UnityEngine.CircleCollider2D _this = (UnityEngine.CircleCollider2D)vc.csObj;
-            _this.center = arg0;
-        }
-    }
     static void CircleCollider2D_radius(JSVCall vc)
     {
         if (vc.bGet)
@@ -67,7 +52,6 @@ public class UnityEngine_CircleCollider2D_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
-            CircleCollider2D_center,
             CircleCollider2D_radius,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]

@@ -225,6 +225,16 @@ public class UnityEngine_Mathf_G
         }
         return true;
     }
+    static bool Mathf_FloatToHalf__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSApi.setUInt16((int)JSApi.SetType.Rval, (ushort)(UnityEngine.Mathf.FloatToHalf(arg0)));
+        }
+        return true;
+    }
     static bool Mathf_Floor__Single(JSVCall vc, int argc)
     {
         int len = argc;
@@ -264,6 +274,16 @@ public class UnityEngine_Mathf_G
         {
             float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
             JSApi.setSingle((int)JSApi.SetType.Rval, (float)(UnityEngine.Mathf.GammaToLinearSpace(arg0)));
+        }
+        return true;
+    }
+    static bool Mathf_HalfToFloat__UInt16(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            ushort arg0 = JSApi.getUInt16((int)JSApi.GetType.Arg);
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(UnityEngine.Mathf.HalfToFloat(arg0)));
         }
         return true;
     }
@@ -310,6 +330,18 @@ public class UnityEngine_Mathf_G
             float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
             float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
             JSApi.setSingle((int)JSApi.SetType.Rval, (float)(UnityEngine.Mathf.LerpAngle(arg0, arg1, arg2)));
+        }
+        return true;
+    }
+    static bool Mathf_LerpUnclamped__Single__Single__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(UnityEngine.Mathf.LerpUnclamped(arg0, arg1, arg2)));
         }
         return true;
     }
@@ -782,14 +814,17 @@ public class UnityEngine_Mathf_G
             new JSMgr.MethodCallBackInfo(Mathf_Cos__Single, "Cos"),
             new JSMgr.MethodCallBackInfo(Mathf_DeltaAngle__Single__Single, "DeltaAngle"),
             new JSMgr.MethodCallBackInfo(Mathf_Exp__Single, "Exp"),
+            new JSMgr.MethodCallBackInfo(Mathf_FloatToHalf__Single, "FloatToHalf"),
             new JSMgr.MethodCallBackInfo(Mathf_Floor__Single, "Floor"),
             new JSMgr.MethodCallBackInfo(Mathf_FloorToInt__Single, "FloorToInt"),
             new JSMgr.MethodCallBackInfo(Mathf_Gamma__Single__Single__Single, "Gamma"),
             new JSMgr.MethodCallBackInfo(Mathf_GammaToLinearSpace__Single, "GammaToLinearSpace"),
+            new JSMgr.MethodCallBackInfo(Mathf_HalfToFloat__UInt16, "HalfToFloat"),
             new JSMgr.MethodCallBackInfo(Mathf_InverseLerp__Single__Single__Single, "InverseLerp"),
             new JSMgr.MethodCallBackInfo(Mathf_IsPowerOfTwo__Int32, "IsPowerOfTwo"),
             new JSMgr.MethodCallBackInfo(Mathf_Lerp__Single__Single__Single, "Lerp"),
             new JSMgr.MethodCallBackInfo(Mathf_LerpAngle__Single__Single__Single, "LerpAngle"),
+            new JSMgr.MethodCallBackInfo(Mathf_LerpUnclamped__Single__Single__Single, "LerpUnclamped"),
             new JSMgr.MethodCallBackInfo(Mathf_LinearToGammaSpace__Single, "LinearToGammaSpace"),
             new JSMgr.MethodCallBackInfo(Mathf_Log__Single, "Log"),
             new JSMgr.MethodCallBackInfo(Mathf_Log__Single__Single, "Log"),

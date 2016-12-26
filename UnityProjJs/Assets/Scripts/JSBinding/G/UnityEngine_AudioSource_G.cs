@@ -136,6 +136,12 @@ public class UnityEngine_AudioSource_G
         var result = _this.isPlaying;
         JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
+    static void AudioSource_isVirtual(JSVCall vc)
+    {
+        UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+        var result = _this.isVirtual;
+        JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+    }
     static void AudioSource_loop(JSVCall vc)
     {
         if (vc.bGet)
@@ -196,34 +202,34 @@ public class UnityEngine_AudioSource_G
             _this.mute = arg0;
         }
     }
-    static void AudioSource_pan(JSVCall vc)
+    static void AudioSource_outputAudioMixerGroup(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
-            var result = _this.pan;
-            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+            var result = _this.outputAudioMixerGroup;
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
         }
         else
         {
-            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.Audio.AudioMixerGroup arg0 = (UnityEngine.Audio.AudioMixerGroup)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
-            _this.pan = arg0;
+            _this.outputAudioMixerGroup = arg0;
         }
     }
-    static void AudioSource_panLevel(JSVCall vc)
+    static void AudioSource_panStereo(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
-            var result = _this.panLevel;
+            var result = _this.panStereo;
             JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
         }
         else
         {
             float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
             UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
-            _this.panLevel = arg0;
+            _this.panStereo = arg0;
         }
     }
     static void AudioSource_pitch(JSVCall vc)
@@ -271,6 +277,21 @@ public class UnityEngine_AudioSource_G
             _this.priority = arg0;
         }
     }
+    static void AudioSource_reverbZoneMix(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            var result = _this.reverbZoneMix;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            _this.reverbZoneMix = arg0;
+        }
+    }
     static void AudioSource_rolloffMode(JSVCall vc)
     {
         if (vc.bGet)
@@ -284,6 +305,36 @@ public class UnityEngine_AudioSource_G
             UnityEngine.AudioRolloffMode arg0 = (UnityEngine.AudioRolloffMode)JSApi.getEnum((int)JSApi.GetType.Arg);
             UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
             _this.rolloffMode = arg0;
+        }
+    }
+    static void AudioSource_spatialBlend(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            var result = _this.spatialBlend;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            _this.spatialBlend = arg0;
+        }
+    }
+    static void AudioSource_spatialize(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            var result = _this.spatialize;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.AudioSource _this = (UnityEngine.AudioSource)vc.csObj;
+            _this.spatialize = arg0;
         }
     }
     static void AudioSource_spread(JSVCall vc)
@@ -362,6 +413,16 @@ public class UnityEngine_AudioSource_G
         }
     }
     // methods
+    static bool AudioSource_GetCustomCurve__AudioSourceCurveType(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.AudioSourceCurveType arg0 = (UnityEngine.AudioSourceCurveType)JSApi.getEnum((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, ((UnityEngine.AudioSource)vc.csObj).GetCustomCurve(arg0));
+        }
+        return true;
+    }
     static bool AudioSource_GetOutputData__Single_Array__Int32(JSVCall vc, int argc)
     {
         int len = argc;
@@ -383,6 +444,20 @@ public class UnityEngine_AudioSource_G
             ;
             int arg1 = JSApi.getInt32((int)JSApi.GetType.Arg);
             ((UnityEngine.AudioSource)vc.csObj).GetOutputData(arg0, arg1);
+        }
+        return true;
+    }
+    static bool AudioSource_GetSpatializerFloat__Int32__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            int r_arg1 = JSApi.incArgIndex();
+            float arg1;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.AudioSource)vc.csObj).GetSpatializerFloat(arg0, out arg1)));
+            JSApi.setArgIndex(r_arg1);
+            JSApi.setSingle((int)JSApi.SetType.ArgRef, arg1);
         }
         return true;
     }
@@ -480,6 +555,17 @@ public class UnityEngine_AudioSource_G
         }
         return true;
     }
+    static bool AudioSource_SetCustomCurve__AudioSourceCurveType__AnimationCurve(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.AudioSourceCurveType arg0 = (UnityEngine.AudioSourceCurveType)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.AnimationCurve arg1 = (UnityEngine.AnimationCurve)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.AudioSource)vc.csObj).SetCustomCurve(arg0, arg1);
+        }
+        return true;
+    }
     static bool AudioSource_SetScheduledEndTime__Double(JSVCall vc, int argc)
     {
         int len = argc;
@@ -500,12 +586,32 @@ public class UnityEngine_AudioSource_G
         }
         return true;
     }
+    static bool AudioSource_SetSpatializerFloat__Int32__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.AudioSource)vc.csObj).SetSpatializerFloat(arg0, arg1)));
+        }
+        return true;
+    }
     static bool AudioSource_Stop(JSVCall vc, int argc)
     {
         int len = argc;
         if (len == 0)
         {
             ((UnityEngine.AudioSource)vc.csObj).Stop();
+        }
+        return true;
+    }
+    static bool AudioSource_UnPause(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.AudioSource)vc.csObj).UnPause();
         }
         return true;
     }
@@ -551,16 +657,20 @@ public class UnityEngine_AudioSource_G
             AudioSource_ignoreListenerPause,
             AudioSource_ignoreListenerVolume,
             AudioSource_isPlaying,
+            AudioSource_isVirtual,
             AudioSource_loop,
             AudioSource_maxDistance,
             AudioSource_minDistance,
             AudioSource_mute,
-            AudioSource_pan,
-            AudioSource_panLevel,
+            AudioSource_outputAudioMixerGroup,
+            AudioSource_panStereo,
             AudioSource_pitch,
             AudioSource_playOnAwake,
             AudioSource_priority,
+            AudioSource_reverbZoneMix,
             AudioSource_rolloffMode,
+            AudioSource_spatialBlend,
+            AudioSource_spatialize,
             AudioSource_spread,
             AudioSource_time,
             AudioSource_timeSamples,
@@ -573,7 +683,9 @@ public class UnityEngine_AudioSource_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
+            new JSMgr.MethodCallBackInfo(AudioSource_GetCustomCurve__AudioSourceCurveType, "GetCustomCurve"),
             new JSMgr.MethodCallBackInfo(AudioSource_GetOutputData__Single_Array__Int32, "GetOutputData"),
+            new JSMgr.MethodCallBackInfo(AudioSource_GetSpatializerFloat__Int32__Single, "GetSpatializerFloat"),
             new JSMgr.MethodCallBackInfo(AudioSource_GetSpectrumData__Single_Array__Int32__FFTWindow, "GetSpectrumData"),
             new JSMgr.MethodCallBackInfo(AudioSource_Pause, "Pause"),
             new JSMgr.MethodCallBackInfo(AudioSource_Play, "Play"),
@@ -582,9 +694,12 @@ public class UnityEngine_AudioSource_G
             new JSMgr.MethodCallBackInfo(AudioSource_PlayOneShot__AudioClip, "PlayOneShot"),
             new JSMgr.MethodCallBackInfo(AudioSource_PlayOneShot__AudioClip__Single, "PlayOneShot"),
             new JSMgr.MethodCallBackInfo(AudioSource_PlayScheduled__Double, "PlayScheduled"),
+            new JSMgr.MethodCallBackInfo(AudioSource_SetCustomCurve__AudioSourceCurveType__AnimationCurve, "SetCustomCurve"),
             new JSMgr.MethodCallBackInfo(AudioSource_SetScheduledEndTime__Double, "SetScheduledEndTime"),
             new JSMgr.MethodCallBackInfo(AudioSource_SetScheduledStartTime__Double, "SetScheduledStartTime"),
+            new JSMgr.MethodCallBackInfo(AudioSource_SetSpatializerFloat__Int32__Single, "SetSpatializerFloat"),
             new JSMgr.MethodCallBackInfo(AudioSource_Stop, "Stop"),
+            new JSMgr.MethodCallBackInfo(AudioSource_UnPause, "UnPause"),
             new JSMgr.MethodCallBackInfo(AudioSource_PlayClipAtPoint__AudioClip__Vector3, "PlayClipAtPoint"),
             new JSMgr.MethodCallBackInfo(AudioSource_PlayClipAtPoint__AudioClip__Vector3__Single, "PlayClipAtPoint"),
         };

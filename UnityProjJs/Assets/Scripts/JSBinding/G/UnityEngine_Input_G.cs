@@ -56,6 +56,19 @@ public class UnityEngine_Input_G
         var result = UnityEngine.Input.anyKeyDown;
         JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
+    static void Input_backButtonLeavesApp(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            var result = UnityEngine.Input.backButtonLeavesApp;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.Input.backButtonLeavesApp = arg0;
+        }
+    }
     static void Input_compass(JSVCall vc)
     {
         var result = UnityEngine.Input.compass;
@@ -171,6 +184,11 @@ public class UnityEngine_Input_G
             UnityEngine.Input.simulateMouseWithTouches = arg0;
         }
     }
+    static void Input_stylusTouchSupported(JSVCall vc)
+    {
+        var result = UnityEngine.Input.stylusTouchSupported;
+        JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+    }
     static void Input_touchCount(JSVCall vc)
     {
         var result = UnityEngine.Input.touchCount;
@@ -186,6 +204,11 @@ public class UnityEngine_Input_G
         JSApi.moveSaveID2Arr(i);
     }
     JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
+    }
+    static void Input_touchPressureSupported(JSVCall vc)
+    {
+        var result = UnityEngine.Input.touchPressureSupported;
+        JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
     static void Input_touchSupported(JSVCall vc)
     {
@@ -393,6 +416,7 @@ public class UnityEngine_Input_G
             Input_accelerationEvents,
             Input_anyKey,
             Input_anyKeyDown,
+            Input_backButtonLeavesApp,
             Input_compass,
             Input_compensateSensors,
             Input_compositionCursorPos,
@@ -408,8 +432,10 @@ public class UnityEngine_Input_G
             Input_mouseScrollDelta,
             Input_multiTouchEnabled,
             Input_simulateMouseWithTouches,
+            Input_stylusTouchSupported,
             Input_touchCount,
             Input_touches,
+            Input_touchPressureSupported,
             Input_touchSupported,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]

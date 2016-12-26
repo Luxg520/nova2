@@ -43,6 +43,12 @@ public class UnityEngine_Collision2D_G
     }
     JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
     }
+    static void Collision2D_enabled(JSVCall vc)
+    {
+        UnityEngine.Collision2D _this = (UnityEngine.Collision2D)vc.csObj;
+        var result = _this.enabled;
+        JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+    }
     static void Collision2D_gameObject(JSVCall vc)
     {
         UnityEngine.Collision2D _this = (UnityEngine.Collision2D)vc.csObj;
@@ -81,6 +87,7 @@ public class UnityEngine_Collision2D_G
         {
             Collision2D_collider,
             Collision2D_contacts,
+            Collision2D_enabled,
             Collision2D_gameObject,
             Collision2D_relativeVelocity,
             Collision2D_rigidbody,

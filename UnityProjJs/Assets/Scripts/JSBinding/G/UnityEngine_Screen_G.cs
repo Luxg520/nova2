@@ -100,34 +100,10 @@ public class UnityEngine_Screen_G
             UnityEngine.Screen.fullScreen = arg0;
         }
     }
-    static void Screen_GetResolution(JSVCall vc)
-    {
-        var result = UnityEngine.Screen.GetResolution;
-            var arrRet = (UnityEngine.Resolution[])result;
-    for (int i = 0; arrRet != null && i < arrRet.Length; i++)
-    {
-        JSMgr.datax.setObject((int)JSApi.SetType.SaveAndTempTrace, arrRet[i]);
-        JSApi.moveSaveID2Arr(i);
-    }
-    JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
-    }
     static void Screen_height(JSVCall vc)
     {
         var result = UnityEngine.Screen.height;
         JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
-    }
-    static void Screen_lockCursor(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            var result = UnityEngine.Screen.lockCursor;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.Screen.lockCursor = arg0;
-        }
     }
     static void Screen_orientation(JSVCall vc)
     {
@@ -152,19 +128,6 @@ public class UnityEngine_Screen_G
         JSApi.moveSaveID2Arr(i);
     }
     JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
-    }
-    static void Screen_showCursor(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            var result = UnityEngine.Screen.showCursor;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.Screen.showCursor = arg0;
-        }
     }
     static void Screen_sleepTimeout(JSVCall vc)
     {
@@ -228,12 +191,9 @@ public class UnityEngine_Screen_G
             Screen_currentResolution,
             Screen_dpi,
             Screen_fullScreen,
-            Screen_GetResolution,
             Screen_height,
-            Screen_lockCursor,
             Screen_orientation,
             Screen_resolutions,
-            Screen_showCursor,
             Screen_sleepTimeout,
             Screen_width,
         };

@@ -15,21 +15,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
 Bridge.assembly("BridgeProj", function ($asm, globals) {
     "use strict";
 
-    Bridge.define("jsb.Test.Logic.EntityTriggerScript", {
-        OnScirptInit: function (uSelfId) {
-        },
-        OnScirptTriggerEnter: function (uSelfId, uOtherEntityId) {
-        },
-        OnScirptTriggerExit: function (uSelfId, uOtherEntityId) {
-        },
-        OnScirptTriggerStay: function (uSelfId, uOtherEntityId) {
-        },
-        OnBeaten: function (uSelfId, uOtherEntityId) {
-        },
-        OnListenerEntityDead: function (uSelfId, uOtherEntityDeadId) {
-        }
-    });
-
     Bridge.define("jsb.Test.Logic.JSBInfo", {
         Version: "1.0",
         QQGroup: 189738580,
@@ -54,10 +39,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 return new jsb.Test.Logic.JSBInfo();
             }
         }
-    });
-
-    Bridge.define("jsb.Test.Logic.Y7777", {
-        inherits: [jsb.Test.Logic.EntityTriggerScript]
     });
 
     Bridge.define("jsb.Test.Logic.TestCoroutine", {
@@ -119,18 +100,11 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             this.dict.set("TestVector3", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f3));
             this.dict.set("TestDictionary", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f4));
 
-            // 注意，如果是 JS ，AddComponent(string) 要传全名（包括命名空间和定义类）
-            // 但是 CS 只要类名就可以了
-            // 所以最好是用 AddComponent<T>
-            var scriptName = "jsb.Test.Logic.TestInt64";
-
-            this.dict.set("TestInt64", Bridge.fn.bind(this, function () {
-                this.getgameObject().AddComponent$1(scriptName);
-            }));
-            this.dict.set("TestJSON", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f5));
+            this.dict.set("TestInt64", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f5));
+            this.dict.set("TestJSON", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f6));
             // 注意 TestCallJs 是 C# 脚本
-            this.dict.set("TestCallJs", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f6));
-            this.dict.set("TestInherit", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f7));
+            this.dict.set("TestCallJs", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f7));
+            this.dict.set("TestInherit", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f8));
 
             var btnPrefab = this.gettransform().Find("ButtonPrefab").getgameObject();
             $t = Bridge.getEnumerator(this.dict);
@@ -138,7 +112,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 (function () {
                     var KV = $t.getCurrent();
                     var n = KV.key;
-                    var go = Bridge.cast(UnityEngine.Object.Instantiate(btnPrefab), UnityEngine.GameObject);
+                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, btnPrefab);
                     var trans = go.gettransform();
                     go.setname(n);
                     trans.FindChild("Text").GetComponent(UnityEngine.UI.Text).settext(n);
@@ -178,15 +152,18 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             this.getgameObject().AddComponent(jsb.Test.Logic.TestVector3);
         },
         f4: function () {
-            this.getgameObject().AddComponent$2(jsb.Test.Logic.TestDictionary);
+            this.getgameObject().AddComponent$1(jsb.Test.Logic.TestDictionary);
         },
         f5: function () {
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestJSON);
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestInt64);
         },
         f6: function () {
-            this.getgameObject().AddComponent(TestCallJs);
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestJSON);
         },
         f7: function () {
+            this.getgameObject().AddComponent(TestCallJs);
+        },
+        f8: function () {
             this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit1);
             this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit2);
         }

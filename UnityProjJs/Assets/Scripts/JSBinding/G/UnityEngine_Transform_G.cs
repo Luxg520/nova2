@@ -63,6 +63,27 @@ public class UnityEngine_Transform_G
             _this.hasChanged = arg0;
         }
     }
+    static void Transform_hierarchyCapacity(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Transform _this = (UnityEngine.Transform)vc.csObj;
+            var result = _this.hierarchyCapacity;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+        }
+        else
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Transform _this = (UnityEngine.Transform)vc.csObj;
+            _this.hierarchyCapacity = arg0;
+        }
+    }
+    static void Transform_hierarchyCount(JSVCall vc)
+    {
+        UnityEngine.Transform _this = (UnityEngine.Transform)vc.csObj;
+        var result = _this.hierarchyCount;
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+    }
     static void Transform_localEulerAngles(JSVCall vc)
     {
         if (vc.bGet)
@@ -679,6 +700,8 @@ public class UnityEngine_Transform_G
             Transform_eulerAngles,
             Transform_forward,
             Transform_hasChanged,
+            Transform_hierarchyCapacity,
+            Transform_hierarchyCount,
             Transform_localEulerAngles,
             Transform_localPosition,
             Transform_localRotation,

@@ -79,64 +79,10 @@ public class UnityEngine_GameObject_G
         var result = _this.activeSelf;
         JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
     }
-    static void GameObject_animation(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.animation;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_audio(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.audio;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_camera(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.camera;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_collider(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.collider;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_collider2D(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.collider2D;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_constantForce(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.constantForce;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
     static void GameObject_gameObject(JSVCall vc)
     {
         UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
         var result = _this.gameObject;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_guiText(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.guiText;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_guiTexture(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.guiTexture;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_hingeJoint(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.hingeJoint;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     static void GameObject_isStatic(JSVCall vc)
@@ -169,40 +115,10 @@ public class UnityEngine_GameObject_G
             _this.layer = arg0;
         }
     }
-    static void GameObject_light(JSVCall vc)
+    static void GameObject_scene(JSVCall vc)
     {
         UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.light;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_particleEmitter(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.particleEmitter;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_particleSystem(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.particleSystem;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_renderer(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.renderer;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_rigidbody(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.rigidbody;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void GameObject_rigidbody2D(JSVCall vc)
-    {
-        UnityEngine.GameObject _this = (UnityEngine.GameObject)vc.csObj;
-        var result = _this.rigidbody2D;
+        var result = _this.scene;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     static void GameObject_tag(JSVCall vc)
@@ -231,11 +147,6 @@ public class UnityEngine_GameObject_G
     static bool GameObject_AddComponentT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_AddComponentT1(vc, argc);
-        return true;
-    }
-    static bool GameObject_AddComponent__String(JSVCall vc, int argc)
-    {
-        UnityEngineManual.GameObject_AddComponent__String(vc, argc);
         return true;
     }
     static bool GameObject_AddComponent__Type(JSVCall vc, int argc)
@@ -297,7 +208,7 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID8 = new MethodID("GetComponent", "T", TypeFlag.IsT, null, null);
+    public static MethodID methodID7 = new MethodID("GetComponent", "T", TypeFlag.IsT, null, null);
     static bool GameObject_GetComponentT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentT1(vc, argc);
@@ -323,10 +234,27 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID11 = new MethodID("GetComponentInChildren", "T", TypeFlag.IsT, null, null);
+    public static MethodID methodID10 = new MethodID("GetComponentInChildren", "T", TypeFlag.IsT, null, null);
     static bool GameObject_GetComponentInChildrenT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentInChildrenT1(vc, argc);
+        return true;
+    }
+    public static MethodID methodID11 = new MethodID("GetComponentInChildren", "T", TypeFlag.IsT, new string[]{"Boolean"}, new TypeFlag[]{TypeFlag.None});
+    static bool GameObject_GetComponentInChildrenT1__Boolean(JSVCall vc, int argc)
+    {
+        // Get generic method by name and param count.
+        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID11, 1);
+        if (method == null)
+            return true;
+         
+        int len = argc - 1;
+        if (len == 1)
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            object[] arr_t = new object[]{arg0};
+            JSMgr.datax.setWhatever((int)JSApi.SetType.Rval, method.Invoke(vc.csObj, arr_t));
+        }
         return true;
     }
     static bool GameObject_GetComponentInChildren__Type(JSVCall vc, int argc)
@@ -339,7 +267,18 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID13 = new MethodID("GetComponentInParent", "T", TypeFlag.IsT, null, null);
+    static bool GameObject_GetComponentInChildren__Type__Boolean(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            System.Type arg0 = (System.Type)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            bool arg1 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            JSMgr.datax.setObject((int)JSApi.SetType.Rval, ((UnityEngine.GameObject)vc.csObj).GetComponentInChildren(arg0, arg1));
+        }
+        return true;
+    }
+    public static MethodID methodID14 = new MethodID("GetComponentInParent", "T", TypeFlag.IsT, null, null);
     static bool GameObject_GetComponentInParentT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentInParentT1(vc, argc);
@@ -355,7 +294,7 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID15 = new MethodID("GetComponents", "T[]", TypeFlag.None, null, null);
+    public static MethodID methodID16 = new MethodID("GetComponents", "T[]", TypeFlag.None, null, null);
     static bool GameObject_GetComponentsT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentsT1(vc, argc);
@@ -372,11 +311,11 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID17 = new MethodID("GetComponents", "Void", TypeFlag.None, new string[]{"List`1"}, new TypeFlag[]{TypeFlag.IsGenericType});
+    public static MethodID methodID18 = new MethodID("GetComponents", "Void", TypeFlag.None, new string[]{"List`1"}, new TypeFlag[]{TypeFlag.IsGenericType});
     static bool GameObject_GetComponentsT1__ListT1_T(JSVCall vc, int argc)
     {
         // Get generic method by name and param count.
-        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID17, 1);
+        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID18, 1);
         if (method == null)
             return true;
          
@@ -405,23 +344,23 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID19 = new MethodID("GetComponentsInChildren", "T[]", TypeFlag.None, null, null);
+    public static MethodID methodID20 = new MethodID("GetComponentsInChildren", "T[]", TypeFlag.None, null, null);
     static bool GameObject_GetComponentsInChildrenT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentsInChildrenT1(vc, argc);
         return true;
     }
-    public static MethodID methodID20 = new MethodID("GetComponentsInChildren", "T[]", TypeFlag.None, new string[]{"Boolean"}, new TypeFlag[]{TypeFlag.None});
+    public static MethodID methodID21 = new MethodID("GetComponentsInChildren", "T[]", TypeFlag.None, new string[]{"Boolean"}, new TypeFlag[]{TypeFlag.None});
     static bool GameObject_GetComponentsInChildrenT1__Boolean(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentsInChildrenT1__Boolean(vc, argc);
         return true;
     }
-    public static MethodID methodID21 = new MethodID("GetComponentsInChildren", "Void", TypeFlag.None, new string[]{"Boolean", "List`1"}, new TypeFlag[]{TypeFlag.None, TypeFlag.IsGenericType});
+    public static MethodID methodID22 = new MethodID("GetComponentsInChildren", "Void", TypeFlag.None, new string[]{"Boolean", "List`1"}, new TypeFlag[]{TypeFlag.None, TypeFlag.IsGenericType});
     static bool GameObject_GetComponentsInChildrenT1__Boolean__ListT1_T(JSVCall vc, int argc)
     {
         // Get generic method by name and param count.
-        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID21, 1);
+        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID22, 1);
         if (method == null)
             return true;
          
@@ -435,11 +374,11 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID22 = new MethodID("GetComponentsInChildren", "Void", TypeFlag.None, new string[]{"List`1"}, new TypeFlag[]{TypeFlag.IsGenericType});
+    public static MethodID methodID23 = new MethodID("GetComponentsInChildren", "Void", TypeFlag.None, new string[]{"List`1"}, new TypeFlag[]{TypeFlag.IsGenericType});
     static bool GameObject_GetComponentsInChildrenT1__ListT1_T(JSVCall vc, int argc)
     {
         // Get generic method by name and param count.
-        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID22, 1);
+        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID23, 1);
         if (method == null)
             return true;
          
@@ -485,23 +424,23 @@ public class UnityEngine_GameObject_G
         }
         return true;
     }
-    public static MethodID methodID25 = new MethodID("GetComponentsInParent", "T[]", TypeFlag.None, null, null);
+    public static MethodID methodID26 = new MethodID("GetComponentsInParent", "T[]", TypeFlag.None, null, null);
     static bool GameObject_GetComponentsInParentT1(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentsInParentT1(vc, argc);
         return true;
     }
-    public static MethodID methodID26 = new MethodID("GetComponentsInParent", "T[]", TypeFlag.None, new string[]{"Boolean"}, new TypeFlag[]{TypeFlag.None});
+    public static MethodID methodID27 = new MethodID("GetComponentsInParent", "T[]", TypeFlag.None, new string[]{"Boolean"}, new TypeFlag[]{TypeFlag.None});
     static bool GameObject_GetComponentsInParentT1__Boolean(JSVCall vc, int argc)
     {
         UnityEngineManual.GameObject_GetComponentsInParentT1__Boolean(vc, argc);
         return true;
     }
-    public static MethodID methodID27 = new MethodID("GetComponentsInParent", "Void", TypeFlag.None, new string[]{"Boolean", "List`1"}, new TypeFlag[]{TypeFlag.None, TypeFlag.IsGenericType});
+    public static MethodID methodID28 = new MethodID("GetComponentsInParent", "Void", TypeFlag.None, new string[]{"Boolean", "List`1"}, new TypeFlag[]{TypeFlag.None, TypeFlag.IsGenericType});
     static bool GameObject_GetComponentsInParentT1__Boolean__ListT1_T(JSVCall vc, int argc)
     {
         // Get generic method by name and param count.
-        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID27, 1);
+        MethodInfo method = JSDataExchangeMgr.makeGenericMethod(vc.csObj.GetType(), methodID28, 1);
         if (method == null)
             return true;
          
@@ -545,17 +484,6 @@ public class UnityEngine_GameObject_G
         JSApi.moveSaveID2Arr(i);
     }
     JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
-        }
-        return true;
-    }
-    static bool GameObject_SampleAnimation__AnimationClip__Single(JSVCall vc, int argc)
-    {
-        int len = argc;
-        if (len == 2)
-        {
-            UnityEngine.AnimationClip arg0 = (UnityEngine.AnimationClip)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
-            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
-            ((UnityEngine.GameObject)vc.csObj).SampleAnimation(arg0, arg1);
         }
         return true;
     }
@@ -726,24 +654,10 @@ public class UnityEngine_GameObject_G
         {
             GameObject_activeInHierarchy,
             GameObject_activeSelf,
-            GameObject_animation,
-            GameObject_audio,
-            GameObject_camera,
-            GameObject_collider,
-            GameObject_collider2D,
-            GameObject_constantForce,
             GameObject_gameObject,
-            GameObject_guiText,
-            GameObject_guiTexture,
-            GameObject_hingeJoint,
             GameObject_isStatic,
             GameObject_layer,
-            GameObject_light,
-            GameObject_particleEmitter,
-            GameObject_particleSystem,
-            GameObject_renderer,
-            GameObject_rigidbody,
-            GameObject_rigidbody2D,
+            GameObject_scene,
             GameObject_tag,
             GameObject_transform,
         };
@@ -756,7 +670,6 @@ public class UnityEngine_GameObject_G
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
             new JSMgr.MethodCallBackInfo(GameObject_AddComponentT1, "AddComponent"),
-            new JSMgr.MethodCallBackInfo(GameObject_AddComponent__String, "AddComponent"),
             new JSMgr.MethodCallBackInfo(GameObject_AddComponent__Type, "AddComponent"),
             new JSMgr.MethodCallBackInfo(GameObject_BroadcastMessage__String, "BroadcastMessage"),
             new JSMgr.MethodCallBackInfo(GameObject_BroadcastMessage__String__Object, "BroadcastMessage"),
@@ -767,7 +680,9 @@ public class UnityEngine_GameObject_G
             new JSMgr.MethodCallBackInfo(GameObject_GetComponent__String, "GetComponent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponent__Type, "GetComponent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentInChildrenT1, "GetComponentInChildren"),
+            new JSMgr.MethodCallBackInfo(GameObject_GetComponentInChildrenT1__Boolean, "GetComponentInChildren"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentInChildren__Type, "GetComponentInChildren"),
+            new JSMgr.MethodCallBackInfo(GameObject_GetComponentInChildren__Type__Boolean, "GetComponentInChildren"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentInParentT1, "GetComponentInParent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentInParent__Type, "GetComponentInParent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentsT1, "GetComponents"),
@@ -785,7 +700,6 @@ public class UnityEngine_GameObject_G
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentsInParentT1__Boolean__ListT1_T, "GetComponentsInParent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentsInParent__Type, "GetComponentsInParent"),
             new JSMgr.MethodCallBackInfo(GameObject_GetComponentsInParent__Type__Boolean, "GetComponentsInParent"),
-            new JSMgr.MethodCallBackInfo(GameObject_SampleAnimation__AnimationClip__Single, "SampleAnimation"),
             new JSMgr.MethodCallBackInfo(GameObject_SendMessage__String, "SendMessage"),
             new JSMgr.MethodCallBackInfo(GameObject_SendMessage__String__Object, "SendMessage"),
             new JSMgr.MethodCallBackInfo(GameObject_SendMessage__String__Object__SendMessageOptions, "SendMessage"),

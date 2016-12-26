@@ -20,12 +20,30 @@ public class UnityEngine_UI_ICanvasElement_G
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     // methods
+    static bool ICanvasElement_GraphicUpdateComplete(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.ICanvasElement)vc.csObj).GraphicUpdateComplete();
+        }
+        return true;
+    }
     static bool ICanvasElement_IsDestroyed(JSVCall vc, int argc)
     {
         int len = argc;
         if (len == 0)
         {
             JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.UI.ICanvasElement)vc.csObj).IsDestroyed()));
+        }
+        return true;
+    }
+    static bool ICanvasElement_LayoutComplete(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.ICanvasElement)vc.csObj).LayoutComplete();
         }
         return true;
     }
@@ -57,7 +75,9 @@ public class UnityEngine_UI_ICanvasElement_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
+            new JSMgr.MethodCallBackInfo(ICanvasElement_GraphicUpdateComplete, "GraphicUpdateComplete"),
             new JSMgr.MethodCallBackInfo(ICanvasElement_IsDestroyed, "IsDestroyed"),
+            new JSMgr.MethodCallBackInfo(ICanvasElement_LayoutComplete, "LayoutComplete"),
             new JSMgr.MethodCallBackInfo(ICanvasElement_Rebuild__CanvasUpdate, "Rebuild"),
         };
         JSMgr.allCallbackInfo.Add(ci);

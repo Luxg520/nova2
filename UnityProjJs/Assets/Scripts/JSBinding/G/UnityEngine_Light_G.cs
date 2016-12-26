@@ -25,19 +25,34 @@ public class UnityEngine_Light_G
     }
     // fields
     // properties
-    static void Light_alreadyLightmapped(JSVCall vc)
+    static void Light_bakedIndex(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            var result = _this.alreadyLightmapped;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+            var result = _this.bakedIndex;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
         }
         else
         {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
             UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            _this.alreadyLightmapped = arg0;
+            _this.bakedIndex = arg0;
+        }
+    }
+    static void Light_bounceIntensity(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            var result = _this.bounceIntensity;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            _this.bounceIntensity = arg0;
         }
     }
     static void Light_color(JSVCall vc)
@@ -54,6 +69,12 @@ public class UnityEngine_Light_G
             UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
             _this.color = arg0;
         }
+    }
+    static void Light_commandBufferCount(JSVCall vc)
+    {
+        UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+        var result = _this.commandBufferCount;
+        JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
     }
     static void Light_cookie(JSVCall vc)
     {
@@ -130,6 +151,12 @@ public class UnityEngine_Light_G
             _this.intensity = arg0;
         }
     }
+    static void Light_isBaked(JSVCall vc)
+    {
+        UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+        var result = _this.isBaked;
+        JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+    }
     static void Light_range(JSVCall vc)
     {
         if (vc.bGet)
@@ -175,6 +202,66 @@ public class UnityEngine_Light_G
             _this.shadowBias = arg0;
         }
     }
+    static void Light_shadowCustomResolution(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            var result = _this.shadowCustomResolution;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(result));
+        }
+        else
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            _this.shadowCustomResolution = arg0;
+        }
+    }
+    static void Light_shadowNearPlane(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            var result = _this.shadowNearPlane;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            _this.shadowNearPlane = arg0;
+        }
+    }
+    static void Light_shadowNormalBias(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            var result = _this.shadowNormalBias;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            _this.shadowNormalBias = arg0;
+        }
+    }
+    static void Light_shadowResolution(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            var result = _this.shadowResolution;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.LightShadowResolution arg0 = (UnityEngine.LightShadowResolution)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
+            _this.shadowResolution = arg0;
+        }
+    }
     static void Light_shadows(JSVCall vc)
     {
         if (vc.bGet)
@@ -188,36 +275,6 @@ public class UnityEngine_Light_G
             UnityEngine.LightShadows arg0 = (UnityEngine.LightShadows)JSApi.getEnum((int)JSApi.GetType.Arg);
             UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
             _this.shadows = arg0;
-        }
-    }
-    static void Light_shadowSoftness(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            var result = _this.shadowSoftness;
-            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
-        }
-        else
-        {
-            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
-            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            _this.shadowSoftness = arg0;
-        }
-    }
-    static void Light_shadowSoftnessFade(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            var result = _this.shadowSoftnessFade;
-            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
-        }
-        else
-        {
-            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
-            UnityEngine.Light _this = (UnityEngine.Light)vc.csObj;
-            _this.shadowSoftnessFade = arg0;
         }
     }
     static void Light_shadowStrength(JSVCall vc)
@@ -266,6 +323,63 @@ public class UnityEngine_Light_G
         }
     }
     // methods
+    static bool Light_AddCommandBuffer__LightEvent__CommandBuffer(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Rendering.LightEvent arg0 = (UnityEngine.Rendering.LightEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Rendering.CommandBuffer arg1 = (UnityEngine.Rendering.CommandBuffer)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Light)vc.csObj).AddCommandBuffer(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Light_GetCommandBuffers__LightEvent(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Rendering.LightEvent arg0 = (UnityEngine.Rendering.LightEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+                var arrRet = (UnityEngine.Rendering.CommandBuffer[])((UnityEngine.Light)vc.csObj).GetCommandBuffers(arg0);
+    for (int i = 0; arrRet != null && i < arrRet.Length; i++)
+    {
+        JSMgr.datax.setObject((int)JSApi.SetType.SaveAndTempTrace, arrRet[i]);
+        JSApi.moveSaveID2Arr(i);
+    }
+    JSApi.setArrayS((int)JSApi.SetType.Rval, (arrRet != null ? arrRet.Length : 0), true);
+        }
+        return true;
+    }
+    static bool Light_RemoveAllCommandBuffers(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.Light)vc.csObj).RemoveAllCommandBuffers();
+        }
+        return true;
+    }
+    static bool Light_RemoveCommandBuffer__LightEvent__CommandBuffer(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Rendering.LightEvent arg0 = (UnityEngine.Rendering.LightEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Rendering.CommandBuffer arg1 = (UnityEngine.Rendering.CommandBuffer)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            ((UnityEngine.Light)vc.csObj).RemoveCommandBuffer(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Light_RemoveCommandBuffers__LightEvent(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Rendering.LightEvent arg0 = (UnityEngine.Rendering.LightEvent)JSApi.getEnum((int)JSApi.GetType.Arg);
+            ((UnityEngine.Light)vc.csObj).RemoveCommandBuffers(arg0);
+        }
+        return true;
+    }
     static bool Light_GetLights__LightType__Int32(JSVCall vc, int argc)
     {
         int len = argc;
@@ -294,19 +408,24 @@ public class UnityEngine_Light_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
-            Light_alreadyLightmapped,
+            Light_bakedIndex,
+            Light_bounceIntensity,
             Light_color,
+            Light_commandBufferCount,
             Light_cookie,
             Light_cookieSize,
             Light_cullingMask,
             Light_flare,
             Light_intensity,
+            Light_isBaked,
             Light_range,
             Light_renderMode,
             Light_shadowBias,
+            Light_shadowCustomResolution,
+            Light_shadowNearPlane,
+            Light_shadowNormalBias,
+            Light_shadowResolution,
             Light_shadows,
-            Light_shadowSoftness,
-            Light_shadowSoftnessFade,
             Light_shadowStrength,
             Light_spotAngle,
             Light_type,
@@ -317,6 +436,11 @@ public class UnityEngine_Light_G
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
+            new JSMgr.MethodCallBackInfo(Light_AddCommandBuffer__LightEvent__CommandBuffer, "AddCommandBuffer"),
+            new JSMgr.MethodCallBackInfo(Light_GetCommandBuffers__LightEvent, "GetCommandBuffers"),
+            new JSMgr.MethodCallBackInfo(Light_RemoveAllCommandBuffers, "RemoveAllCommandBuffers"),
+            new JSMgr.MethodCallBackInfo(Light_RemoveCommandBuffer__LightEvent__CommandBuffer, "RemoveCommandBuffer"),
+            new JSMgr.MethodCallBackInfo(Light_RemoveCommandBuffers__LightEvent, "RemoveCommandBuffers"),
             new JSMgr.MethodCallBackInfo(Light_GetLights__LightType__Int32, "GetLights"),
         };
         JSMgr.allCallbackInfo.Add(ci);

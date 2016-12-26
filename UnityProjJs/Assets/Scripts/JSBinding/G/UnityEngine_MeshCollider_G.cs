@@ -55,21 +55,6 @@ public class UnityEngine_MeshCollider_G
             _this.sharedMesh = arg0;
         }
     }
-    static void MeshCollider_smoothSphereCollisions(JSVCall vc)
-    {
-        if (vc.bGet)
-        {
-            UnityEngine.MeshCollider _this = (UnityEngine.MeshCollider)vc.csObj;
-            var result = _this.smoothSphereCollisions;
-            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
-        }
-        else
-        {
-            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
-            UnityEngine.MeshCollider _this = (UnityEngine.MeshCollider)vc.csObj;
-            _this.smoothSphereCollisions = arg0;
-        }
-    }
     // methods
      
     // register
@@ -84,7 +69,6 @@ public class UnityEngine_MeshCollider_G
         {
             MeshCollider_convex,
             MeshCollider_sharedMesh,
-            MeshCollider_smoothSphereCollisions,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]
         {

@@ -85,6 +85,21 @@ public class UnityEngine_Rigidbody2D_G
             _this.collisionDetectionMode = arg0;
         }
     }
+    static void Rigidbody2D_constraints(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
+            var result = _this.constraints;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.RigidbodyConstraints2D arg0 = (UnityEngine.RigidbodyConstraints2D)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
+            _this.constraints = arg0;
+        }
+    }
     static void Rigidbody2D_drag(JSVCall vc)
     {
         if (vc.bGet)
@@ -100,19 +115,19 @@ public class UnityEngine_Rigidbody2D_G
             _this.drag = arg0;
         }
     }
-    static void Rigidbody2D_fixedAngle(JSVCall vc)
+    static void Rigidbody2D_freezeRotation(JSVCall vc)
     {
         if (vc.bGet)
         {
             UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
-            var result = _this.fixedAngle;
+            var result = _this.freezeRotation;
             JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
         }
         else
         {
             bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
             UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
-            _this.fixedAngle = arg0;
+            _this.freezeRotation = arg0;
         }
     }
     static void Rigidbody2D_gravityScale(JSVCall vc)
@@ -250,6 +265,21 @@ public class UnityEngine_Rigidbody2D_G
             _this.sleepMode = arg0;
         }
     }
+    static void Rigidbody2D_useAutoMass(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
+            var result = _this.useAutoMass;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.Rigidbody2D _this = (UnityEngine.Rigidbody2D)vc.csObj;
+            _this.useAutoMass = arg0;
+        }
+    }
     static void Rigidbody2D_velocity(JSVCall vc)
     {
         if (vc.bGet)
@@ -358,6 +388,55 @@ public class UnityEngine_Rigidbody2D_G
         }
         return true;
     }
+    static bool Rigidbody2D_Cast__Vector2__RaycastHit2D_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.RaycastHit2D[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.RaycastHit2D[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.RaycastHit2D[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.RaycastHit2D)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(((UnityEngine.Rigidbody2D)vc.csObj).Cast(arg0, arg1)));
+        }
+        return true;
+    }
+    static bool Rigidbody2D_Cast__Vector2__RaycastHit2D_Array__Single(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 3)
+        {
+            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            UnityEngine.RaycastHit2D[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.RaycastHit2D[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.RaycastHit2D[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.RaycastHit2D)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            float arg2 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            JSApi.setInt32((int)JSApi.SetType.Rval, (int)(((UnityEngine.Rigidbody2D)vc.csObj).Cast(arg0, arg1, arg2)));
+        }
+        return true;
+    }
     static bool Rigidbody2D_GetPoint__Vector2(JSVCall vc, int argc)
     {
         int len = argc;
@@ -436,6 +515,35 @@ public class UnityEngine_Rigidbody2D_G
         }
         return true;
     }
+    static bool Rigidbody2D_IsTouching__Collider2D(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Collider2D arg0 = (UnityEngine.Collider2D)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.Rigidbody2D)vc.csObj).IsTouching(arg0)));
+        }
+        return true;
+    }
+    static bool Rigidbody2D_IsTouchingLayers(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.Rigidbody2D)vc.csObj).IsTouchingLayers()));
+        }
+        return true;
+    }
+    static bool Rigidbody2D_IsTouchingLayers__Int32(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.Rigidbody2D)vc.csObj).IsTouchingLayers(arg0)));
+        }
+        return true;
+    }
     static bool Rigidbody2D_MovePosition__Vector2(JSVCall vc, int argc)
     {
         int len = argc;
@@ -453,6 +561,16 @@ public class UnityEngine_Rigidbody2D_G
         {
             float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
             ((UnityEngine.Rigidbody2D)vc.csObj).MoveRotation(arg0);
+        }
+        return true;
+    }
+    static bool Rigidbody2D_OverlapPoint__Vector2(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            UnityEngine.Vector2 arg0 = (UnityEngine.Vector2)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.Rigidbody2D)vc.csObj).OverlapPoint(arg0)));
         }
         return true;
     }
@@ -489,8 +607,9 @@ public class UnityEngine_Rigidbody2D_G
             Rigidbody2D_angularVelocity,
             Rigidbody2D_centerOfMass,
             Rigidbody2D_collisionDetectionMode,
+            Rigidbody2D_constraints,
             Rigidbody2D_drag,
-            Rigidbody2D_fixedAngle,
+            Rigidbody2D_freezeRotation,
             Rigidbody2D_gravityScale,
             Rigidbody2D_inertia,
             Rigidbody2D_interpolation,
@@ -500,6 +619,7 @@ public class UnityEngine_Rigidbody2D_G
             Rigidbody2D_rotation,
             Rigidbody2D_simulated,
             Rigidbody2D_sleepMode,
+            Rigidbody2D_useAutoMass,
             Rigidbody2D_velocity,
             Rigidbody2D_worldCenterOfMass,
         };
@@ -517,6 +637,8 @@ public class UnityEngine_Rigidbody2D_G
             new JSMgr.MethodCallBackInfo(Rigidbody2D_AddRelativeForce__Vector2__ForceMode2D, "AddRelativeForce"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_AddTorque__Single, "AddTorque"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_AddTorque__Single__ForceMode2D, "AddTorque"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_Cast__Vector2__RaycastHit2D_Array, "Cast"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_Cast__Vector2__RaycastHit2D_Array__Single, "Cast"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_GetPoint__Vector2, "GetPoint"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_GetPointVelocity__Vector2, "GetPointVelocity"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_GetRelativePoint__Vector2, "GetRelativePoint"),
@@ -525,8 +647,12 @@ public class UnityEngine_Rigidbody2D_G
             new JSMgr.MethodCallBackInfo(Rigidbody2D_GetVector__Vector2, "GetVector"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_IsAwake, "IsAwake"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_IsSleeping, "IsSleeping"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_IsTouching__Collider2D, "IsTouching"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_IsTouchingLayers, "IsTouchingLayers"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_IsTouchingLayers__Int32, "IsTouchingLayers"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_MovePosition__Vector2, "MovePosition"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_MoveRotation__Single, "MoveRotation"),
+            new JSMgr.MethodCallBackInfo(Rigidbody2D_OverlapPoint__Vector2, "OverlapPoint"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_Sleep, "Sleep"),
             new JSMgr.MethodCallBackInfo(Rigidbody2D_WakeUp, "WakeUp"),
         };

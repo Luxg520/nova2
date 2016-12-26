@@ -40,6 +40,36 @@ public class UnityEngine_SpriteRenderer_G
             _this.color = arg0;
         }
     }
+    static void SpriteRenderer_flipX(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.SpriteRenderer _this = (UnityEngine.SpriteRenderer)vc.csObj;
+            var result = _this.flipX;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.SpriteRenderer _this = (UnityEngine.SpriteRenderer)vc.csObj;
+            _this.flipX = arg0;
+        }
+    }
+    static void SpriteRenderer_flipY(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.SpriteRenderer _this = (UnityEngine.SpriteRenderer)vc.csObj;
+            var result = _this.flipY;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.SpriteRenderer _this = (UnityEngine.SpriteRenderer)vc.csObj;
+            _this.flipY = arg0;
+        }
+    }
     static void SpriteRenderer_sprite(JSVCall vc)
     {
         if (vc.bGet)
@@ -68,6 +98,8 @@ public class UnityEngine_SpriteRenderer_G
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
             SpriteRenderer_color,
+            SpriteRenderer_flipX,
+            SpriteRenderer_flipY,
             SpriteRenderer_sprite,
         };
         ci.constructors = new JSMgr.MethodCallBackInfo[]

@@ -79,6 +79,21 @@ public class UnityEngine_UI_Graphic_G
         var result = _this.materialForRendering;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
+    static void Graphic_raycastTarget(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.UI.Graphic _this = (UnityEngine.UI.Graphic)vc.csObj;
+            var result = _this.raycastTarget;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.UI.Graphic _this = (UnityEngine.UI.Graphic)vc.csObj;
+            _this.raycastTarget = arg0;
+        }
+    }
     static void Graphic_rectTransform(JSVCall vc)
     {
         UnityEngine.UI.Graphic _this = (UnityEngine.UI.Graphic)vc.csObj;
@@ -116,12 +131,53 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
+    static bool Graphic_CrossFadeColor__Color__Single__Boolean__Boolean__Boolean(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 5)
+        {
+            UnityEngine.Color arg0 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
+            float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            bool arg2 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            bool arg3 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            bool arg4 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            ((UnityEngine.UI.Graphic)vc.csObj).CrossFadeColor(arg0, arg1, arg2, arg3, arg4);
+        }
+        return true;
+    }
     static bool Graphic_GetPixelAdjustedRect(JSVCall vc, int argc)
     {
         int len = argc;
         if (len == 0)
         {
             JSMgr.datax.setObject((int)JSApi.SetType.Rval, ((UnityEngine.UI.Graphic)vc.csObj).GetPixelAdjustedRect());
+        }
+        return true;
+    }
+    static bool Graphic_GraphicUpdateComplete(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.Graphic)vc.csObj).GraphicUpdateComplete();
+        }
+        return true;
+    }
+    static bool Graphic_LayoutComplete(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.Graphic)vc.csObj).LayoutComplete();
+        }
+        return true;
+    }
+    static bool Graphic_OnRebuildRequested(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.Graphic)vc.csObj).OnRebuildRequested();
         }
         return true;
     }
@@ -156,7 +212,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyLayoutCallback_GetDelegate_member6_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyLayoutCallback_GetDelegate_member10_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -183,7 +239,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_RegisterDirtyLayoutCallback_GetDelegate_member6_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_RegisterDirtyLayoutCallback_GetDelegate_member10_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -196,7 +252,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyMaterialCallback_GetDelegate_member7_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyMaterialCallback_GetDelegate_member11_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -223,7 +279,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_RegisterDirtyMaterialCallback_GetDelegate_member7_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_RegisterDirtyMaterialCallback_GetDelegate_member11_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -236,7 +292,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyVerticesCallback_GetDelegate_member8_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_RegisterDirtyVerticesCallback_GetDelegate_member12_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -263,7 +319,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_RegisterDirtyVerticesCallback_GetDelegate_member8_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_RegisterDirtyVerticesCallback_GetDelegate_member12_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -321,7 +377,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyLayoutCallback_GetDelegate_member14_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyLayoutCallback_GetDelegate_member18_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -348,7 +404,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_UnregisterDirtyLayoutCallback_GetDelegate_member14_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_UnregisterDirtyLayoutCallback_GetDelegate_member18_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -361,7 +417,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyMaterialCallback_GetDelegate_member15_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyMaterialCallback_GetDelegate_member19_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -388,7 +444,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_UnregisterDirtyMaterialCallback_GetDelegate_member15_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_UnregisterDirtyMaterialCallback_GetDelegate_member19_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -401,7 +457,7 @@ public class UnityEngine_UI_Graphic_G
         }
         return true;
     }
-    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyVerticesCallback_GetDelegate_member16_arg0(CSRepresentedObject objFunction)
+    public static UnityEngine.Events.UnityAction Graphic_UnregisterDirtyVerticesCallback_GetDelegate_member20_arg0(CSRepresentedObject objFunction)
     {
         if (objFunction == null || objFunction.jsObjID == 0)
             return null;
@@ -428,7 +484,7 @@ public class UnityEngine_UI_Graphic_G
                 {
                     if (JSApi.isFunctionS((int)JSApi.GetType.Arg))
                     {
-                        return Graphic_UnregisterDirtyVerticesCallback_GetDelegate_member16_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
+                        return Graphic_UnregisterDirtyVerticesCallback_GetDelegate_member20_arg0(JSApi.getFunctionS((int)JSApi.GetType.Arg));
                     }
                     else
                     {
@@ -460,6 +516,7 @@ public class UnityEngine_UI_Graphic_G
             Graphic_mainTexture,
             Graphic_material,
             Graphic_materialForRendering,
+            Graphic_raycastTarget,
             Graphic_rectTransform,
             Graphic_defaultGraphicMaterial,
         };
@@ -470,7 +527,11 @@ public class UnityEngine_UI_Graphic_G
         {
             new JSMgr.MethodCallBackInfo(Graphic_CrossFadeAlpha__Single__Single__Boolean, "CrossFadeAlpha"),
             new JSMgr.MethodCallBackInfo(Graphic_CrossFadeColor__Color__Single__Boolean__Boolean, "CrossFadeColor"),
+            new JSMgr.MethodCallBackInfo(Graphic_CrossFadeColor__Color__Single__Boolean__Boolean__Boolean, "CrossFadeColor"),
             new JSMgr.MethodCallBackInfo(Graphic_GetPixelAdjustedRect, "GetPixelAdjustedRect"),
+            new JSMgr.MethodCallBackInfo(Graphic_GraphicUpdateComplete, "GraphicUpdateComplete"),
+            new JSMgr.MethodCallBackInfo(Graphic_LayoutComplete, "LayoutComplete"),
+            new JSMgr.MethodCallBackInfo(Graphic_OnRebuildRequested, "OnRebuildRequested"),
             new JSMgr.MethodCallBackInfo(Graphic_PixelAdjustPoint__Vector2, "PixelAdjustPoint"),
             new JSMgr.MethodCallBackInfo(Graphic_Raycast__Vector2__Camera, "Raycast"),
             new JSMgr.MethodCallBackInfo(Graphic_Rebuild__CanvasUpdate, "Rebuild"),

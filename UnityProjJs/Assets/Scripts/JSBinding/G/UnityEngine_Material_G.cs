@@ -19,26 +19,12 @@ public class UnityEngine_Material_G
         int len = argc;
         if (len == 1)
         {
-            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
-            JSMgr.addJSCSRel(_this, new UnityEngine.Material(arg0));
-        }
-        return true;
-    }
-    static bool Material_Material1(JSVCall vc, int argc)
-    {
-        int _this = JSApi.getObject((int)JSApi.GetType.Arg);
-        JSApi.attachFinalizerObject(_this);
-        --argc;
-         
-        int len = argc;
-        if (len == 1)
-        {
             UnityEngine.Material arg0 = (UnityEngine.Material)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             JSMgr.addJSCSRel(_this, new UnityEngine.Material(arg0));
         }
         return true;
     }
-    static bool Material_Material2(JSVCall vc, int argc)
+    static bool Material_Material1(JSVCall vc, int argc)
     {
         int _this = JSApi.getObject((int)JSApi.GetType.Arg);
         JSApi.attachFinalizerObject(_this);
@@ -67,6 +53,21 @@ public class UnityEngine_Material_G
             UnityEngine.Color arg0 = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             UnityEngine.Material _this = (UnityEngine.Material)vc.csObj;
             _this.color = arg0;
+        }
+    }
+    static void Material_globalIlluminationFlags(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Material _this = (UnityEngine.Material)vc.csObj;
+            var result = _this.globalIlluminationFlags;
+            JSApi.setEnum((int)JSApi.SetType.Rval, (int)result);
+        }
+        else
+        {
+            UnityEngine.MaterialGlobalIlluminationFlags arg0 = (UnityEngine.MaterialGlobalIlluminationFlags)JSApi.getEnum((int)JSApi.GetType.Arg);
+            UnityEngine.Material _this = (UnityEngine.Material)vc.csObj;
+            _this.globalIlluminationFlags = arg0;
         }
     }
     static void Material_mainTexture(JSVCall vc)
@@ -398,6 +399,16 @@ public class UnityEngine_Material_G
         }
         return true;
     }
+    static bool Material_IsKeywordEnabled__String(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 1)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(((UnityEngine.Material)vc.csObj).IsKeywordEnabled(arg0)));
+        }
+        return true;
+    }
     static bool Material_Lerp__Material__Material__Single(JSVCall vc, int argc)
     {
         int len = argc;
@@ -443,6 +454,54 @@ public class UnityEngine_Material_G
         }
         return true;
     }
+    static bool Material_SetColorArray__Int32__Color_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Color[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Color[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Color[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetColorArray(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetColorArray__String__Color_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            UnityEngine.Color[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Color[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Color[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Color)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetColorArray(arg0, arg1);
+        }
+        return true;
+    }
     static bool Material_SetFloat__Int32__Single(JSVCall vc, int argc)
     {
         int len = argc;
@@ -462,6 +521,54 @@ public class UnityEngine_Material_G
             string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
             float arg1 = JSApi.getSingle((int)JSApi.GetType.Arg);
             ((UnityEngine.Material)vc.csObj).SetFloat(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetFloatArray__Int32__Single_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            float[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<float[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new float[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (float)JSApi.getSingle((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetFloatArray(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetFloatArray__String__Single_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            float[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<float[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new float[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (float)JSApi.getSingle((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetFloatArray(arg0, arg1);
         }
         return true;
     }
@@ -506,6 +613,65 @@ public class UnityEngine_Material_G
             string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
             UnityEngine.Matrix4x4 arg1 = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.Arg);
             ((UnityEngine.Material)vc.csObj).SetMatrix(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetMatrixArray__Int32__Matrix4x4_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Matrix4x4[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Matrix4x4[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Matrix4x4[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetMatrixArray(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetMatrixArray__String__Matrix4x4_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            UnityEngine.Matrix4x4[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Matrix4x4[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Matrix4x4[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Matrix4x4)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetMatrixArray(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetOverrideTag__String__String(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            string arg1 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            ((UnityEngine.Material)vc.csObj).SetOverrideTag(arg0, arg1);
         }
         return true;
     }
@@ -585,6 +751,54 @@ public class UnityEngine_Material_G
         }
         return true;
     }
+    static bool Material_SetVectorArray__Int32__Vector4_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            int arg0 = JSApi.getInt32((int)JSApi.GetType.Arg);
+            UnityEngine.Vector4[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Vector4[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Vector4[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Vector4)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetVectorArray(arg0, arg1);
+        }
+        return true;
+    }
+    static bool Material_SetVectorArray__String__Vector4_Array(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 2)
+        {
+            string arg0 = JSApi.getStringS((int)JSApi.GetType.Arg);
+            UnityEngine.Vector4[] arg1 = 
+                JSDataExchangeMgr.GetJSArg<UnityEngine.Vector4[]>(() => 
+                {
+                    int jsObjID = JSApi.getObject((int)JSApi.GetType.Arg);
+                    int length = jsObjID == 0 ? 0 : JSApi.getArrayLength(jsObjID);
+                    var ret = new UnityEngine.Vector4[length];
+                    for (var i = 0; i < length; i++)
+                    {
+                        JSApi.getElement(jsObjID, i);
+                        ret[i] = (UnityEngine.Vector4)JSMgr.datax.getObject((int)JSApi.GetType.SaveAndRemove);
+                    }
+                    return ret;
+                })
+            ;
+            ((UnityEngine.Material)vc.csObj).SetVectorArray(arg0, arg1);
+        }
+        return true;
+    }
      
     // register
     public static void __Register()
@@ -597,6 +811,7 @@ public class UnityEngine_Material_G
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
             Material_color,
+            Material_globalIlluminationFlags,
             Material_mainTexture,
             Material_mainTextureOffset,
             Material_mainTextureScale,
@@ -609,7 +824,6 @@ public class UnityEngine_Material_G
         {
             new JSMgr.MethodCallBackInfo(Material_Material, ".ctor"),
             new JSMgr.MethodCallBackInfo(Material_Material1, ".ctor"),
-            new JSMgr.MethodCallBackInfo(Material_Material2, ".ctor"),
         };
         ci.methods = new JSMgr.MethodCallBackInfo[]
         {
@@ -634,16 +848,24 @@ public class UnityEngine_Material_G
             new JSMgr.MethodCallBackInfo(Material_GetVector__String, "GetVector"),
             new JSMgr.MethodCallBackInfo(Material_HasProperty__Int32, "HasProperty"),
             new JSMgr.MethodCallBackInfo(Material_HasProperty__String, "HasProperty"),
+            new JSMgr.MethodCallBackInfo(Material_IsKeywordEnabled__String, "IsKeywordEnabled"),
             new JSMgr.MethodCallBackInfo(Material_Lerp__Material__Material__Single, "Lerp"),
             new JSMgr.MethodCallBackInfo(Material_SetBuffer__String__ComputeBuffer, "SetBuffer"),
             new JSMgr.MethodCallBackInfo(Material_SetColor__Int32__Color, "SetColor"),
             new JSMgr.MethodCallBackInfo(Material_SetColor__String__Color, "SetColor"),
+            new JSMgr.MethodCallBackInfo(Material_SetColorArray__Int32__Color_Array, "SetColorArray"),
+            new JSMgr.MethodCallBackInfo(Material_SetColorArray__String__Color_Array, "SetColorArray"),
             new JSMgr.MethodCallBackInfo(Material_SetFloat__Int32__Single, "SetFloat"),
             new JSMgr.MethodCallBackInfo(Material_SetFloat__String__Single, "SetFloat"),
+            new JSMgr.MethodCallBackInfo(Material_SetFloatArray__Int32__Single_Array, "SetFloatArray"),
+            new JSMgr.MethodCallBackInfo(Material_SetFloatArray__String__Single_Array, "SetFloatArray"),
             new JSMgr.MethodCallBackInfo(Material_SetInt__Int32__Int32, "SetInt"),
             new JSMgr.MethodCallBackInfo(Material_SetInt__String__Int32, "SetInt"),
             new JSMgr.MethodCallBackInfo(Material_SetMatrix__Int32__Matrix4x4, "SetMatrix"),
             new JSMgr.MethodCallBackInfo(Material_SetMatrix__String__Matrix4x4, "SetMatrix"),
+            new JSMgr.MethodCallBackInfo(Material_SetMatrixArray__Int32__Matrix4x4_Array, "SetMatrixArray"),
+            new JSMgr.MethodCallBackInfo(Material_SetMatrixArray__String__Matrix4x4_Array, "SetMatrixArray"),
+            new JSMgr.MethodCallBackInfo(Material_SetOverrideTag__String__String, "SetOverrideTag"),
             new JSMgr.MethodCallBackInfo(Material_SetPass__Int32, "SetPass"),
             new JSMgr.MethodCallBackInfo(Material_SetTexture__Int32__Texture, "SetTexture"),
             new JSMgr.MethodCallBackInfo(Material_SetTexture__String__Texture, "SetTexture"),
@@ -651,6 +873,8 @@ public class UnityEngine_Material_G
             new JSMgr.MethodCallBackInfo(Material_SetTextureScale__String__Vector2, "SetTextureScale"),
             new JSMgr.MethodCallBackInfo(Material_SetVector__Int32__Vector4, "SetVector"),
             new JSMgr.MethodCallBackInfo(Material_SetVector__String__Vector4, "SetVector"),
+            new JSMgr.MethodCallBackInfo(Material_SetVectorArray__Int32__Vector4_Array, "SetVectorArray"),
+            new JSMgr.MethodCallBackInfo(Material_SetVectorArray__String__Vector4_Array, "SetVectorArray"),
         };
         JSMgr.allCallbackInfo.Add(ci);
     }

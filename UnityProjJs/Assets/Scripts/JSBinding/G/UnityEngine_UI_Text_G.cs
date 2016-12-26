@@ -13,6 +13,21 @@ public class UnityEngine_UI_Text_G
     // constructors
     // fields
     // properties
+    static void Text_alignByGeometry(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.UI.Text _this = (UnityEngine.UI.Text)vc.csObj;
+            var result = _this.alignByGeometry;
+            JSApi.setBooleanS((int)JSApi.SetType.Rval, (bool)(result));
+        }
+        else
+        {
+            bool arg0 = JSApi.getBooleanS((int)JSApi.GetType.Arg);
+            UnityEngine.UI.Text _this = (UnityEngine.UI.Text)vc.csObj;
+            _this.alignByGeometry = arg0;
+        }
+    }
     static void Text_alignment(JSVCall vc)
     {
         if (vc.bGet)
@@ -38,12 +53,6 @@ public class UnityEngine_UI_Text_G
     {
         UnityEngine.UI.Text _this = (UnityEngine.UI.Text)vc.csObj;
         var result = _this.cachedTextGeneratorForLayout;
-        JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
-    }
-    static void Text_defaultMaterial(JSVCall vc)
-    {
-        UnityEngine.UI.Text _this = (UnityEngine.UI.Text)vc.csObj;
-        var result = _this.defaultMaterial;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
     static void Text_flexibleHeight(JSVCall vc)
@@ -303,6 +312,15 @@ public class UnityEngine_UI_Text_G
         }
         return true;
     }
+    static bool Text_OnRebuildRequested(JSVCall vc, int argc)
+    {
+        int len = argc;
+        if (len == 0)
+        {
+            ((UnityEngine.UI.Text)vc.csObj).OnRebuildRequested();
+        }
+        return true;
+    }
     static bool Text_GetTextAnchorPivot__TextAnchor(JSVCall vc, int argc)
     {
         int len = argc;
@@ -324,10 +342,10 @@ public class UnityEngine_UI_Text_G
         };
         ci.properties = new JSMgr.CSCallbackProperty[]
         {
+            Text_alignByGeometry,
             Text_alignment,
             Text_cachedTextGenerator,
             Text_cachedTextGeneratorForLayout,
-            Text_defaultMaterial,
             Text_flexibleHeight,
             Text_flexibleWidth,
             Text_font,
@@ -358,6 +376,7 @@ public class UnityEngine_UI_Text_G
             new JSMgr.MethodCallBackInfo(Text_CalculateLayoutInputVertical, "CalculateLayoutInputVertical"),
             new JSMgr.MethodCallBackInfo(Text_FontTextureChanged, "FontTextureChanged"),
             new JSMgr.MethodCallBackInfo(Text_GetGenerationSettings__Vector2, "GetGenerationSettings"),
+            new JSMgr.MethodCallBackInfo(Text_OnRebuildRequested, "OnRebuildRequested"),
             new JSMgr.MethodCallBackInfo(Text_GetTextAnchorPivot__TextAnchor, "GetTextAnchorPivot"),
         };
         JSMgr.allCallbackInfo.Add(ci);

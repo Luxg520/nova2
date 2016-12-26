@@ -37,6 +37,21 @@ public class UnityEngine_Collider_G
         var result = _this.bounds;
         JSMgr.datax.setObject((int)JSApi.SetType.Rval, result);
     }
+    static void Collider_contactOffset(JSVCall vc)
+    {
+        if (vc.bGet)
+        {
+            UnityEngine.Collider _this = (UnityEngine.Collider)vc.csObj;
+            var result = _this.contactOffset;
+            JSApi.setSingle((int)JSApi.SetType.Rval, (float)(result));
+        }
+        else
+        {
+            float arg0 = JSApi.getSingle((int)JSApi.GetType.Arg);
+            UnityEngine.Collider _this = (UnityEngine.Collider)vc.csObj;
+            _this.contactOffset = arg0;
+        }
+    }
     static void Collider_enabled(JSVCall vc)
     {
         if (vc.bGet)
@@ -136,6 +151,7 @@ public class UnityEngine_Collider_G
         {
             Collider_attachedRigidbody,
             Collider_bounds,
+            Collider_contactOffset,
             Collider_enabled,
             Collider_isTrigger,
             Collider_material,
