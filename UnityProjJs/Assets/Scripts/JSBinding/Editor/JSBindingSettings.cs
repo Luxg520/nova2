@@ -30,12 +30,6 @@ namespace jsb
 		
 	    public static Type[] classes = new Type[]
 	    {
-			typeof(jsb.Test.Framwork.TestPerformance),
-			typeof(jsb.Test.Framwork.TestMisc),
-			typeof(jsb.Test.Framwork.TestRF),
-			typeof(jsb.Test.Framwork.TestGeneric<,,>),
-
-			typeof(TestCallJs),
 			typeof(UnityEngine.UI.GridLayoutGroup),
 			typeof(UnityEngine.UI.Text),
             typeof(Hashtable),
@@ -107,7 +101,7 @@ namespace jsb
 	        typeof(PolygonCollider2D),
 
 	        typeof(Light),
-	        typeof(NavMeshAgent),
+	        typeof(UnityEngine.AI.NavMeshAgent),
 	        typeof(Rect),
 	        typeof(Physics),
 	        typeof(Collider),
@@ -121,7 +115,7 @@ namespace jsb
 	        typeof(CapsuleCollider),
 	        typeof(AnimatorStateInfo),
 	        typeof(Rigidbody),
-	        typeof(NavMeshPath),
+	        typeof(UnityEngine.AI.NavMeshPath),
 			typeof(Animation),
 
 			typeof(UnityEngine.UI.Button),
