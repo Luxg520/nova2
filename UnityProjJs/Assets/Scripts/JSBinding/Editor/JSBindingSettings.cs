@@ -16,9 +16,8 @@ namespace jsb
 	{
 	    public static Type[] enums = new Type[]
 	    {
-	//        typeof(BindingFlags),
-	//		typeof(Qcw.QCWEn),
-	    };
+            typeof(EaseType),
+        };
 	    
 	    //
 	    // types to export to JavaSciprt
@@ -30,7 +29,14 @@ namespace jsb
 		
 	    public static Type[] classes = new Type[]
 	    {
-			typeof(UnityEngine.UI.GridLayoutGroup),
+#region iTween
+            typeof(iTween),
+            typeof(iTweenRoot),
+            typeof(iTweenPath),
+            typeof(iTweenX),
+#endregion
+
+            typeof(UnityEngine.UI.GridLayoutGroup),
 			typeof(UnityEngine.UI.Text),
             typeof(Hashtable),
 	       typeof(Debug),
@@ -247,10 +253,19 @@ namespace jsb
 		
 		public static string csDir = Application.dataPath + "/JSBinding/CSharp";
 		public static string csGenDir = Application.dataPath + "/Scripts/JSBinding/G";
-
-        static HashSet<string> LoadBridgeDefinedTypes()
+        public static string jsbTempDir = Application.dataPath + "/../Temp_jsb";
+        public static string jsbTempFile(string name)
         {
-            HashSet<string> types = new HashSet<string>();
+            return jsbTempDir + "/" + name;
+        }
+
+        static HashSet<string> bridgeTypes = null;
+        public static HashSet<string> LoadBridgeDefinedTypes(bool forceReload)
+        {
+            if (!forceReload && bridgeTypes != null)
+                return bridgeTypes;
+
+            bridgeTypes = new HashSet<string>();
 
             string text = File.ReadAllText("Assets/Scripts/JSBinding/Editor/BridgeTypes.txt");
             string[] lines = text.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -276,11 +291,11 @@ namespace jsb
                         int tCount = name.Substring(index1 + 1, index2 - index1 - 1).Count((c) => c == ',');
                         name = line.Substring(0, index1) + "`" + (tCount + 1);
                     }
-                    types.Add(ns + "." + name);
+                    bridgeTypes.Add(ns + "." + name);
                 }
             }
 
-            return types;
+            return bridgeTypes;
         }
 
 	    public static bool CheckClasses(out Type[] arrEnums, out Type[] arrClasses,
@@ -292,7 +307,7 @@ namespace jsb
             var sb = new StringBuilder();
             bool ok = true;
 
-            bridgeTypes = LoadBridgeDefinedTypes();
+            bridgeTypes = LoadBridgeDefinedTypes(true);
 
             foreach (var e in enums)
             {
