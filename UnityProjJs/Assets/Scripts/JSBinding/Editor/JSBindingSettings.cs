@@ -29,6 +29,7 @@ namespace jsb
 		
 	    public static Type[] classes = new Type[]
 	    {
+            typeof(EditorEnv),
 #region iTween
             typeof(iTween),
             typeof(iTweenRoot),
@@ -107,7 +108,7 @@ namespace jsb
 	        typeof(PolygonCollider2D),
 
 	        typeof(Light),
-	        typeof(UnityEngine.AI.NavMeshAgent),
+	        typeof(NavMeshAgent),
 	        typeof(Rect),
 	        typeof(Physics),
 	        typeof(Collider),
@@ -121,7 +122,7 @@ namespace jsb
 	        typeof(CapsuleCollider),
 	        typeof(AnimatorStateInfo),
 	        typeof(Rigidbody),
-	        typeof(UnityEngine.AI.NavMeshPath),
+	        typeof(NavMeshPath),
 			typeof(Animation),
 
 			typeof(UnityEngine.UI.Button),

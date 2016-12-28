@@ -246,4 +246,13 @@ public class JSComponent : JSSerializer
 	{
 		JSMgr.vCall.CallJSFunctionName(jsObjID, msg, args);
 	}
+
+    public static void s_AddComponent(GameObject go, string jsName)
+    {
+        JSComponent jsComp = go.AddComponent<JSComponent>();
+        jsComp.jsClassName = jsName;
+        jsComp.jsFail = false;
+        jsComp.init(true);
+        jsComp.callAwake(); // 要调用 js 的 Awake
+    }
 }

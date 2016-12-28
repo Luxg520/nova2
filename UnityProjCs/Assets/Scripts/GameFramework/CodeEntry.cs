@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+// CodeEntry是框架代码
 public class CodeEntry : MonoBehaviour
 {
     void Start()
@@ -10,21 +11,19 @@ public class CodeEntry : MonoBehaviour
         // 这个函数是一个演示，他是整个应用程序的入口
         // 逻辑代码不能直接在Inspector中挂上去，那么总得有一个入口点，就是这里
         // 
-        // 
-        /*
-        GameObject prefab = (GameObject)EditorEnv.LoadMainAssetAtPath("Assets/Prefabs/Login.prefab");
+        //
+
+        GameObject prefab = (GameObject)AssetDatabase.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/Root.prefab");
         GameObject go = (GameObject)Instantiate(prefab);
+
+        string n = go.name;
+        if (n.EndsWith("(Clone)"))
+            go.name = n.Substring(0, n.Length - 7);
 #if JS
         Instantiate(AssetDatabase.LoadMainAssetAtPath("Assets/Scripts/JSBinding/_JSEngine.prefab"));
-
-        JSComponent jsComp = go.AddComponent<JSComponent>();
-        jsComp.jsClassName = "Login";
-        jsComp.jsFail = false;
-        jsComp.init(true);
-        jsComp.callAwake(); // 要调用 js 的 Awake
+        JSComponent.s_AddComponent(go, "GameDriver");
 #else
-        go.AddComponent<Login>();
+        go.AddComponent<GameDriver>();
 #endif
-*/
     }
 }

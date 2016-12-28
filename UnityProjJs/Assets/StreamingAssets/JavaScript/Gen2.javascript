@@ -10,6 +10,41 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
      */
 
     /**
+     * 客户端游戏核心对象，引用所有逻辑模块并负责主要驱动
+     *
+     * @public
+     * @class GameCore
+     */
+    Bridge.define("GameCore", {
+        statics: {
+            inst: null,
+            config: {
+                init: function () {
+                    this.inst = new GameCore();
+                }
+            },
+            getInstance: function () {
+                return GameCore.inst;
+            }
+        },
+        inited: false,
+        Init: function () {
+            if (this.inited) {
+                return;
+            }
+
+            this.inited = true;
+
+            // 显示登录界面
+            var prefab = Bridge.cast(EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab"), UnityEngine.GameObject);
+            var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, prefab);
+            var uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").gettransform();
+            go.gettransform().SetParent$1(uiCanvas, false);
+            go.AddComponent(LoginUI);
+        }
+    });
+
+    /**
      * 缓动动画工具类
      *
      * @static
@@ -1004,6 +1039,246 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         Start: function () {
             // shoule be override
             iTween.ValueTo(this.go, this.dict);
+        }
+    });
+
+    Bridge.define("GameDriver", {
+        inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            MaxFrameRate: 40,
+            MinFrameRate: 30
+        },
+        Awake: function () {
+            //设置目标帧率
+            UnityEngine.Application.settargetFrameRate(GameDriver.MinFrameRate);
+
+            // NOVA-1740
+            // Disable screen dimming
+            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        },
+        Start: function () {
+            GameCore.getInstance().Init();
+        },
+        FixedUpdate: function () {
+            //int te = (int)(Time.fixedDeltaTime * 1000);
+            //GameCore.Instance.OnTimeElapsed(te);
+        }
+    });
+
+    Bridge.define("LoginUI", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Awake: function () {
+            var btn = this.gettransform().FindChild("EnterGameBtn").GetComponent(UnityEngine.UI.Button);
+            btn.getonClick().AddListener(Bridge.fn.bind(this, this.OnLoginClick));
+        },
+        OnLoginClick: function () {
+            UnityEngine.MonoBehaviour.print("Login!");
+        }
+    });
+});
+
+Bridge.assembly("BridgeProj", function ($asm, globals) {
+    "use strict";
+
+    Bridge.define("jsb.Test.Logic.JSBInfo", {
+        Version: "1.0",
+        QQGroup: 189738580,
+        getDocumentUrl: function () {
+            return "http://www.cnblogs.com/answerwinner/p/6037911.html";
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.Request10019", {
+        itemID: 0,
+        num: 0,
+        optParams: null
+    });
+
+    Bridge.define("jsb.Test.Logic.Request10019.Opt", {
+        selects: null
+    });
+
+    Bridge.define("jsb.Test.Logic.TestCallFromCs", {
+        statics: {
+            CreateJSBindingInfo: function () {
+                return new jsb.Test.Logic.JSBInfo();
+            }
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestCoroutine", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            this.StartCoroutine(this.Co());
+        },
+        Update: function () {
+            jsbExtension.UpdateCoroutines(this);
+        },
+        Co: function* () {
+            
+            var c = 0;
+            while (true) {
+                yield (new UnityEngine.WaitForSeconds(1.0));
+                UnityEngine.MonoBehaviour.print("我 " + (((c = (c + 1) | 0))));
+
+                if (c >= 4) {
+                    break;
+                }
+            }
+
+            // JS 会打印这句，这是因为 yield break 不支持
+            UnityEngine.MonoBehaviour.print("end of Co");
+            
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestDictionary", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var $t;
+            var dict = new (System.Collections.Generic.Dictionary$2(String,System.Int32))();
+            dict.add("liudh", 50);
+            dict.add("wuyz", 27);
+
+            var age = { };
+            if (dict.tryGetValue("liudh", age)) {
+                UnityEngine.Debug.Log(System.String.concat("age: ", age.v.toString()));
+            } else {
+                UnityEngine.Debug.Log("not found");
+            }
+            $t = Bridge.getEnumerator(dict);
+            while ($t.moveNext()) {
+                var v = $t.getCurrent();
+                UnityEngine.Debug.Log(System.String.concat(v.key.toString(), "->", v.value.toString()));
+            }
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestEntry", {
+        inherits: [UnityEngine.MonoBehaviour],
+        dict: null,
+        Start: function () {
+            var $t;
+            this.dict = new (System.Collections.Generic.Dictionary$2(String,Function))();
+            this.dict.set("TestCoroutine", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f1));
+            this.dict.set("TestVector3", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f2));
+            this.dict.set("TestDictionary", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f3));
+            this.dict.set("TestJSON", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f4));
+            // 注意 TestCallJs 是 C# 脚本
+            this.dict.set("TestInherit", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f5));
+
+            var btnPrefab = this.gettransform().Find("ButtonPrefab").getgameObject();
+            $t = Bridge.getEnumerator(this.dict);
+            while ($t.moveNext()) {
+                (function () {
+                    var KV = $t.getCurrent();
+                    var n = KV.key;
+                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, btnPrefab);
+                    var trans = go.gettransform();
+                    go.setname(n);
+                    trans.FindChild("Text").GetComponent(UnityEngine.UI.Text).settext(n);
+                    go.SetActive(true);
+                    go.GetComponent(UnityEngine.UI.Button).getonClick().AddListener(Bridge.fn.bind(this, function () {
+                        this.OnClick(n);
+                    }));
+                    trans.SetParent$1(this.gettransform(), false);
+                }).call(this);
+            }
+        },
+        OnClick: function (n) {
+            // 删除除了 TestEntry 之外的 JSComponent
+            var mbs = this.GetComponents(UnityEngine.MonoBehaviour);
+            for (var i = 0; i < mbs.length; i = (i + 1) | 0) {
+                if (!(Bridge.is(mbs[i], jsb.Test.Logic.TestEntry))) {
+                    UnityEngine.Object.DestroyImmediate(mbs[i]);
+                }
+            }
+
+            this.dict.get(n)();
+        }
+    });
+
+    var $_ = {};
+
+    Bridge.ns("jsb.Test.Logic.TestEntry", $_);
+
+    Bridge.apply($_.jsb.Test.Logic.TestEntry, {
+        f1: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestCoroutine);
+        },
+        f2: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestVector3);
+        },
+        f3: function () {
+            this.getgameObject().AddComponent$1(jsb.Test.Logic.TestDictionary);
+        },
+        f4: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestJSON);
+        },
+        f5: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit1);
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit2);
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestInherit1", {
+        inherits: [UnityEngine.MonoBehaviour]
+    });
+
+    Bridge.define("jsb.Test.Logic.TestJSON", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var r = Bridge.merge(new jsb.Test.Logic.Request10019(), {
+                itemID: 112,
+                num: 2,
+                optParams: Bridge.merge(new jsb.Test.Logic.Request10019.Opt(), {
+                    selects: [5, 4, 8]
+                } )
+            } );
+            var str = JSON.stringify(r);
+            UnityEngine.MonoBehaviour.print(str);
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestVector3", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var sb = new System.Text.StringBuilder();
+            var v = new UnityEngine.Vector3.$ctor2(2, 3, 6);
+            var w = new UnityEngine.Vector3.$ctor2(7, 23, 1);
+
+            var n = v.getnormalized().$clone();
+            var arr = [n.x, n.y, n.z];
+            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["v.normalized = ({0}, {1}, {2})"].concat(arr)).toString());
+
+            sb.remove(0, sb.getLength());
+            var cross = UnityEngine.Vector3.Cross(v.$clone(), w.$clone()).$clone();
+            arr = [cross.x, cross.y, cross.z];
+            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["Cross(v, w) = ({0}, {1}, {2})"].concat(arr)).toString());
+
+            UnityEngine.Debug.Log("v.magnitude = " + System.Single.format(v.getmagnitude(), 'G'));
+            UnityEngine.Debug.Log("w.magnitude = " + System.Single.format(w.getmagnitude(), 'G'));
+            UnityEngine.Debug.Log("Dot(v, w) = " + System.Single.format(UnityEngine.Vector3.Dot(v.$clone(), w.$clone()), 'G'));
+            UnityEngine.Debug.Log("Angle(v, w) = " + System.Single.format(UnityEngine.Vector3.Angle(v.$clone(), w.$clone()), 'G'));
+
+            var proj = UnityEngine.Vector3.Project(v.$clone(), w.$clone()).$clone();
+            UnityEngine.Debug.Log(System.String.concat("Project(v,w) = ", proj.ToString()));
+
+            v.Normalize();
+            w.Normalize();
+            UnityEngine.Debug.Log(System.String.concat("normalized v = ", v.ToString()));
+            UnityEngine.Debug.Log(System.String.concat("normalized w = ", w.ToString()));
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestInherit2", {
+        inherits: [jsb.Test.Logic.TestInherit1],
+        Start: function () {
+            var arr = this.GetComponents(jsb.Test.Logic.TestInherit1);
+            UnityEngine.MonoBehaviour.print("arr.Length = " + arr.length);
+        },
+        OnGUI: function () {
+            //print("ongui");
         }
     });
 });
