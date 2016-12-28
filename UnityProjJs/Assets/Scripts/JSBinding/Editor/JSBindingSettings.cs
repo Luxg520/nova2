@@ -17,6 +17,7 @@ namespace jsb
 	    public static Type[] enums = new Type[]
 	    {
             typeof(EaseType),
+            typeof(iTween.EaseType),
         };
 	    
 	    //
@@ -58,8 +59,11 @@ namespace jsb
             typeof(iTweenRoot),
             typeof(iTweenPath),
             typeof(iTweenX),
+            typeof(iTween.iTweenDictionary),
 
             #endregion
+
+            typeof(UnityEngine.UI.ColorBlock),
 
             typeof(UnityEngine.UI.GridLayoutGroup),
 			typeof(UnityEngine.UI.Text),

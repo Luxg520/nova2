@@ -47,11 +47,11 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             this.AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
 
             // 显示登录界面
-            //         GameObject prefab = (GameObject)EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab");
-            //         GameObject go = (GameObject)UnityEngine.Object.Instantiate(prefab);
-            //         Transform uiCanvas = GameObject.Find("Root/UICanvas").transform;
-            //         go.transform.SetParent(uiCanvas, false);
-            //         go.AddComponent<LoginUI>();
+            var prefab = Bridge.cast(EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab"), UnityEngine.GameObject);
+            var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, prefab);
+            var uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").gettransform();
+            go.gettransform().SetParent$1(uiCanvas, false);
+            go.AddComponent(LoginUI);
         },
         ConnectServer: function (ip, port, callback) {
             var nc = this.core.Get(Swift.NetCore);
@@ -891,252 +891,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("jsbExtension", {
-        statics: {
-            UpdateCoroutines: function (mb) {
-                var elapsed = UnityEngine.Time.getdeltaTime();
-            mb.$UpdateAllCoroutines(elapsed);
-            mb.$UpdateAllInvokes(elapsed);
-            }
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenLookTo", {
-        inherits: [ItweenUtils.iTweenAct],
-        ctor: function (go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-
-        },
-        Start: function () {
-            iTween.LookTo(this.go, this.dict);
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenMoveTo", {
-        inherits: [ItweenUtils.iTweenAct],
-        ctor: function (go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-
-        },
-        Delay: function (delay) {
-            this.dict.Set("delay", delay);
-            return this;
-        },
-        IsWorld: function () {
-            this.dict.Set("islocal", false);
-            return this;
-        },
-        Speed: function (speed) {
-            this.dict.Set("speed", speed);
-            return this;
-        },
-        Loop: function () {
-            this.dict.SetLoopType(iTween.LoopType.loop);
-            return this;
-        },
-        PingPong: function () {
-            this.dict.SetLoopType(iTween.LoopType.pingPong);
-            return this;
-        },
-        Start: function () {
-            iTween.MoveTo(this.go, this.dict);
-        },
-        LookTime: function (looktime) {
-            this.dict.Set("looktime", looktime);
-            return this;
-        },
-        LookTarget: function (target) {
-            this.dict.Set("looktarget", target);
-            return this;
-        },
-        OrientToPath: function () {
-            this.dict.Set("orienttopath", true);
-            return this;
-        },
-        Immediate: function () {
-            this.dict.Set("moveToPath", false);
-            return this;
-        },
-        OnComplete$2: function (cb) {
-            return Bridge.cast(this.OnComplete(cb), ItweenUtils.iTweenMoveTo);
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenRotate", {
-        inherits: [ItweenUtils.iTweenAct],
-        isBy: true,
-        ctor: function (isBy, go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-            this.isBy = isBy;
-        },
-        Delay: function (delay) {
-            this.dict.Set("delay", delay);
-            return this;
-        },
-        EaseType: function (easeType) {
-            this.dict.SetEaseType(easeType);
-            return this;
-        },
-        Loop: function () {
-            this.dict.SetLoopType(iTween.LoopType.loop);
-            return this;
-        },
-        Start: function () {
-            if (this.isBy) {
-                iTween.RotateBy(this.go, this.dict);
-            } else {
-                iTween.RotateTo(this.go, this.dict);
-            }
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenScaleTo", {
-        inherits: [ItweenUtils.iTweenAct],
-        ctor: function (go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-
-        },
-        Delay: function (delay) {
-            this.dict.Set("delay", delay);
-            return this;
-        },
-        PingPong: function () {
-            this.dict.SetLoopType(iTween.LoopType.pingPong);
-            return this;
-        },
-        Loop: function () {
-            this.dict.SetLoopType(iTween.LoopType.loop);
-            return this;
-        },
-        Start: function () {
-            iTween.ScaleTo(this.go, this.dict);
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenShake", {
-        inherits: [ItweenUtils.iTweenAct],
-        byPosition: true,
-        ctor: function (byPosition, go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-            this.byPosition = byPosition;
-        },
-        Loop: function () {
-            this.dict.SetLoopType(iTween.LoopType.loop);
-            return this;
-        },
-        PingPong: function () {
-            this.dict.SetLoopType(iTween.LoopType.pingPong);
-            return this;
-        },
-        OriginalPos: function (originalPos) {
-            this.dict.Set("originalPos", originalPos.$clone());
-            return this;
-        },
-        Delay: function (delay) {
-            this.dict.Set("delay", delay);
-            return this;
-        },
-        Start: function () {
-            if (UnityEngine.Time.gettimeScale() === 100) {
-                return;
-            }
-
-            if (this.byPosition) {
-                iTween.ShakePosition(this.go, this.dict);
-            } else {
-                iTween.ShakeRotation(this.go, this.dict);
-            }
-        }
-    });
-
-    Bridge.define("ItweenUtils.iTweenValueTo", {
-        inherits: [ItweenUtils.iTweenAct],
-        ctor: function (go) {
-            this.$initialize();
-            ItweenUtils.iTweenAct.ctor.call(this, go);
-
-        },
-        Delay: function (delay) {
-            this.dict.Set("delay", delay);
-            return this;
-        },
-        EaseType: function (easeType) {
-            this.dict.SetEaseType(easeType);
-            return this;
-        },
-        PingPong: function () {
-            this.dict.SetLoopType(iTween.LoopType.pingPong);
-            return this;
-        },
-        Loop: function () {
-            this.dict.SetLoopType(iTween.LoopType.loop);
-            return this;
-        },
-        Start: function () {
-            // shoule be override
-            iTween.ValueTo(this.go, this.dict);
-        }
-    });
-
-    Bridge.define("LoginAgent", {
-        inherits: [Swift.Agent_Logic],
-        LoginCb: function (r) {
-
-        },
-        ExpireCb: function (connected) {
-
-        },
-        Login: function (uid, pwd) {
-            this.getA().Request$1("Login", function (w) {
-                w.Swift$IWriteableBuffer$Write$19(uid);
-                w.Swift$IWriteableBuffer$Write$19(pwd);
-            }, Bridge.fn.bind(this, this.LoginCb), Bridge.fn.bind(this, this.ExpireCb));
-        }
-    });
-
-    Bridge.define("GameDriver", {
-        inherits: [UnityEngine.MonoBehaviour],
-        statics: {
-            MaxFrameRate: 40,
-            MinFrameRate: 30
-        },
-        Awake: function () {
-            //设置目标帧率
-            UnityEngine.Application.settargetFrameRate(GameDriver.MinFrameRate);
-
-            // NOVA-1740
-            // Disable screen dimming
-            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        },
-        Start: function () {
-            GameCore.getInstance().Init();
-        },
-        FixedUpdate: function () {
-            var te = Bridge.Int.clip32(UnityEngine.Time.getfixedDeltaTime() * 1000);
-            GameCore.getInstance().OnTimeElapsed(te);
-        }
-    });
-
-    Bridge.define("LoginUI", {
-        inherits: [UnityEngine.MonoBehaviour],
-        Awake: function () {
-            var btn = this.gettransform().FindChild("EnterGameBtn").GetComponent(UnityEngine.UI.Button);
-            btn.getonClick().AddListener(Bridge.fn.bind(this, this.OnLoginClick));
-        },
-        OnLoginClick: function () {
-            UnityEngine.MonoBehaviour.print("Login!");
-        }
-    });
-});
-
-Bridge.assembly("BridgeProj", function ($asm, globals) {
-    "use strict";
-
     Bridge.define("jsb.Test.Logic.JSBInfo", {
         Version: "1.0",
         QQGroup: 189738580,
@@ -1163,184 +917,15 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("jsb.Test.Logic.TestCoroutine", {
-        inherits: [UnityEngine.MonoBehaviour],
-        Start: function () {
-            this.StartCoroutine(this.Co());
-        },
-        Update: function () {
-            jsbExtension.UpdateCoroutines(this);
-        },
-        Co: function* () {
-            
-            var c = 0;
-            while (true) {
-                yield (new UnityEngine.WaitForSeconds(1.0));
-                UnityEngine.MonoBehaviour.print("我 " + (((c = (c + 1) | 0))));
-
-                if (c >= 4) {
-                    break;
-                }
-            }
-            // JS 会打印这句，这是因为 yield break 不支持
-            UnityEngine.MonoBehaviour.print("end of Co");
-            
-        }
-    });
-
-    Bridge.define("jsb.Test.Logic.TestDictionary", {
-        inherits: [UnityEngine.MonoBehaviour],
-        Start: function () {
-            var $t;
-            var dict = new (System.Collections.Generic.Dictionary$2(String,System.Int32))();
-            dict.add("liudh", 50);
-            dict.add("wuyz", 27);
-
-            var age = { };
-            if (dict.tryGetValue("liudh", age)) {
-                UnityEngine.Debug.Log(System.String.concat("age: ", age.v.toString()));
-            } else {
-                UnityEngine.Debug.Log("not found");
-            }
-            $t = Bridge.getEnumerator(dict);
-            while ($t.moveNext()) {
-                var v = $t.getCurrent();
-                UnityEngine.Debug.Log(System.String.concat(v.key.toString(), "->", v.value.toString()));
+    Bridge.define("jsbExtension", {
+        statics: {
+            UpdateCoroutines: function (mb) {
+                var elapsed = UnityEngine.Time.getdeltaTime();
+            mb.$UpdateAllCoroutines(elapsed);
+            mb.$UpdateAllInvokes(elapsed);
             }
         }
     });
-
-    Bridge.define("jsb.Test.Logic.TestEntry", {
-        inherits: [UnityEngine.MonoBehaviour],
-        dict: null,
-        Start: function () {
-            var $t;
-            this.dict = new (System.Collections.Generic.Dictionary$2(String,Function))();
-            this.dict.set("TestCoroutine", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f1));
-            this.dict.set("TestVector3", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f2));
-            this.dict.set("TestDictionary", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f3));
-            this.dict.set("TestJSON", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f4));
-            // 注意 TestCallJs 是 C# 脚本
-            this.dict.set("TestInherit", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f5));
-
-            var btnPrefab = this.gettransform().Find("ButtonPrefab").getgameObject();
-            $t = Bridge.getEnumerator(this.dict);
-            while ($t.moveNext()) {
-                (function () {
-                    var KV = $t.getCurrent();
-                    var n = KV.key;
-                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, btnPrefab);
-                    var trans = go.gettransform();
-                    go.setname(n);
-                    trans.FindChild("Text").GetComponent(UnityEngine.UI.Text).settext(n);
-                    go.SetActive(true);
-                    go.GetComponent(UnityEngine.UI.Button).getonClick().AddListener(Bridge.fn.bind(this, function () {
-                        this.OnClick(n);
-                    }));
-                    trans.SetParent$1(this.gettransform(), false);
-                }).call(this);
-            }
-        },
-        OnClick: function (n) {
-            // 删除除了 TestEntry 之外的 JSComponent
-            var mbs = this.GetComponents(UnityEngine.MonoBehaviour);
-            for (var i = 0; i < mbs.length; i = (i + 1) | 0) {
-                if (!(Bridge.is(mbs[i], jsb.Test.Logic.TestEntry))) {
-                    UnityEngine.Object.DestroyImmediate(mbs[i]);
-                }
-            }
-
-            this.dict.get(n)();
-        }
-    });
-
-    var $_ = {};
-
-    Bridge.ns("jsb.Test.Logic.TestEntry", $_);
-
-    Bridge.apply($_.jsb.Test.Logic.TestEntry, {
-        f1: function () {
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestCoroutine);
-        },
-        f2: function () {
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestVector3);
-        },
-        f3: function () {
-            this.getgameObject().AddComponent$1(jsb.Test.Logic.TestDictionary);
-        },
-        f4: function () {
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestJSON);
-        },
-        f5: function () {
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit1);
-            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit2);
-        }
-    });
-
-    Bridge.define("jsb.Test.Logic.TestInherit1", {
-        inherits: [UnityEngine.MonoBehaviour]
-    });
-
-    Bridge.define("jsb.Test.Logic.TestJSON", {
-        inherits: [UnityEngine.MonoBehaviour],
-        Start: function () {
-            var r = Bridge.merge(new jsb.Test.Logic.Request10019(), {
-                itemID: 112,
-                num: 2,
-                optParams: Bridge.merge(new jsb.Test.Logic.Request10019.Opt(), {
-                    selects: [5, 4, 8]
-                } )
-            } );
-            var str = JSON.stringify(r);
-            UnityEngine.MonoBehaviour.print(str);
-        }
-    });
-
-    Bridge.define("jsb.Test.Logic.TestVector3", {
-        inherits: [UnityEngine.MonoBehaviour],
-        Start: function () {
-            var sb = new System.Text.StringBuilder();
-            var v = new UnityEngine.Vector3.$ctor2(2, 3, 6);
-            var w = new UnityEngine.Vector3.$ctor2(7, 23, 1);
-
-            var n = v.getnormalized().$clone();
-            var arr = [n.x, n.y, n.z];
-            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["v.normalized = ({0}, {1}, {2})"].concat(arr)).toString());
-
-            sb.remove(0, sb.getLength());
-            var cross = UnityEngine.Vector3.Cross(v.$clone(), w.$clone()).$clone();
-            arr = [cross.x, cross.y, cross.z];
-            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["Cross(v, w) = ({0}, {1}, {2})"].concat(arr)).toString());
-
-            UnityEngine.Debug.Log("v.magnitude = " + System.Single.format(v.getmagnitude(), 'G'));
-            UnityEngine.Debug.Log("w.magnitude = " + System.Single.format(w.getmagnitude(), 'G'));
-            UnityEngine.Debug.Log("Dot(v, w) = " + System.Single.format(UnityEngine.Vector3.Dot(v.$clone(), w.$clone()), 'G'));
-            UnityEngine.Debug.Log("Angle(v, w) = " + System.Single.format(UnityEngine.Vector3.Angle(v.$clone(), w.$clone()), 'G'));
-
-            var proj = UnityEngine.Vector3.Project(v.$clone(), w.$clone()).$clone();
-            UnityEngine.Debug.Log(System.String.concat("Project(v,w) = ", proj.ToString()));
-
-            v.Normalize();
-            w.Normalize();
-            UnityEngine.Debug.Log(System.String.concat("normalized v = ", v.ToString()));
-            UnityEngine.Debug.Log(System.String.concat("normalized w = ", w.ToString()));
-        }
-    });
-
-    Bridge.define("jsb.Test.Logic.TestInherit2", {
-        inherits: [jsb.Test.Logic.TestInherit1],
-        Start: function () {
-            var arr = this.GetComponents(jsb.Test.Logic.TestInherit1);
-            UnityEngine.MonoBehaviour.print("arr.Length = " + arr.length);
-        },
-        OnGUI: function () {
-            //print("ongui");
-        }
-    });
-});
-
-Bridge.assembly("BridgeProj", function ($asm, globals) {
-    "use strict";
 
     /** @namespace Swift */
 
@@ -1402,18 +987,13 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             }
         },
         getAll: function () {
+            var $t;
             if (this.modified) {
                 this.lstComponents.clear();
-
-                var ie = this.components.getEnumerator();
-                try {
-                    while (ie.System$Collections$IEnumerator$moveNext()) {
-                        var KV = ie[Bridge.geti(ie, "System$Collections$Generic$IEnumerator$1$System$Collections$Generic$KeyValuePair$2$String$Swift$Component_Logic$getCurrent$1", "getCurrent$1")]();
-                        this.lstComponents.add(KV.value);
-                    }
-                }
-                finally {
-                    ie.System$IDisposable$dispose();
+                $t = Bridge.getEnumerator(this.components);
+                while ($t.moveNext()) {
+                    var KV = $t.getCurrent();
+                    this.lstComponents.add(KV.value);
                 }
                 this.modified = false;
             }
@@ -1692,6 +1272,188 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("ItweenUtils.iTweenLookTo", {
+        inherits: [ItweenUtils.iTweenAct],
+        ctor: function (go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+
+        },
+        Start: function () {
+            iTween.LookTo(this.go, this.dict);
+        }
+    });
+
+    Bridge.define("ItweenUtils.iTweenMoveTo", {
+        inherits: [ItweenUtils.iTweenAct],
+        ctor: function (go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+
+        },
+        Delay: function (delay) {
+            this.dict.Set("delay", delay);
+            return this;
+        },
+        IsWorld: function () {
+            this.dict.Set("islocal", false);
+            return this;
+        },
+        Speed: function (speed) {
+            this.dict.Set("speed", speed);
+            return this;
+        },
+        Loop: function () {
+            this.dict.SetLoopType(iTween.LoopType.loop);
+            return this;
+        },
+        PingPong: function () {
+            this.dict.SetLoopType(iTween.LoopType.pingPong);
+            return this;
+        },
+        Start: function () {
+            iTween.MoveTo(this.go, this.dict);
+        },
+        LookTime: function (looktime) {
+            this.dict.Set("looktime", looktime);
+            return this;
+        },
+        LookTarget: function (target) {
+            this.dict.Set("looktarget", target);
+            return this;
+        },
+        OrientToPath: function () {
+            this.dict.Set("orienttopath", true);
+            return this;
+        },
+        Immediate: function () {
+            this.dict.Set("moveToPath", false);
+            return this;
+        },
+        OnComplete$2: function (cb) {
+            return Bridge.cast(this.OnComplete(cb), ItweenUtils.iTweenMoveTo);
+        }
+    });
+
+    Bridge.define("ItweenUtils.iTweenRotate", {
+        inherits: [ItweenUtils.iTweenAct],
+        isBy: true,
+        ctor: function (isBy, go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+            this.isBy = isBy;
+        },
+        Delay: function (delay) {
+            this.dict.Set("delay", delay);
+            return this;
+        },
+        EaseType: function (easeType) {
+            this.dict.SetEaseType(easeType);
+            return this;
+        },
+        Loop: function () {
+            this.dict.SetLoopType(iTween.LoopType.loop);
+            return this;
+        },
+        Start: function () {
+            if (this.isBy) {
+                iTween.RotateBy(this.go, this.dict);
+            } else {
+                iTween.RotateTo(this.go, this.dict);
+            }
+        }
+    });
+
+    Bridge.define("ItweenUtils.iTweenScaleTo", {
+        inherits: [ItweenUtils.iTweenAct],
+        ctor: function (go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+
+        },
+        Delay: function (delay) {
+            this.dict.Set("delay", delay);
+            return this;
+        },
+        PingPong: function () {
+            this.dict.SetLoopType(iTween.LoopType.pingPong);
+            return this;
+        },
+        Loop: function () {
+            this.dict.SetLoopType(iTween.LoopType.loop);
+            return this;
+        },
+        Start: function () {
+            iTween.ScaleTo(this.go, this.dict);
+        }
+    });
+
+    Bridge.define("ItweenUtils.iTweenShake", {
+        inherits: [ItweenUtils.iTweenAct],
+        byPosition: true,
+        ctor: function (byPosition, go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+            this.byPosition = byPosition;
+        },
+        Loop: function () {
+            this.dict.SetLoopType(iTween.LoopType.loop);
+            return this;
+        },
+        PingPong: function () {
+            this.dict.SetLoopType(iTween.LoopType.pingPong);
+            return this;
+        },
+        OriginalPos: function (originalPos) {
+            this.dict.Set("originalPos", originalPos.$clone());
+            return this;
+        },
+        Delay: function (delay) {
+            this.dict.Set("delay", delay);
+            return this;
+        },
+        Start: function () {
+            if (UnityEngine.Time.gettimeScale() === 100) {
+                return;
+            }
+
+            if (this.byPosition) {
+                iTween.ShakePosition(this.go, this.dict);
+            } else {
+                iTween.ShakeRotation(this.go, this.dict);
+            }
+        }
+    });
+
+    Bridge.define("ItweenUtils.iTweenValueTo", {
+        inherits: [ItweenUtils.iTweenAct],
+        ctor: function (go) {
+            this.$initialize();
+            ItweenUtils.iTweenAct.ctor.call(this, go);
+
+        },
+        Delay: function (delay) {
+            this.dict.Set("delay", delay);
+            return this;
+        },
+        EaseType: function (easeType) {
+            this.dict.SetEaseType(easeType);
+            return this;
+        },
+        PingPong: function () {
+            this.dict.SetLoopType(iTween.LoopType.pingPong);
+            return this;
+        },
+        Loop: function () {
+            this.dict.SetLoopType(iTween.LoopType.loop);
+            return this;
+        },
+        Start: function () {
+            // shoule be override
+            iTween.ValueTo(this.go, this.dict);
+        }
+    });
+
     Bridge.define("Swift.Agent_Logic", {
         inherits: [Swift.Component_Logic],
         agent: null,
@@ -1844,6 +1606,246 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             Swift.ConditionWaiter.ctor.call(this, function () {
                 return coroutine.Swift$ICoroutine$getFinished();
             });
+        }
+    });
+
+    Bridge.define("LoginAgent", {
+        inherits: [Swift.Agent_Logic],
+        LoginCb: function (r) {
+
+        },
+        ExpireCb: function (connected) {
+
+        },
+        Login: function (uid, pwd) {
+            this.getA().Request$1("Login", function (w) {
+                w.Swift$IWriteableBuffer$Write$19(uid);
+                w.Swift$IWriteableBuffer$Write$19(pwd);
+            }, Bridge.fn.bind(this, this.LoginCb), Bridge.fn.bind(this, this.ExpireCb));
+        }
+    });
+
+    Bridge.define("GameDriver", {
+        inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            MaxFrameRate: 40,
+            MinFrameRate: 30
+        },
+        Awake: function () {
+            //设置目标帧率
+            UnityEngine.Application.settargetFrameRate(GameDriver.MinFrameRate);
+
+            // NOVA-1740
+            // Disable screen dimming
+            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        },
+        Start: function () {
+            GameCore.getInstance().Init();
+        },
+        FixedUpdate: function () {
+            var te = Bridge.Int.clip32(UnityEngine.Time.getfixedDeltaTime() * 1000);
+            GameCore.getInstance().OnTimeElapsed(te);
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestCoroutine", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            this.StartCoroutine(this.Co());
+        },
+        Update: function () {
+            jsbExtension.UpdateCoroutines(this);
+        },
+        Co: function* () {
+            
+            var c = 0;
+            while (true) {
+                yield (new UnityEngine.WaitForSeconds(1.0));
+                UnityEngine.MonoBehaviour.print("我 " + (((c = (c + 1) | 0))));
+
+                if (c >= 4) {
+                    break;
+                }
+            }
+            // JS 会打印这句，这是因为 yield break 不支持
+            UnityEngine.MonoBehaviour.print("end of Co");
+            
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestDictionary", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var $t;
+            var dict = new (System.Collections.Generic.Dictionary$2(String,System.Int32))();
+            dict.add("liudh", 50);
+            dict.add("wuyz", 27);
+
+            var age = { };
+            if (dict.tryGetValue("liudh", age)) {
+                UnityEngine.Debug.Log(System.String.concat("age: ", age.v.toString()));
+            } else {
+                UnityEngine.Debug.Log("not found");
+            }
+            $t = Bridge.getEnumerator(dict);
+            while ($t.moveNext()) {
+                var v = $t.getCurrent();
+                UnityEngine.Debug.Log(System.String.concat(v.key.toString(), "->", v.value.toString()));
+            }
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestEntry", {
+        inherits: [UnityEngine.MonoBehaviour],
+        dict: null,
+        Start: function () {
+            var $t;
+            this.dict = new (System.Collections.Generic.Dictionary$2(String,Function))();
+            this.dict.set("TestCoroutine", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f1));
+            this.dict.set("TestVector3", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f2));
+            this.dict.set("TestDictionary", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f3));
+            this.dict.set("TestJSON", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f4));
+            // 注意 TestCallJs 是 C# 脚本
+            this.dict.set("TestInherit", Bridge.fn.bind(this, $_.jsb.Test.Logic.TestEntry.f5));
+
+            var btnPrefab = this.gettransform().Find("ButtonPrefab").getgameObject();
+            $t = Bridge.getEnumerator(this.dict);
+            while ($t.moveNext()) {
+                (function () {
+                    var KV = $t.getCurrent();
+                    var n = KV.key;
+                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, btnPrefab);
+                    var trans = go.gettransform();
+                    go.setname(n);
+                    trans.FindChild("Text").GetComponent(UnityEngine.UI.Text).settext(n);
+                    go.SetActive(true);
+                    go.GetComponent(UnityEngine.UI.Button).getonClick().AddListener(Bridge.fn.bind(this, function () {
+                        this.OnClick(n);
+                    }));
+                    trans.SetParent$1(this.gettransform(), false);
+                }).call(this);
+            }
+        },
+        OnClick: function (n) {
+            // 删除除了 TestEntry 之外的 JSComponent
+            var mbs = this.GetComponents(UnityEngine.MonoBehaviour);
+            for (var i = 0; i < mbs.length; i = (i + 1) | 0) {
+                if (!(Bridge.is(mbs[i], jsb.Test.Logic.TestEntry))) {
+                    UnityEngine.Object.DestroyImmediate(mbs[i]);
+                }
+            }
+
+            this.dict.get(n)();
+        }
+    });
+
+    var $_ = {};
+
+    Bridge.ns("jsb.Test.Logic.TestEntry", $_);
+
+    Bridge.apply($_.jsb.Test.Logic.TestEntry, {
+        f1: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestCoroutine);
+        },
+        f2: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestVector3);
+        },
+        f3: function () {
+            this.getgameObject().AddComponent$1(jsb.Test.Logic.TestDictionary);
+        },
+        f4: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestJSON);
+        },
+        f5: function () {
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit1);
+            this.getgameObject().AddComponent(jsb.Test.Logic.TestInherit2);
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestInherit1", {
+        inherits: [UnityEngine.MonoBehaviour]
+    });
+
+    Bridge.define("jsb.Test.Logic.TestJSON", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var r = Bridge.merge(new jsb.Test.Logic.Request10019(), {
+                itemID: 112,
+                num: 2,
+                optParams: Bridge.merge(new jsb.Test.Logic.Request10019.Opt(), {
+                    selects: [5, 4, 8]
+                } )
+            } );
+            var str = JSON.stringify(r);
+            UnityEngine.MonoBehaviour.print(str);
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestVector3", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Start: function () {
+            var sb = new System.Text.StringBuilder();
+            var v = new UnityEngine.Vector3.$ctor2(2, 3, 6);
+            var w = new UnityEngine.Vector3.$ctor2(7, 23, 1);
+
+            var n = v.getnormalized().$clone();
+            var arr = [n.x, n.y, n.z];
+            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["v.normalized = ({0}, {1}, {2})"].concat(arr)).toString());
+
+            sb.remove(0, sb.getLength());
+            var cross = UnityEngine.Vector3.Cross(v.$clone(), w.$clone()).$clone();
+            arr = [cross.x, cross.y, cross.z];
+            UnityEngine.Debug.Log(sb.appendFormat.apply(sb, ["Cross(v, w) = ({0}, {1}, {2})"].concat(arr)).toString());
+
+            UnityEngine.Debug.Log("v.magnitude = " + System.Single.format(v.getmagnitude(), 'G'));
+            UnityEngine.Debug.Log("w.magnitude = " + System.Single.format(w.getmagnitude(), 'G'));
+            UnityEngine.Debug.Log("Dot(v, w) = " + System.Single.format(UnityEngine.Vector3.Dot(v.$clone(), w.$clone()), 'G'));
+            UnityEngine.Debug.Log("Angle(v, w) = " + System.Single.format(UnityEngine.Vector3.Angle(v.$clone(), w.$clone()), 'G'));
+
+            var proj = UnityEngine.Vector3.Project(v.$clone(), w.$clone()).$clone();
+            UnityEngine.Debug.Log(System.String.concat("Project(v,w) = ", proj.ToString()));
+
+            v.Normalize();
+            w.Normalize();
+            UnityEngine.Debug.Log(System.String.concat("normalized v = ", v.ToString()));
+            UnityEngine.Debug.Log(System.String.concat("normalized w = ", w.ToString()));
+        }
+    });
+
+    Bridge.define("LoginUI", {
+        inherits: [UnityEngine.MonoBehaviour],
+        Awake: function () {
+            var btn = this.gettransform().FindChild("EnterGameBtn").GetComponent(UnityEngine.UI.Button);
+            btn.getonClick().AddListener(Bridge.fn.bind(this, this.OnLoginClick));
+
+            var clrs = btn.getcolors();
+            ItweenUtils.Value0To1(btn.getgameObject(), 500.0, function (v) {
+                var r = v * 500.0;
+                r = r - Bridge.Int.clip32(r);
+
+                var g = v * 200.0;
+                g = g - Bridge.Int.clip32(g);
+
+                var b = v * 100.0;
+                b = b - Bridge.Int.clip32(b);
+
+                clrs.setnormalColor(new UnityEngine.Color.$ctor2(r, g, b, 1.0));
+                btn.setcolors(clrs);
+            }).Start();
+        },
+        OnLoginClick: function () {
+            UnityEngine.MonoBehaviour.print("Login!");
+        }
+    });
+
+    Bridge.define("jsb.Test.Logic.TestInherit2", {
+        inherits: [jsb.Test.Logic.TestInherit1],
+        Start: function () {
+            var arr = this.GetComponents(jsb.Test.Logic.TestInherit1);
+            UnityEngine.MonoBehaviour.print("arr.Length = " + arr.length);
+        },
+        OnGUI: function () {
+            //print("ongui");
         }
     });
 });
