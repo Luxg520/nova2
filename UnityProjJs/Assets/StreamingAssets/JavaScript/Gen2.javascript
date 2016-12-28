@@ -27,20 +27,61 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 return GameCore.inst;
             }
         },
-        inited: false,
-        Init: function () {
-            if (this.inited) {
-                return;
+        srvConn: null,
+        core: null,
+        core_Logic: null,
+        config: {
+            init: function () {
+                this.core = new Swift.Core();
+                this.core_Logic = new Swift.Core_Logic();
             }
-
-            this.inited = true;
+        },
+        getCurrentServerConnection: function () {
+            return this.srvConn;
+        },
+        AddAgent: function (agent, comName, serverComName) {
+            agent.getA().setServerComponentName(serverComName);
+            this.core_Logic.Add$1(comName, agent);
+        },
+        Init: function () {
+            this.AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
 
             // 显示登录界面
-            var prefab = Bridge.cast(EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab"), UnityEngine.GameObject);
-            var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, prefab);
-            var uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").gettransform();
-            go.gettransform().SetParent$1(uiCanvas, false);
-            go.AddComponent(LoginUI);
+            //         GameObject prefab = (GameObject)EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab");
+            //         GameObject go = (GameObject)UnityEngine.Object.Instantiate(prefab);
+            //         Transform uiCanvas = GameObject.Find("Root/UICanvas").transform;
+            //         go.transform.SetParent(uiCanvas, false);
+            //         go.AddComponent<LoginUI>();
+        },
+        ConnectServer: function (ip, port, callback) {
+            var nc = this.core.Get(Swift.NetCore);
+            nc.Close();
+
+            UnityEngine.Debug.Log(System.String.concat("ConnectServer ", ip, ":", port));
+
+            nc.Connect2Peer$1(ip, port, Bridge.fn.bind(this, function (conn, reason) {
+                this.ResetAllConnection(conn);
+                callback(conn, reason);
+            }));
+        },
+        CloseNetConnections: function () {
+            var nc = this.core.Get(Swift.NetCore);
+            nc.Close();
+        },
+        OnTimeElapsed: function (te) {
+            this.core.RunOneFrame(te);
+            this.core_Logic.RunOneFrame(te);
+        },
+        ResetAllConnection: function (conn) {
+            this.srvConn = conn;
+            var arr = this.core.getAll();
+            for (var i = 0; i < arr.length; i = (i + 1) | 0) {
+                var c = arr[i];
+                if (Bridge.is(c, Swift.PortAgent)) {
+                    var pa = Bridge.as(c, Swift.PortAgent);
+                    pa.Setup(conn);
+                }
+            }
         }
     });
 
@@ -1042,6 +1083,22 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("LoginAgent", {
+        inherits: [Swift.Agent_Logic],
+        LoginCb: function (r) {
+
+        },
+        ExpireCb: function (connected) {
+
+        },
+        Login: function (uid, pwd) {
+            this.getA().Request$1("Login", function (w) {
+                w.Swift$IWriteableBuffer$Write$19(uid);
+                w.Swift$IWriteableBuffer$Write$19(pwd);
+            }, Bridge.fn.bind(this, this.LoginCb), Bridge.fn.bind(this, this.ExpireCb));
+        }
+    });
+
     Bridge.define("GameDriver", {
         inherits: [UnityEngine.MonoBehaviour],
         statics: {
@@ -1060,8 +1117,8 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             GameCore.getInstance().Init();
         },
         FixedUpdate: function () {
-            //int te = (int)(Time.fixedDeltaTime * 1000);
-            //GameCore.Instance.OnTimeElapsed(te);
+            var te = Bridge.Int.clip32(UnityEngine.Time.getfixedDeltaTime() * 1000);
+            GameCore.getInstance().OnTimeElapsed(te);
         }
     });
 
@@ -1125,7 +1182,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                     break;
                 }
             }
-
             // JS 会打印这句，这是因为 yield break 不支持
             UnityEngine.MonoBehaviour.print("end of Co");
             
@@ -1279,6 +1335,515 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         },
         OnGUI: function () {
             //print("ongui");
+        }
+    });
+});
+
+Bridge.assembly("BridgeProj", function ($asm, globals) {
+    "use strict";
+
+    /** @namespace Swift */
+
+    /**
+     * 组件接口
+     *
+     * @public
+     * @class Swift.Component_Logic
+     */
+    Bridge.define("Swift.Component_Logic", {
+        FuncGetComponent: null,
+        FuncRemoveComponent: null,
+        FuncAddComponent: null,
+        name: null,
+        getName: function () {
+            return this.name;
+        },
+        setName: function (value) {
+            this.name = value;
+        },
+        GetComponent: function (str) {
+            return this.FuncGetComponent(str);
+        },
+        RemoveComponent: function (str) {
+            return this.FuncRemoveComponent(str);
+        },
+        AddComponent: function (str, com) {
+            this.FuncAddComponent(str, com);
+        },
+        OnAdded: function () {
+        },
+        OnRemoved: function () {
+        },
+        Close: function () {
+        },
+        Clear: function () {
+
+        }
+    });
+
+    /**
+     * 组件容器
+     *
+     * @public
+     * @class Swift.ComponentContainer_Logic
+     */
+    Bridge.define("Swift.ComponentContainer_Logic", {
+        components: null,
+        lstComponents: null,
+        modified: false,
+        config: {
+            events: {
+                ComponentAdded: null,
+                ComponentRemoved: null
+            },
+            init: function () {
+                this.components = new (System.Collections.Generic.Dictionary$2(String,Swift.Component_Logic))();
+                this.lstComponents = new (System.Collections.Generic.List$1(Swift.Component_Logic))();
+            }
+        },
+        getAll: function () {
+            if (this.modified) {
+                this.lstComponents.clear();
+
+                var ie = this.components.getEnumerator();
+                try {
+                    while (ie.System$Collections$IEnumerator$moveNext()) {
+                        var KV = ie[Bridge.geti(ie, "System$Collections$Generic$IEnumerator$1$System$Collections$Generic$KeyValuePair$2$String$Swift$Component_Logic$getCurrent$1", "getCurrent$1")]();
+                        this.lstComponents.add(KV.value);
+                    }
+                }
+                finally {
+                    ie.System$IDisposable$dispose();
+                }
+                this.modified = false;
+            }
+            return this.lstComponents;
+        },
+        Get: function (T) {
+            var lst = this.getAll();
+            for (var i = 0; i < lst.getCount(); i = (i + 1) | 0) {
+                var c = lst.getItem(i);
+                if (Bridge.is(c, T)) {
+                    return Bridge.as(c, T);
+                }
+            }
+
+            return null;
+        },
+        GetByName: function (name) {
+            if (this.components.containsKey(name)) {
+                return this.components.get(name);
+            } else {
+                return null;
+            }
+        },
+        Add: function (c) {
+            if (c.getName() == null) {
+                throw new System.Exception("Component_Logic has no name");
+            } else {
+                if (this.components.containsKey(c.getName())) {
+                    throw new System.Exception(System.String.concat("Component_Logic name conflicted: ", c.getName()));
+                }
+            }
+
+            this.components.set(c.getName(), c);
+            this.modified = true;
+            //c.Container = this;
+            c.FuncGetComponent = Bridge.fn.bind(this, this.GetByName);
+            c.FuncAddComponent = Bridge.fn.bind(this, this.Add$1);
+            c.FuncRemoveComponent = Bridge.fn.bind(this, this.Remove);
+
+            if (!Bridge.staticEquals(this.ComponentAdded, null)) {
+                this.ComponentAdded(c);
+            }
+        },
+        Add$1: function (name, c) {
+            if (name != null && this.components.containsKey(name)) {
+                throw new System.Exception(System.String.concat("Component_Logic has already got name: ", c.getName()));
+            } else {
+                if (this.components.containsKey(name)) {
+                    throw new System.Exception(System.String.concat("Component_Logic name conflicted: ", c.getName()));
+                }
+            }
+
+            c.setName(name);
+            this.components.set(name, c);
+            this.modified = true;
+            //c.Container = this;
+            c.FuncGetComponent = Bridge.fn.bind(this, this.GetByName);
+            c.FuncAddComponent = Bridge.fn.bind(this, this.Add$1);
+            c.FuncRemoveComponent = Bridge.fn.bind(this, this.Remove);
+            c.OnAdded();
+
+            if (!Bridge.staticEquals(this.ComponentAdded, null)) {
+                this.ComponentAdded(c);
+            }
+        },
+        Remove: function (name) {
+            var c = null;
+
+            if (this.components.containsKey(name)) {
+                c = this.components.get(name);
+                this.components.remove(name);
+                this.modified = true;
+                c.OnRemoved();
+
+                if (!Bridge.staticEquals(this.ComponentRemoved, null)) {
+                    this.ComponentRemoved(c);
+                }
+            }
+
+            return c;
+        }
+    });
+
+    Bridge.define("Swift.ConditionWaiter", {
+        cch: null,
+        ctor: function (handler) {
+            this.$initialize();
+            this.cch = handler;
+        },
+        getFinished: function () {
+            return this.cch();
+        }
+    });
+
+    /**
+     * 核心类
+     *
+     * @public
+     * @class Swift.Core_Logic
+     */
+    Bridge.define("Swift.Core_Logic", {
+        cc: null,
+        config: {
+            init: function () {
+                this.cc = new Swift.ComponentContainer_Logic();
+            }
+        },
+        ctor: function () {
+            this.$initialize();
+        },
+        Add$1: function (name, c) {
+            this.cc.Add$1(name, c);
+        },
+        Add: function (c) {
+            this.cc.Add(c);
+        },
+        Get: function (T) {
+            return this.cc.Get(T);
+        },
+        Gets: function (T) {
+            var lst = this.cc.getAll();
+            var lst2 = new (System.Collections.Generic.List$1(T))();
+            for (var i = 0; i < lst.getCount(); i = (i + 1) | 0) {
+                var c = lst.getItem(i);
+                if (Bridge.is(c, T)) {
+                    lst2.add(Bridge.as(c, T));
+                }
+            }
+            return lst2.toArray();
+        },
+        GetByName: function (T, name) {
+            var c = this.cc.GetByName(name);
+            if (Bridge.is(c, T)) {
+                return Bridge.as(c, T);
+            }
+
+            return null;
+        },
+        GetByName$1: function (name) {
+            return this.cc.GetByName(name);
+        },
+        Remove: function (name) {
+            var lst = this.cc.getAll();
+            for (var i = 0; i < lst.getCount(); i = (i + 1) | 0) {
+                var c = lst.getItem(i);
+                if (Bridge.referenceEquals(c.getName(), name)) {
+                    this.cc.Remove(name);
+                    return;
+                }
+            }
+        },
+        RunOneFrame: function (timeElapsed) {
+            //PerformanceCounter counter = Get<PerformanceCounter>();
+            //bool counterEnabled = counter != null;
+
+            //if (counterEnabled)
+            //{
+            //    counter.Clear();
+            //    counter.StartTag("FrameTotal");
+            //}
+
+            var lst = this.cc.getAll();
+            for (var i = 0; i < lst.getCount(); i = (i + 1) | 0) {
+                var c = lst.getItem(i);
+                //                 if (counterEnabled)
+                //                     counter.StartTag(c.Name);
+
+                if (Bridge.is(c, Swift.IFrameDrived)) {
+                    (Bridge.as(c, Swift.IFrameDrived)).Swift$IFrameDrived$OnTimeElapsed(timeElapsed);
+                }
+
+                //                 if (counterEnabled)
+                //                     counter.EndTag(c.Name);
+            }
+
+            //             if (counterEnabled)
+            //                 counter.EndTag("FrameTotal");
+        },
+        Close: function () {
+            var lst = this.cc.getAll();
+            for (var i = 0; i < lst.getCount(); i = (i + 1) | 0) {
+                lst.getItem(i).Close();
+            }
+        }
+    });
+
+    /**
+     * 协程接口
+     *
+     * @abstract
+     * @public
+     * @class Swift.ICoroutine
+     */
+    Bridge.define("Swift.ICoroutine", {
+        $kind: "interface"
+    });
+
+    Bridge.define("Swift.EventWaiter", {
+        set: false,
+        arst: false,
+        expired: false,
+        interval: 0,
+        t: 0,
+        ctor: function () {
+            Swift.EventWaiter.$ctor2.call(this, false, 0);
+        },
+        $ctor1: function (autoReset) {
+            Swift.EventWaiter.$ctor2.call(this, autoReset, 0);
+        },
+        $ctor2: function (autoReset, timeout) {
+            this.$initialize();
+            this.arst = autoReset;
+            this.interval = timeout;
+            this.t = this.interval;
+        },
+        getExpired: function () {
+            return this.expired;
+        },
+        getIsAutoReset: function () {
+            return this.arst;
+        },
+        getIsSet: function () {
+            return this.set;
+        },
+        TimeElapsed: function (te) {
+            if (this.interval <= 0 || this.expired) {
+                return;
+            }
+
+            this.t = (this.t - te) | 0;
+            this.expired = (this.t <= 0);
+        },
+        Set: function () {
+            this.set = true;
+        },
+        Reset: function () {
+            this.set = false;
+            this.t = this.interval;
+        }
+    });
+
+    Bridge.define("Swift.FrameWaiter", {
+        f: 0,
+        ctor: function (frame) {
+            this.$initialize();
+            this.f = frame;
+        }
+    });
+
+    Bridge.define("Swift.TimeWaiter", {
+        t: 0,
+        ctor: function (time) {
+            this.$initialize();
+            this.t = time;
+        }
+    });
+
+    Bridge.define("Swift.YieldOp", {
+        e: null,
+        firstTime: false,
+        ctor: function (e) {
+            this.$initialize();
+            this.e = e;
+            this.firstTime = true;
+        },
+        Current: function () {
+            if (this.firstTime) {
+                this.firstTime = false;
+                this.v = this.e.next();
+            }
+            return this.v.value;
+        },
+        MoveNext: function () {
+            this.v = this.e.next();
+            return !this.v.done;
+        }
+    });
+
+    Bridge.define("Swift.Agent_Logic", {
+        inherits: [Swift.Component_Logic],
+        agent: null,
+        config: {
+            init: function () {
+                this.agent = new Swift.PortAgent();
+            }
+        },
+        getA: function () {
+            return this.agent;
+        }
+    });
+
+    /**
+     * 协程管理器
+     *
+     * @public
+     * @class Swift.CoroutineManager
+     * @augments Swift.Component
+     * @implements  Swift.IFrameDrived
+     */
+    Bridge.define("Swift.CoroutineManager", {
+        inherits: [Swift.Component,Swift.IFrameDrived],
+        coroutineList: null,
+        removed: null,
+        config: {
+            alias: [
+            "OnTimeElapsed", "Swift$IFrameDrived$OnTimeElapsed"
+            ],
+            init: function () {
+                this.coroutineList = new (System.Collections.Generic.List$1(Swift.CoroutineManager.Coroutine))();
+                this.removed = new (System.Collections.Generic.List$1(Swift.CoroutineManager.Coroutine))();
+            }
+        },
+        Stop: function (c) {
+            this.coroutineList.remove(Bridge.cast(c, Swift.CoroutineManager.Coroutine));
+        },
+        Start: function (e) {
+            return this.StartCoroutineInternal(e, false);
+        },
+        StartCoroutineInternal: function (e, runImmediately) {
+            var c = new Swift.CoroutineManager.Coroutine(e);
+            this.coroutineList.add(c);
+
+            if (runImmediately) {
+                c.Next(0);
+            }
+
+            return c;
+        },
+        OnTimeElapsed: function (te) {
+            var $t, $t1;
+            this.removed.clear();
+
+            // 推动每个协程
+            var list = this.coroutineList.toArray();
+            $t = Bridge.getEnumerator(list);
+            while ($t.moveNext()) {
+                var c = $t.getCurrent();
+                if (this.removed.contains(c)) {
+                    continue;
+                }
+
+                if (!c.getFinished()) {
+                    c.Next(te);
+                }
+
+                if (c.getFinished()) {
+                    this.removed.add(c);
+                }
+            }
+
+            // 把该移除的移除
+            $t1 = Bridge.getEnumerator(this.removed);
+            while ($t1.moveNext()) {
+                var c1 = $t1.getCurrent();
+                this.coroutineList.remove(c1);
+            }
+        }
+    });
+
+    /**
+     * 协程
+     *
+     * @private
+     * @class Swift.CoroutineManager.Coroutine
+     * @implements  Swift.ICoroutine
+     */
+    Bridge.define("Swift.CoroutineManager.Coroutine", {
+        inherits: [Swift.ICoroutine],
+        op: null,
+        finished: false,
+        C: null,
+        firstTime: true,
+        config: {
+            alias: [
+            "getFinished", "Swift$ICoroutine$getFinished",
+            "setFinished", "Swift$ICoroutine$setFinished"
+            ]
+        },
+        ctor: function (enumerator) {
+            this.$initialize();
+            //e = enumerator;
+            this.op = new Swift.YieldOp(enumerator);
+        },
+        getFinished: function () {
+            return this.finished;
+        },
+        setFinished: function (value) {
+            this.finished = value;
+        },
+        Next: function (te) {
+            this.C = this.op.Current();
+
+            if ((Bridge.is(this.C, Swift.TimeWaiter)) && Bridge.cast(this.C, Swift.TimeWaiter).t > 0) {
+                Bridge.cast(this.C, Swift.TimeWaiter).t = (Bridge.cast(this.C, Swift.TimeWaiter).t - te) | 0;
+            } else {
+                if ((Bridge.is(this.C, Swift.FrameWaiter)) && Bridge.cast(this.C, Swift.FrameWaiter).f > 0) {
+                    Bridge.cast(this.C, Swift.FrameWaiter).f = (Bridge.cast(this.C, Swift.FrameWaiter).f - 1) | 0;
+                } else {
+                    if ((Bridge.is(this.C, Swift.ConditionWaiter)) && !Bridge.cast(this.C, Swift.ConditionWaiter).getFinished()) {
+                        return;
+                    } else {
+                        if (Bridge.is(this.C, Swift.EventWaiter)) {
+                            var ew = Bridge.cast(this.C, Swift.EventWaiter);
+                            if (!ew.getIsSet() && !ew.getExpired()) {
+                                ew.TimeElapsed(te);
+                                return;
+                            } else {
+                                this.finished = !this.op.MoveNext();
+                                if (ew.getIsAutoReset()) {
+                                    ew.Reset();
+                                }
+                            }
+                        } else if ((Bridge.is(this.C, Swift.CoroutineManager.Coroutine)) && !Bridge.cast(this.C, Swift.CoroutineManager.Coroutine).getFinished()) {
+                            return;
+                        } else {
+                            this.finished = !this.op.MoveNext();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    Bridge.define("Swift.CoroutineWaiter", {
+        inherits: [Swift.ConditionWaiter],
+        ctor: function (coroutine) {
+            this.$initialize();
+            Swift.ConditionWaiter.ctor.call(this, function () {
+                return coroutine.Swift$ICoroutine$getFinished();
+            });
         }
     });
 });

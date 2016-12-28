@@ -205,6 +205,26 @@ namespace jsb
             return false;
         }
 
+        static bool TypeIsPtr(Type type)
+        {
+            Type t = type;
+            while (true)
+            {
+                if (t.IsPointer)
+                    return true;
+
+                if (t == typeof(System.IntPtr))
+                    return true;
+
+                else if (t.HasElementType)
+                    t = t.GetElementType();
+
+                else
+                    break;
+            }
+            return false;
+        }
+
         public static ATypeInfo CreateTypeInfo(Type type)
         {
             ATypeInfo ti = new ATypeInfo();
@@ -301,6 +321,7 @@ namespace jsb
 
                 // Skip Obsolete
                 if (IsMemberObsolete(pro) ||
+                    TypeIsPtr(pro.PropertyType) ||
                     JSBindingSettings.IsDiscard(type, pro)
                     )
                 {
@@ -402,27 +423,24 @@ namespace jsb
                     continue;
                 }
 
+                if (TypeIsPtr(method.ReturnType))
+                {
+                    Debug.Log(type.Name + "." + method.Name + " 忽略，因为返回值类型是 IntPtr");
+                    infoEx.Ignored = true;
+                    continue;
+                }
+
                 // 是否有 unsafe 的参数？
                 bDiscard = false;
                 ps = method.GetParameters();
                 for (var k = 0; k < ps.Length; k++)
                 {
                     Type pt = ps[k].ParameterType;
-                    while (true)
+                    if (TypeIsPtr(pt))
                     {
-                        if (pt.IsPointer)
-                        {
-                            bDiscard = true;
-                            break;
-                        }
-                        else if (pt.HasElementType)
-                            pt = pt.GetElementType();
-                        else
-                            break;
-                    }
-
-                    if (bDiscard)
+                        bDiscard = true;
                         break;
+                    }
                 }
                 if (bDiscard)
                 {

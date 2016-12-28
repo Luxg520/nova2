@@ -30,12 +30,36 @@ namespace jsb
 	    public static Type[] classes = new Type[]
 	    {
             typeof(EditorEnv),
-#region iTween
+
+            #region Swift
+
+            typeof(Swift.Component),
+            typeof(Swift.Core),
+            typeof(Swift.NetComponent),
+            typeof(Swift.NetComponentAgent),
+            typeof(Swift.PortAgent),
+            typeof(Swift.Port),
+            typeof(Swift.ComponentContainer),
+            typeof(Swift.NetConnection),
+            typeof(Swift.NetCore),
+            typeof(Swift.Connection),
+            typeof(Swift.NetUtils),
+            typeof(Swift.Peer),
+            typeof(Swift.RingBuffer),
+            typeof(Swift.Responser),
+            typeof(Swift.WriteBuffer),
+
+            #endregion
+
+
+            #region iTween
+
             typeof(iTween),
             typeof(iTweenRoot),
             typeof(iTweenPath),
             typeof(iTweenX),
-#endregion
+
+            #endregion
 
             typeof(UnityEngine.UI.GridLayoutGroup),
 			typeof(UnityEngine.UI.Text),

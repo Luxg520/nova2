@@ -30,9 +30,10 @@ namespace jsb.Test.Logic
                 if (c >= 4)
                     yield break;
             }
-
-			// JS 会打印这句，这是因为 yield break 不支持
+#pragma warning disable 162
+            // JS 会打印这句，这是因为 yield break 不支持
             print("end of Co");
+#pragma warning restore 162
         }
     }
 }

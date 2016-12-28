@@ -27,7 +27,7 @@ public class GameDriver : MonoBehaviour
 
     void FixedUpdate()
     {
-        //int te = (int)(Time.fixedDeltaTime * 1000);
-        //GameCore.Instance.OnTimeElapsed(te);
+        int te = (int)(Time.fixedDeltaTime * 1000);
+        GameCore.Instance.OnTimeElapsed(te);
     }
 }
