@@ -47,19 +47,9 @@ namespace Swift
                 if (modified)
                 {
                     lstComponents.Clear();
-
-                    var ie = components.GetEnumerator();
-                    try 
+                    foreach (var KV in components)
                     {
-                        while (ie.MoveNext())
-                        {
-                            var KV = ie.Current;
-                            lstComponents.Add(KV.Value);
-                        }
-                    }
-                    finally
-                    {
-                        ie.Dispose();
+                        lstComponents.Add(KV.Value);
                     }
                     modified = false;
                 }

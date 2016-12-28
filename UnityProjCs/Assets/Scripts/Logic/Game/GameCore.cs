@@ -20,11 +20,11 @@ public class GameCore
         AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
 
         // 显示登录界面
-        //         GameObject prefab = (GameObject)EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab");
-        //         GameObject go = (GameObject)UnityEngine.Object.Instantiate(prefab);
-        //         Transform uiCanvas = GameObject.Find("Root/UICanvas").transform;
-        //         go.transform.SetParent(uiCanvas, false);
-        //         go.AddComponent<LoginUI>();
+        UnityEngine.GameObject prefab = (UnityEngine.GameObject)EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab");
+        UnityEngine.GameObject go = (UnityEngine.GameObject)UnityEngine.Object.Instantiate(prefab);
+        UnityEngine.Transform uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").transform;
+        go.transform.SetParent(uiCanvas, false);
+        go.AddComponent<LoginUI>();
     }
 
     // 连接服务器
