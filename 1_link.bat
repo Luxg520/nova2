@@ -13,4 +13,6 @@ junction UnityProjJs\Assets\AssetBundles UnityProjCs\Assets\AssetBundles
 junction BridgeProj\Logic UnityProjCs\Assets\Scripts\Logic
 junction BridgeProj\Logic_Common Common\Logic_Common
 
+junction Server\Server\Common Common
+
 pause

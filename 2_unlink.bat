@@ -13,4 +13,6 @@ junction -d UnityProjJs\Assets\AssetBundles
 junction -d BridgeProj\Logic
 junction -d BridgeProj\Logic_Common
 
+junction -d Server\Server\Common
+
 pause
