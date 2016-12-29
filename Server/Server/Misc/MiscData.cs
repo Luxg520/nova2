@@ -5,7 +5,7 @@ using Swift;
 
 namespace Server
 {
-    public class MiscData : DataItem<int>, ISerializable
+    public class MiscData : DataItem<int>//, ISerializable
     {
         public MiscData(MiscDataType id)
             : base((int)id)

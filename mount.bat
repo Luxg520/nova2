@@ -2,8 +2,6 @@ junction ClientCs\Assets\Scripts\Framework_Common Common\Framework_Common
 junction ClientCs\Assets\Scripts\Logic_Common Common\Logic_Common
 
 junction ClientJs\Assets\Scripts\Framework_Common Common\Framework_Common
-junction ClientJs\Assets\Scripts\Logic_Common Common\Logic_Common
-
 junction ClientJs\Assets\Scripts\Framework ClientCs\Assets\Scripts\Framework
 
 junction ClientJs\Assets\GameIcon ClientCs\Assets\GameIcon

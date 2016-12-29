@@ -125,31 +125,7 @@ namespace Server
                     func.Add(new Func<object>(() => { return SC == null ? "null" : "sc count=" + SC.Count.ToString(); }));
                     break;
                 default:
-                    if (cmd.StartsWith("dump_user"))
-                    {
-                        string[] arr = cmd.Split(' ');
-                        if (arr.Length != 3)
-                        {
-                            Console.WriteLine("Usage: dump_user id suffix");
-                            return;
-                        }
-                        string userId = arr[1];
-                        func.Add(new Func<object>(() =>
-                        {
-                            User user = UC.Get(userId);
-                            if (user == null || user.Info == null)
-                                return "s == null || s.User == null || s.User.Info == null";
-
-                            string suffix = arr[2];
-
-                            WriteBuffer wb = new WriteBuffer();
-                            user.Info.Serialize(wb);
-                            Directory.CreateDirectory("dump_user");
-                            File.WriteAllBytes("dump_user\\" + userId + "_" + suffix + ".dat", wb.Data);
-                            return "ok";
-                        }));
-                    }
-                    else if (cmd.StartsWith("unmount com "))
+                    if (cmd.StartsWith("unmount com "))
                     {
                         string com = cmd.Substring("unmount com ".Length);
                         func.Add(new Func<object>(() => { Unmount(com); return null; }));

@@ -77,14 +77,10 @@
     <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetUtils.cs" />
     <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\Peer.cs" />
     <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\Port.cs" />
-    <Compile Include="Common\Logic_Common\BufferExtension.cs" />
-    <Compile Include="Common\Logic_Common\ISerializable.cs" />
     <Compile Include="Common\Logic_Common\ReasonEnums.cs" />
-    <Compile Include="Common\Logic_Common\SerializableData.cs" />
     <Compile Include="Common\Logic_Common\SwiftIOSCompatible\Components\CoroutineManager.cs" />
     <Compile Include="Common\Logic_Common\TimeMgr.cs" />
     <Compile Include="Common\Logic_Common\User\UserInfo.cs" />
-    <Compile Include="Common\Logic_Common\User\UserInfoEnums.cs" />
     <Compile Include="Common\Logic_Common\Utils2.cs" />
     <Compile Include="Common\Logic_Common\X.cs" />
     <Compile Include="Console\NovaConsole.cs" />

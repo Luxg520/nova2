@@ -256,7 +256,8 @@ namespace Server
             buff.Write((int)ReasonEnums.Ok);
 
             // UserInfo
-            usr.Info.Serialize(buff);
+            // TODO
+            // usr.Info.Serialize(buff);
 
             // 时间信息
             // 这个数据最好是紧跟着 userInfo 过去，而不是额外的 NetUtils.Send

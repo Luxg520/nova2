@@ -2,8 +2,6 @@ junction -d ClientCs\Assets\Scripts\Framework_Common
 junction -d ClientCs\Assets\Scripts\Logic_Common
 
 junction -d ClientJs\Assets\Scripts\Framework_Common
-junction -d ClientJs\Assets\Scripts\Logic_Common
-
 junction -d ClientJs\Assets\Scripts\Framework
 
 junction -d ClientJs\Assets\GameIcon

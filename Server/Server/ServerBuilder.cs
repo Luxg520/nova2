@@ -41,13 +41,15 @@ namespace Server
                 , new string[] { "Name", "Level", },
                 (User usr, IWriteableBuffer buff) =>
                 {
-                    buff.Write(usr.Info);
+                    // TODO
+                    // buff.Write(usr.Info);
                 }, (IReadableBuffer data) =>
                 {
                     if (data == null)
                         return null;
 
-                    UserInfo info = data.Read<UserInfo>();
+                    // TODO
+                    UserInfo info = null;// data.Read<UserInfo>();
                     User usr = new User(info);
                     return usr;
                 }, (User usr, string col) =>

@@ -79,8 +79,8 @@ namespace Swift
         void Write(char[] v);
         void Write(string v);
         void Write(string[] v);
-        void Write(ISerializable v);
-        void Write(ISerializable[] v);
+        //void Write(ISerializable v);
+        //void Write(ISerializable[] v);
     }
 
     // 可保留空间的缓冲区

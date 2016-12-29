@@ -250,28 +250,28 @@ namespace Swift
             }
         }
 
-        public void Write(ISerializable v)
-        {
-            if (v == null)
-                Write(false);
-            else
-            {
-                Write(true);
-                v.Serialize(this);
-            }
-        }
+        //public void Write(ISerializable v)
+        //{
+        //    if (v == null)
+        //        Write(false);
+        //    else
+        //    {
+        //        Write(true);
+        //        v.Serialize(this);
+        //    }
+        //}
 
-        public void Write(ISerializable[] arr)
-        {
-            if (arr == null)
-                Write(-1);
-            else
-            {
-                Write(arr.Length);
-                for (int i = 0; i < arr.Length; i++)
-                    Write(arr[i]);
-            }
-        }
+        //public void Write(ISerializable[] arr)
+        //{
+        //    if (arr == null)
+        //        Write(-1);
+        //    else
+        //    {
+        //        Write(arr.Length);
+        //        for (int i = 0; i < arr.Length; i++)
+        //            Write(arr[i]);
+        //    }
+        //}
 
         #endregion
 
