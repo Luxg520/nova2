@@ -32,8 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>Libs\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="mysql.data">
+      <HintPath>Libs\mysql.data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Libs\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +50,75 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\IBuffer.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\Interfaces.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\ISerializable.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\RingBuffer.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\Utils1.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Common\WriteBuffer.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Components\CsScriptShellIOS.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Components\DynamicIOS.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Components\FileMonitor.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Core\Component.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Core\ComponentContainer.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Core\Core.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetComponent.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetConnection.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetCore.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetUtils.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\Peer.cs" />
+    <Compile Include="Common\Framework_Common\SwiftIOSCompatible\Net\Port.cs" />
+    <Compile Include="Common\Logic_Common\SwiftIOSCompatible\Components\CoroutineManager.cs" />
+    <Compile Include="Common\Logic_Common\TimeMgr.cs" />
+    <Compile Include="Common\Logic_Common\Utils2.cs" />
+    <Compile Include="Common\Logic_Common\X.cs" />
+    <Compile Include="LaunchWaitList.cs" />
+    <Compile Include="Log\ServerBusinessLogger.cs" />
+    <Compile Include="Log\ServerBusinessLogger2Combine.cs" />
+    <Compile Include="Log\ServerLogger.cs" />
+    <Compile Include="Misc\MiscContainer.cs" />
+    <Compile Include="Misc\MiscData.cs" />
+    <Compile Include="MySql\DataPersistence.cs" />
+    <Compile Include="MySql\MySqlPersistence.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Swift\Common\CsScriptShell.cs" />
+    <Compile Include="Swift\Common\Dynamic.cs" />
+    <Compile Include="Swift\Common\DynamicScriptProvider.cs" />
+    <Compile Include="Swift\Storage\CachedAsyncPersistence.cs" />
+    <Compile Include="Swift\Storage\DataContainer.cs" />
+    <Compile Include="Swift\Storage\DataItem.cs" />
+    <Compile Include="Swift\Storage\IAsyncPersistence.cs" />
+    <Compile Include="Swift\Storage\SqlDbPersistence.cs" />
+    <Compile Include="TimeMgr.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\IBuffer.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\Interfaces.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\ISerializable.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\RingBuffer.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\Utils1.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Common\WriteBuffer.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Components.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Components\CsScriptShellIOS.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Components\DynamicIOS.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Components\FileMonitor.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Core.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Core\Component.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Core\ComponentContainer.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Core\Core.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetComponent.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetConnection.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetCore.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\NetUtils.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\Peer.cs.meta" />
+    <None Include="Common\Framework_Common\SwiftIOSCompatible\Net\Port.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
