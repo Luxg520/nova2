@@ -49,6 +49,7 @@ namespace jsb
             typeof(Swift.RingBuffer),
             typeof(Swift.Responser),
             typeof(Swift.WriteBuffer),
+            typeof(Swift.Utils1),
 
             #endregion
 
@@ -63,6 +64,8 @@ namespace jsb
 
             #endregion
 
+            typeof(UnityEngine.SystemInfo),
+            typeof(UnityEngine.UI.RawImage),
             typeof(UnityEngine.UI.ColorBlock),
 
             typeof(UnityEngine.UI.GridLayoutGroup),
