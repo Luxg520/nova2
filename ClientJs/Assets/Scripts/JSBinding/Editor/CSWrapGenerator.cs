@@ -579,6 +579,8 @@ namespace jsb
                     //    sb.Append("abstract ");
                     //else if (type.IsSealed)
                     //    sb.Append("sealed ");
+
+                    //if (type.is)
                 }
 
                 if (type.IsInterface)

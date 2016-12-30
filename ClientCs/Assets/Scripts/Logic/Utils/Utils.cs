@@ -7,7 +7,7 @@ using Swift;
 namespace Nova
 {
 	// 扩展一些客户端用的方法
-	public class Utils : Utils2
+	public class Utils
 	{
 		// 系统内存，按 m 计算
 		public static int SystemMemSize

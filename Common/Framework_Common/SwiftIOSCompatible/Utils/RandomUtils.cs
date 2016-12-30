@@ -10,134 +10,8 @@ namespace Swift
     /// <summary>
     /// 工具类
     /// </summary>
-    public class Utils1
+    public class RandomUtils
     {
-        // 当前本地时间（毫秒）
-        public static long Now
-        {
-            get
-            {
-                return DateTime.Now.Ticks / 10000;
-            }
-        }
-
-        // 当前本地日期
-        public static DateTime NowDate
-        {
-            get
-            {
-                return DateTime.Now;
-            }
-        }
-
-        // 当前本地时间（毫秒）
-        public static long NowSecond
-        {
-            get
-            {
-                return DateTime.Now.Ticks / 10000000;
-            }
-        }
-
-        // 判断2个日期间隔几天，同一天返回0
-        // OnHours：以几点为界
-        // 注意：可能返回负数，如果想得到正数，dt2要比dt1大！
-        public static int DaysBetweenTwoDateTime(DateTime dt1, DateTime dt2, int OnHours)
-        {
-            dt1 = dt1.AddHours(24 - OnHours);
-            dt2 = dt2.AddHours(24 - OnHours);
-
-            DateTime DT1 = new DateTime(dt1.Year, dt1.Month, dt1.Day);
-            DateTime DT2 = new DateTime(dt2.Year, dt2.Month, dt2.Day);
-
-            TimeSpan span = DT2.Subtract(DT1);
-            return span.Days;
-        }
-
-        public static bool IsDifferentDay_0Oclock(DateTime dt1, DateTime dt2)
-        {
-            return IsDifferentDay_OnClock(dt1, dt2, 0);
-        }
-
-        // 是否跨天，以早上5点为界
-        public static bool IsDifferentDay_5OClock(DateTime dt1, DateTime dt2)
-        {
-            return IsDifferentDay_OnClock(dt1, dt2, 5);
-        }
-
-        // 是否跨周(OnHours=0以周日24点为界限)
-        public static bool IsDifferentWeek(DateTime dt1, DateTime dt2, int OnHours)
-        {
-            int days = DaysBetweenTwoDateTime(dt1, dt2, OnHours);
-            dt1 = dt1.AddHours(-OnHours);
-            for (int i = 0; i < days + 1; i++)
-			{
-                if (dt1.DayOfWeek == DayOfWeek.Monday)
-                {
-                    return true;
-                }
-                dt1 = dt1.AddDays(1);
-			}
-
-            return false;
-        }
-
-        // 是否跨天，以一天中的指定时间为准（24 小时制度）
-        public static bool IsDifferentDay_OnClock(DateTime dt1, DateTime dt2, int OnHours)
-        {
-            DateTime DT1 = dt1.AddHours(24 - OnHours);
-            DateTime DT2 = dt2.AddHours(24 - OnHours);
-
-            return (DT1.Day != DT2.Day || DT1.Month != DT2.Month || DT1.Year != DT2.Year);
-        }
-
-        // 是否跨天，以一天中的指定时间为准（24 小时制度）
-        public static bool IsDifferentDay_OnClock(DateTime dt1, DateTime dt2, int OnHours, int OnMin)
-        {
-            DateTime DT1 = dt1.AddMinutes(60 - OnMin);
-            DateTime DT2 = dt1.AddMinutes(60 - OnMin);
-            DT1 = dt1.AddHours(24 - OnHours - 1);
-            DT2 = dt2.AddHours(24 - OnHours - 1);
-
-            return (DT1.Day != DT2.Day || DT1.Month != DT2.Month || DT1.Year != DT2.Year);
-        }
-
-        // 判断两个日期是否在同一周
-        public static bool IsInSameWeek(DateTime dtmS, DateTime dtmE)
-        {
-            TimeSpan ts = dtmE - dtmS;
-            double dbl = ts.TotalDays;
-            int intDow = Convert.ToInt32(dtmE.DayOfWeek);
-            if (intDow == 0) intDow = 7;
-            if (dbl >= 7 || dbl >= intDow) return false;
-            else return true;
-        } 
-
-        // 计算一个 hash 字符串
-        public static string MD5(string src)
-        {
-            byte[] data = Encoding.UTF8.GetBytes(src);
-            byte[] code = p.ComputeHash(data);
-            string r = "";
-            foreach (byte b in code)
-                r += b;
-
-            return r;
-        }
-        // 计算一个 hash 字符串
-        // 返回值是32位字符串，每个字符是一个16进制数
-        public static string MD5Hex(string src)
-        {
-            byte[] data = Encoding.UTF8.GetBytes(src);
-            byte[] code = p.ComputeHash(data);
-
-            StringBuilder sb = new StringBuilder();
-            foreach (var c in code)
-                sb.Append(c.ToString("x2"));
-
-            return sb.ToString();
-        }
-
         // 获取一个不重复的随机字符串
         public static string GetRandomString(string prefix)
         {
@@ -145,6 +19,39 @@ namespace Swift
                 return prefix + r.Next(0, int.MaxValue) + seq++;
             else
                 return r.Next(0, int.MaxValue).ToString() + seq++;
+        }
+
+
+        // 从一个数组中随机一个，数组中装的是每一个元素的概率
+        // 返回索引
+        // 比如 RandomOne([80, 15, 4, 1]);
+        // 80% 返回 0
+        // 15% 返回 1
+        // 4% 返回 2
+        // 1% 返回 3
+        public static int RandomOne(int[] arr)
+        {
+            return RandomOne(arr.Length, (i) => arr[i]);
+        }
+        static int RandomOne(int L, Func<int, int> funGetProbability)
+        {
+            int sum = 0;
+
+            // 先把掉落组里的数值全部加起来，一会做随机
+            for (int i = 0; i < L; i++)
+                sum += funGetProbability(i);
+
+            int res = RandomUtils.Random(0, sum);
+            int r = 0;
+            for (int i = 0; i < L; i++)
+            {
+                r += funGetProbability(i);
+                if (res < r)
+                    return i;
+            }
+
+            // 不会走到这里！
+            throw new Exception("Shouldn't reach here");
         }
 
         // 获取一个随机数，默认区间
@@ -179,6 +86,13 @@ namespace Swift
             if (r == 0) return false;
             if (r == 10000) return true;
             return RandomNext(1, 10001) <= r;
+        }
+
+
+        // 获取随机数，区间为 [min, max)
+        public static int Random(int min, int max)
+        {
+            return r.Next(min, max);
         }
 
         // 获取 n 个不重复的随机数，区间为 [min, max)
@@ -260,70 +174,6 @@ namespace Swift
                 return r.NextDouble() <= ratio;
         }
 
-        // RLE 压缩
-        public static void RLECode<T>(List<T> buff, List<int> counter, T[] data) where T : struct
-        {
-            if (data.Length == 0)
-                return;
-
-            if (buff.Count == 0)
-            {
-                buff.Add(data[0]);
-                counter.Add(0);
-            }
-
-            T last = buff[buff.Count - 1];
-
-            foreach (T cur in data)
-            {
-                if (!last.Equals(cur))
-                {
-                    buff.Add(cur);
-                    counter.Add(1);
-                    last = cur;
-                }
-                else
-                    counter[counter.Count - 1]++;
-            }
-
-            Debug.Assert(buff.Count == counter.Count);
-        }
-
-        // RLE 解压
-        public static void RLEDecode<T>(T[] buff, int[] counter, List<T> data) where T : struct
-        {
-            if (buff.Length == 0)
-                return;
-
-            for (int i = 0; i < buff.Length; i++)
-            {
-                T d = buff[i];
-                for (int j = 0; j < counter[i]; j++)
-                    data.Add(d);
-            }
-
-            Debug.Assert(buff.Length == counter.Length);
-        }
-
-        // RLE 不解压访问
-        public static T RLEVisit<T>(T[] buff, int[] counter, int index) where T : struct
-        {
-            if (index < 0)
-                throw new Exception("index should be positive");
-
-            int i = 0;
-            while (counter[i] < index && counter.Count() < i)
-            {
-                index -= counter[i];
-                i++;
-            }
-
-            if (i >= counter.Count())
-                throw new Exception("index overflow");
-
-            return buff[i];
-        }
-
 		// 选取给定数据的最大一个
 		public static T Max<T>(params T[] arr)
 		{
@@ -399,9 +249,6 @@ namespace Swift
         // 随机种子
         public static Random r = new Random();
 
-        // md5 加密器
-        static MD5CryptoServiceProvider p = new MD5CryptoServiceProvider();
-
         #endregion
     }
 
@@ -471,7 +318,7 @@ namespace Swift
         {
             for (int i = 0; i < arr.Length; i++)
             {
-                int n = Utils1.RandomNext(i, arr.Length);
+                int n = RandomUtils.RandomNext(i, arr.Length);
                 T tmp = arr[n];
                 arr[n] = arr[i];
                 arr[i] = tmp;
@@ -484,7 +331,7 @@ namespace Swift
         {
             for (int i = 0; i < lst.Count; i++)
             {
-                int n = Utils1.RandomNext(i, lst.Count);
+                int n = RandomUtils.RandomNext(i, lst.Count);
                 T tmp = lst[n];
                 lst[n] = lst[i];
                 lst[i] = tmp;

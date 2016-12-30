@@ -28,6 +28,7 @@ public class LoginUI : MonoBehaviour
     }
     void OnLoginClick()
     {
+        //Nova.Utils.Md5
         print("Login!");
     }
 }
