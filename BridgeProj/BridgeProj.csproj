@@ -68,6 +68,7 @@
     <Error Condition="!Exists('packages\Bridge.Min.15.3.0\build\Bridge.Min.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Bridge.Min.15.3.0\build\Bridge.Min.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)UpdateJavaScript.exe $(ProjectDir)Bridge\output\$(ProjectName).js $(ProjectDir)..\ClientJs\Assets\StreamingAssets\JavaScript\Gen2.javascript</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
