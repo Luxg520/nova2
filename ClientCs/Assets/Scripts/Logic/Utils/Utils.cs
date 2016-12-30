@@ -7,7 +7,7 @@ using Swift;
 namespace Nova
 {
 	// 扩展一些客户端用的方法
-	public class Utils
+	public static class Utils
 	{
 		// 系统内存，按 m 计算
 		public static int SystemMemSize
@@ -99,12 +99,17 @@ namespace Nova
 
         public static void AddUIChild(Transform parent, GameObject child)
         {
-            // http://docs.unity3d.com/Manual/HOWTO-UICreateFromScripting.html
-            child.transform.SetParent(parent, false);
+            AddUIChild(parent, child.transform);
         }
 
-		// 处理所有直接子节点
-		public static void ProcessAllChildren(Transform p, Action<GameObject> d)
+        public static void AddUIChild(Transform parent, Transform child)
+        {
+            // http://docs.unity3d.com/Manual/HOWTO-UICreateFromScripting.html
+            child.SetParent(parent, false);
+        }
+
+        // 处理所有直接子节点
+        public static void ProcessAllChildren(Transform p, Action<GameObject> d)
 		{
 			for (int i = 0; i < p.childCount; i++)
 				d(p.GetChild(i).gameObject);
@@ -178,5 +183,13 @@ namespace Nova
 			foreach (T e in lst)
 				fun(e);
 		}
-	}
+        
+        const string Clone = "(Clone)";
+        public static void EraseNameClone(this GameObject go)
+        {
+            string n = go.name;
+            if (n.EndsWith(Clone))
+                go.name = n.Substring(0, n.Length - Clone.Length);
+        }
+    }
 }

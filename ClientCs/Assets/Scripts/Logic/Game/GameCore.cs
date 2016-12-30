@@ -4,10 +4,18 @@ using Swift;
 /// <summary>
 /// 客户端游戏核心对象，引用所有逻辑模块并负责主要驱动
 /// </summary>
-public class GameCore
+public class GameCore : ObjSingleton<GameCore>
 {
-    public static GameCore Instance { get { return inst; } }
-    static GameCore inst = new GameCore();    
+//     static GameCore instance = null;
+//     public static GameCore Instance
+//     {
+//         get
+//         {
+//             if (instance == null)
+//                 instance = new GameCore();
+//             return instance;
+//         }
+//     }
 
     void AddAgent(Agent_Logic agent, string comName, string serverComName)
     {
@@ -15,16 +23,24 @@ public class GameCore
         core_Logic.Add(comName, agent);
     }
 
-    public void Init()
+    void InitAgents()
     {
         AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
+    }
+
+    public void Init()
+    {
+        // iTweenRoot
+        new UnityEngine.GameObject("iTweenRoot").AddComponent<iTweenRoot>();
+
+        UIManager.Instance.ShowUI<LoginUI>(UIType.LoginUI, UILayer.Game);
 
         // 显示登录界面
-        UnityEngine.GameObject prefab = (UnityEngine.GameObject)EditorEnv.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/LoginUI.prefab");
-        UnityEngine.GameObject go = (UnityEngine.GameObject)UnityEngine.Object.Instantiate(prefab);
-        UnityEngine.Transform uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").transform;
-        go.transform.SetParent(uiCanvas, false);
-        go.AddComponent<LoginUI>();
+//         UnityEngine.GameObject prefab = (UnityEngine.GameObject)ResourceManager.Instance.Load("Assets/AssetBundles/Prefabs/LoginUI.prefab");
+//         UnityEngine.GameObject go = (UnityEngine.GameObject)UnityEngine.Object.Instantiate(prefab);
+//         UnityEngine.Transform uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").transform;
+//         go.transform.SetParent(uiCanvas, false);
+//         go.AddComponent<LoginUI>();
     }
 
     // 连接服务器

@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class LoginUI : MonoBehaviour
+public class LoginUI : UIBase
 {
-    void Awake()
+    protected override void Awake()
     {
         Button btn = transform.FindChild("EnterGameBtn").GetComponent<Button>();
         btn.onClick.AddListener(this.OnLoginClick);
@@ -26,9 +26,9 @@ public class LoginUI : MonoBehaviour
             btn.colors = clrs;
         }).Start();
     }
+
     void OnLoginClick()
     {
-        //Nova.Utils.Md5
         print("Login!");
     }
 }
