@@ -124,7 +124,7 @@ namespace Nova
                 }
             }
 
-            throw new Exception($"CalcVectorArc overflow: {vx}, {vy}");
+            throw new Exception("CalcVectorArc overflow: " + vx + ", " + vy);
         }
     }
 }

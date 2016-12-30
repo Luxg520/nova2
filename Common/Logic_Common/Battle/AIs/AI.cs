@@ -6,9 +6,9 @@ namespace Nova
     /// </summary>
     public class AI
     {
-        public Actor Owner { get; set; } = null; // AI 所有者
+        public Actor Owner { get; set; } // AI 所有者
 
-        public bool Enabled { get; set; } = false; // 是否已启用
+        public bool Enabled { get; set; } // 是否已启用
 
         public AI()
         {

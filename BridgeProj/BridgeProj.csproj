@@ -48,7 +48,6 @@
     <Compile Include="Logic_Common\TimeMgr.cs" />
     <Compile Include="Logic_Common\User\UserInfo.cs" />
     <Compile Include="Logic_Common\Utils\SortUtils.cs" />
-    <Compile Include="Logic_Common\X.cs" />
     <Compile Include="Logic_Common\Utils\MathUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

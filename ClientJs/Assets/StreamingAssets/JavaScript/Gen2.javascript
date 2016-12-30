@@ -2342,15 +2342,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("ResourceManagerLocal", {
-        inherits: function () { return [ObjSingleton$1(ResourceManagerLocal)]; },
-        Load: function (path, cb) {
-            if (!Bridge.staticEquals(cb, null)) {
-                cb(null);
-            }
-        }
-    });
-
     /**
      * 普通攻击
      *
@@ -2452,6 +2443,15 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             // 更新位置
             this.getOwner().setPx(x.v);
             this.getOwner().setPy(y.v);
+        }
+    });
+
+    Bridge.define("ResourceManagerLocal", {
+        inherits: function () { return [ObjSingleton$1(ResourceManagerLocal)]; },
+        Load: function (path, cb) {
+            if (!Bridge.staticEquals(cb, null)) {
+                cb(null);
+            }
         }
     });
 
@@ -2918,6 +2918,10 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         Update: function () {
             this.OnUpdate(UnityEngine.Time.getdeltaTime());
         }
+    });
+
+    Bridge.define("TestBattle", {
+        inherits: [UnityEngine.MonoBehaviour]
     });
 
     Bridge.define("UIManager", {
