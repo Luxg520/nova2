@@ -5,7 +5,7 @@ using Swift;
 
 namespace Nova
 {
-	public class Utils2 : Swift.Utils1
+	public class SortUtils
 	{
 		// 冒泡排序，升序
 		public static void OrderBy<T>(T[] data, Func<T, T, bool> lessOrEqual)
@@ -23,45 +23,6 @@ namespace Nova
 					}
 				}
 			}
-		}
-
-        // 获取随机数，区间为 [min, max)
-        public static int Random(int min, int max)
-        {
-            return r.Next(min, max);
-        }
-
-
-		// 从一个数组中随机一个，数组中装的是每一个元素的概率
-		// 返回索引
-		// 比如 RandomOne([80, 15, 4, 1]);
-		// 80% 返回 0
-		// 15% 返回 1
-		// 4% 返回 2
-		// 1% 返回 3
-		public static int RandomOne(int[] arr)
-		{
-			return RandomOne(arr.Length, (i) => arr[i]);
-		}
-		public static int RandomOne(int L, Func<int, int> funGetProbability)
-		{
-			int sum = 0;
-			
-			// 先把掉落组里的数值全部加起来，一会做随机
-			for (int i = 0; i < L; i++)
-				sum += funGetProbability(i);
-			
-			int res = Utils.Random(0, sum);
-			int r = 0;
-			for (int i = 0; i < L; i++)
-			{
-				r += funGetProbability(i);
-				if (res < r)
-					return i;
-			}
-
-			// 不会走到这里！
-            throw new Exception("Shouldn't reach here");
 		}
 
         // 对列表中元素逐项转换

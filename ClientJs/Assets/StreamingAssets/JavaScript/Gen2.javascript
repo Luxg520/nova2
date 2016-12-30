@@ -1021,6 +1021,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         dy: System.Int64(0),
         speed: System.Int64(0),
         skills: null,
+        ais: null,
         config: {
             properties: {
                 state: 0,
@@ -1030,6 +1031,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             },
             init: function () {
                 this.skills = new (System.Collections.Generic.Dictionary$2(System.Int32,Nova.Skill))();
+                this.ais = new (System.Collections.Generic.List$1(Nova.AI))();
             }
         },
         getPx: function () {
@@ -1094,7 +1096,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                     }
                 }
 
-                ss.sort($_.Nova.Actor.f1);
                 return ss.toArray();
             }
         },
@@ -1111,16 +1112,46 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             }
 
             return s;
-        }
-    });
+        },
+        OnTimeElapsed: function (te) {
+            var $t;
+            $t = Bridge.getEnumerator(this.ais);
+            while ($t.moveNext()) {
+                var ai = $t.getCurrent();
+                ai.OnTimeElapsed(te);
+            }
+        },
+        GetAI: function (T) {
+            var $t;
+            $t = Bridge.getEnumerator(this.ais);
+            while ($t.moveNext()) {
+                var ai = $t.getCurrent();
+                if (Bridge.is(ai, T)) {
+                    return Bridge.as(ai, T);
+                }
+            }
 
-    var $_ = {};
+            return null;
+        },
+        AddAI: function (T) {
+            if (this.GetAI(T) == null) {
+                var ai = Bridge.createInstance(T);
+                ai.setOwner(this);
+                this.ais.add(ai);
+            }
+        },
+        RemoveAI: function (T) {
+            var $t;
+            $t = Bridge.getEnumerator(this.ais);
+            while ($t.moveNext()) {
+                var ai = $t.getCurrent();
+                if (Bridge.is(ai, T)) {
+                    this.ais.remove(ai);
+                    return true;
+                }
+            }
 
-    Bridge.ns("Nova.Actor", $_);
-
-    Bridge.apply($_.Nova.Actor, {
-        f1: function (s1, s2) {
-            return ((s1.getPriority() - s2.getPriority()) | 0);
+            return false;
         }
     });
 
@@ -1139,6 +1170,31 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             Dead: 256,
             Faint: 512,
             CanNotBeNormalAttacked: 4096
+        }
+    });
+
+    /**
+     * Actor 的行为控制
+     *
+     * @public
+     * @class Nova.AI
+     */
+    Bridge.define("Nova.AI", {
+        config: {
+            properties: {
+                Owner: null,
+                Enabled: false
+            }
+        },
+        ctor: function () {
+            this.$initialize();
+            this.setOwner(null);
+        },
+        $ctor1: function (o) {
+            this.$initialize();
+            this.setOwner(o);
+        },
+        OnTimeElapsed: function (te) {
         }
     });
 
@@ -1180,9 +1236,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
     Bridge.define("Nova.Skill", {
         config: {
             properties: {
-                Tid: 0,
-                Priority: 0,
-                Order: 0
+                Tid: 0
             }
         },
         AvailableActors: function (candidates) {
@@ -1224,6 +1278,169 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("Nova.SortUtils", {
+        statics: {
+            /**
+             * 货币最大位数
+             *
+             * @static
+             * @public
+             * @memberof Nova.SortUtils
+             * @constant
+             * @default 5
+             * @type number
+             */
+            MaxCount: 5,
+            OrderBy: function (T, data, lessOrEqual) {
+                for (var i = 0; i < data.length; i = (i + 1) | 0) {
+                    var a = data[i];
+                    for (var j = (i + 1) | 0; j < data.length; j = (j + 1) | 0) {
+                        var b = data[j];
+                        if (!lessOrEqual(a, b)) {
+                            data[i] = b;
+                            data[j] = a;
+                        }
+                    }
+                }
+            },
+            DownConvertList: function (T1, T2, lst1, lst2) {
+                var $t;
+                lst2.clear();
+                $t = Bridge.getEnumerator(lst1, null, T1);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    lst2.add(Bridge.cast(d, T2));
+                }
+            },
+            DownConvertDict: function (T1, T2, T3, dict1, dict2) {
+                var $t;
+                dict2.clear();
+                $t = Bridge.getEnumerator(dict1);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    dict2.set(d.key, Bridge.cast(d.value, T3));
+                }
+            },
+            UpConvertList: function (T1, T2, lst1, lst2) {
+                var $t;
+                lst2.clear();
+                $t = Bridge.getEnumerator(lst1, null, T1);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    lst2.add(d);
+                }
+            },
+            UpConvertDict: function (T1, T2, T3, dict1, dict2) {
+                var $t;
+                dict2.clear();
+                $t = Bridge.getEnumerator(dict1);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    dict2.set(d.key, d.value);
+                }
+            },
+            MakeSureListMinSize: function (T, lst, minSize, dv) {
+                while (lst.getCount() < minSize) {
+                    lst.add(dv);
+                }
+            },
+            /**
+             * 将钱的数量转换成XXXX万格式 （如果数量大于最大显示长度maxCount,那么将以XXX万赖显示）
+             *
+             * @static
+             * @public
+             * @this Nova.SortUtils
+             * @memberof Nova.SortUtils
+             * @param   {number}    money       钱的数量
+             * @param   {number}    maxCount    最大显示长度位数
+             * @return  {string}
+             */
+            FormatMoney: function (money, maxCount) {
+                if (maxCount === void 0) { maxCount = 5; }
+                if (money.toString().length > maxCount) {
+                    return System.String.format("{0}万", ((Bridge.Int.div(money, 10000)) | 0));
+                } else {
+                    return money.toString();
+                }
+            },
+            SelectAll: function (T, list, f) {
+                var $t;
+                var allSel = new (System.Collections.Generic.List$1(T))();
+                $t = Bridge.getEnumerator(list, null, T);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    if (f(d)) {
+                        allSel.add(d);
+                    }
+                }
+
+                return allSel.toArray();
+            },
+            Reserve2Decimal: function (f) {
+                return System.String.format("{0}.{1}", Bridge.Int.clip32(f), System.String.alignString((Bridge.Int.clip32(f * 100) % 100).toString(), -2, 48));
+            },
+            SelectFirst: function (T, list, f) {
+                var $t;
+                $t = Bridge.getEnumerator(list, null, T);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    if (f(d)) {
+                        return d;
+                    }
+                }
+
+                return Bridge.getDefaultValue(T);
+            },
+            FindFirstPos: function (T, list, f) {
+                var $t;
+                var i = 0;
+                $t = Bridge.getEnumerator(list, null, T);
+                while ($t.moveNext()) {
+                    var v = $t.getCurrent();
+                    if (f(v)) {
+                        return i;
+                    } else {
+                        i = (i + 1) | 0;
+                    }
+                }
+
+                return -1;
+            },
+            FindFirstNullPos: function (T, list) {
+                return Nova.SortUtils.FindFirstPos(T, list, $_.Nova.SortUtils.f1);
+            },
+            CountNoNull: function (T, list) {
+                return Nova.SortUtils.Count(T, list, $_.Nova.SortUtils.f2);
+            },
+            Count: function (T, list, f) {
+                var $t;
+                var n = 0;
+                $t = Bridge.getEnumerator(list, null, T);
+                while ($t.moveNext()) {
+                    var d = $t.getCurrent();
+                    if (f(d)) {
+                        n = (n + 1) | 0;
+                    }
+                }
+
+                return n;
+            }
+        }
+    });
+
+    var $_ = {};
+
+    Bridge.ns("Nova.SortUtils", $_);
+
+    Bridge.apply($_.Nova.SortUtils, {
+        f1: function (v) {
+            return v == null;
+        },
+        f2: function (v) {
+            return v != null;
+        }
+    });
+
     /**
      * 用户信息
      *
@@ -1251,6 +1468,128 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         $ctor1: function (userID) {
             this.$initialize();
             this.ID = userID;
+        }
+    });
+
+    Bridge.define("Nova.Utils", {
+        statics: {
+            skipDrama: false,
+            SkipGuide: false,
+            getSystemMemSize: function () {
+                return UnityEngine.SystemInfo.getsystemMemorySize();
+            },
+            getSystemVMemSize: function () {
+                return UnityEngine.SystemInfo.getgraphicsMemorySize();
+            },
+            getDeviceID: function () {
+                return UnityEngine.SystemInfo.getdeviceUniqueIdentifier();
+            },
+            getDeviceInfo: function () {
+                return System.String.concat(UnityEngine.SystemInfo.getdeviceModel(), ",", UnityEngine.SystemInfo.getgraphicsDeviceName(), ",", UnityEngine.SystemInfo.getoperatingSystem(), ",", UnityEngine.SystemInfo.getsystemMemorySize(), ",", UnityEngine.SystemInfo.getgraphicsMemorySize(), ",", UnityEngine.SystemInfo.getdeviceUniqueIdentifier());
+            },
+            getSkipDrama: function () {
+                return Nova.Utils.skipDrama;
+            },
+            setSkipDrama: function (value) {
+                Nova.Utils.skipDrama = value;
+            },
+            AddChild$1: function (parent, child) {
+                Nova.Utils.AddChild$2(parent, child.gettransform());
+            },
+            AddChild: function (parent, child) {
+                Nova.Utils.AddChild$1(parent.gettransform(), child);
+            },
+            AddChild$2: function (parent, child) {
+                child.SetParent(parent);
+                child.setlocalPosition(UnityEngine.Vector3.getzero().$clone());
+                child.setlocalScale(UnityEngine.Vector3.getone().$clone());
+                child.setlocalRotation(UnityEngine.Quaternion.getidentity().$clone());
+            },
+            AddChild_Prefab: function (parent, prefab) {
+                if (UnityEngine.Object.op_Inequality(parent, null) && UnityEngine.Object.op_Inequality(prefab, null)) {
+                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, prefab);
+                    go.gettransform().SetParent$1(parent, false);
+                    Nova.Utils.AddChild$1(parent, go);
+                    return go;
+                }
+                return null;
+            },
+            AddUIChild: function (parent, child) {
+                // http://docs.unity3d.com/Manual/HOWTO-UICreateFromScripting.html
+                child.gettransform().SetParent$1(parent, false);
+            },
+            ProcessAllChildren: function (p, d) {
+                for (var i = 0; i < p.getchildCount(); i = (i + 1) | 0) {
+                    d(p.GetChild(i).getgameObject());
+                }
+            },
+            IndexOf: function (T, set, obj) {
+                var $t;
+                var i = 0;
+                $t = Bridge.getEnumerator(set, null, T);
+                while ($t.moveNext()) {
+                    var e = $t.getCurrent();
+                    if (Bridge.referenceEquals(e, obj)) {
+                        return i;
+                    } else {
+                        i = (i + 1) | 0;
+                    }
+                }
+
+                return -1;
+            },
+            GetUIRect: function (uiObj) {
+                if (UnityEngine.Object.op_Inequality(uiObj.GetComponent(UnityEngine.UI.Image), null)) {
+                    return uiObj.GetComponent(UnityEngine.UI.Image).GetPixelAdjustedRect();
+                } else {
+                    if (UnityEngine.Object.op_Inequality(uiObj.GetComponent(UnityEngine.UI.RawImage), null)) {
+                        return uiObj.GetComponent(UnityEngine.UI.RawImage).GetPixelAdjustedRect();
+                    } else {
+                        return new UnityEngine.Rect.$ctor1(0, 0, 0, 0);
+                    }
+                }
+            },
+            TravelChildren: function (go, fun) {
+                var $t;
+                if (UnityEngine.Object.op_Equality(go, null) || Bridge.staticEquals(fun, null)) {
+                    return;
+                }
+
+                var lst = new (System.Collections.Generic.List$1(UnityEngine.GameObject))();
+                lst.add(go);
+                while (lst.getCount() > 0) {
+                    var arr = lst.toArray();
+                    lst.clear();
+                    $t = Bridge.getEnumerator(arr);
+                    while ($t.moveNext()) {
+                        var obj = $t.getCurrent();
+                        fun(obj);
+                        for (var i = 0; i < obj.gettransform().getchildCount(); i = (i + 1) | 0) {
+                            lst.add(obj.gettransform().GetChild(i).getgameObject());
+                        }
+                    }
+                }
+            },
+            CopyCameraParameters: function (src, dst) {
+                var p = dst.gettransform().getparent();
+                Nova.Utils.AddChild$2(src.gettransform(), dst.gettransform());
+                dst.gettransform().setparent(p);
+
+                dst.setfieldOfView(src.getfieldOfView());
+                dst.setorthographic(src.getorthographic());
+                dst.setnearClipPlane(src.getnearClipPlane());
+                dst.setfarClipPlane(src.getfarClipPlane());
+                dst.setaspect(src.getaspect());
+                dst.setdepth(src.getdepth());
+            },
+            Travel: function (T, lst, fun) {
+                var $t;
+                $t = Bridge.getEnumerator(lst, null, T);
+                while ($t.moveNext()) {
+                    var e = $t.getCurrent();
+                    fun(e);
+                }
+            }
         }
     });
 
@@ -1851,196 +2190,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("Nova.Utils2", {
-        inherits: [Swift.Utils1],
-        statics: {
-            /**
-             * 货币最大位数
-             *
-             * @static
-             * @public
-             * @memberof Nova.Utils2
-             * @constant
-             * @default 5
-             * @type number
-             */
-            MaxCount: 5,
-            OrderBy: function (T, data, lessOrEqual) {
-                for (var i = 0; i < data.length; i = (i + 1) | 0) {
-                    var a = data[i];
-                    for (var j = (i + 1) | 0; j < data.length; j = (j + 1) | 0) {
-                        var b = data[j];
-                        if (!lessOrEqual(a, b)) {
-                            data[i] = b;
-                            data[j] = a;
-                        }
-                    }
-                }
-            },
-            Random: function (min, max) {
-                return Swift.Utils1.r.next$2(min, max);
-            },
-            RandomOne$1: function (arr) {
-                return Nova.Utils2.RandomOne(arr.length, function (i) {
-                    return arr[i];
-                });
-            },
-            RandomOne: function (L, funGetProbability) {
-                var sum = 0;
-
-                // 先把掉落组里的数值全部加起来，一会做随机
-                for (var i = 0; i < L; i = (i + 1) | 0) {
-                    sum = (sum + (funGetProbability(i))) | 0;
-                }
-
-                var res = Nova.Utils2.Random(0, sum);
-                var r = 0;
-                for (var i1 = 0; i1 < L; i1 = (i1 + 1) | 0) {
-                    r = (r + (funGetProbability(i1))) | 0;
-                    if (res < r) {
-                        return i1;
-                    }
-                }
-
-                // 不会走到这里！
-                throw new System.Exception("Shouldn't reach here");
-            },
-            DownConvertList: function (T1, T2, lst1, lst2) {
-                var $t;
-                lst2.clear();
-                $t = Bridge.getEnumerator(lst1, null, T1);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    lst2.add(Bridge.cast(d, T2));
-                }
-            },
-            DownConvertDict: function (T1, T2, T3, dict1, dict2) {
-                var $t;
-                dict2.clear();
-                $t = Bridge.getEnumerator(dict1);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    dict2.set(d.key, Bridge.cast(d.value, T3));
-                }
-            },
-            UpConvertList: function (T1, T2, lst1, lst2) {
-                var $t;
-                lst2.clear();
-                $t = Bridge.getEnumerator(lst1, null, T1);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    lst2.add(d);
-                }
-            },
-            UpConvertDict: function (T1, T2, T3, dict1, dict2) {
-                var $t;
-                dict2.clear();
-                $t = Bridge.getEnumerator(dict1);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    dict2.set(d.key, d.value);
-                }
-            },
-            MakeSureListMinSize: function (T, lst, minSize, dv) {
-                while (lst.getCount() < minSize) {
-                    lst.add(dv);
-                }
-            },
-            /**
-             * 将钱的数量转换成XXXX万格式 （如果数量大于最大显示长度maxCount,那么将以XXX万赖显示）
-             *
-             * @static
-             * @public
-             * @this Nova.Utils2
-             * @memberof Nova.Utils2
-             * @param   {number}    money       钱的数量
-             * @param   {number}    maxCount    最大显示长度位数
-             * @return  {string}
-             */
-            FormatMoney: function (money, maxCount) {
-                if (maxCount === void 0) { maxCount = 5; }
-                if (money.toString().length > maxCount) {
-                    return System.String.format("{0}万", ((Bridge.Int.div(money, 10000)) | 0));
-                } else {
-                    return money.toString();
-                }
-            },
-            SelectAll: function (T, list, f) {
-                var $t;
-                var allSel = new (System.Collections.Generic.List$1(T))();
-                $t = Bridge.getEnumerator(list, null, T);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    if (f(d)) {
-                        allSel.add(d);
-                    }
-                }
-
-                return allSel.toArray();
-            },
-            Reserve2Decimal: function (f) {
-                return System.String.format("{0}.{1}", Bridge.Int.clip32(f), System.String.alignString((Bridge.Int.clip32(f * 100) % 100).toString(), -2, 48));
-            },
-            SelectFirst: function (T, list, f) {
-                var $t;
-                $t = Bridge.getEnumerator(list, null, T);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    if (f(d)) {
-                        return d;
-                    }
-                }
-
-                return Bridge.getDefaultValue(T);
-            },
-            FindFirstPos: function (T, list, f) {
-                var $t;
-                var i = 0;
-                $t = Bridge.getEnumerator(list, null, T);
-                while ($t.moveNext()) {
-                    var v = $t.getCurrent();
-                    if (f(v)) {
-                        return i;
-                    } else {
-                        i = (i + 1) | 0;
-                    }
-                }
-
-                return -1;
-            },
-            FindFirstNullPos: function (T, list) {
-                return Nova.Utils2.FindFirstPos(T, list, $_.Nova.Utils2.f1);
-            },
-            CountNoNull: function (T, list) {
-                return Nova.Utils2.Count(T, list, $_.Nova.Utils2.f2);
-            },
-            Count: function (T, list, f) {
-                var $t;
-                var n = 0;
-                $t = Bridge.getEnumerator(list, null, T);
-                while ($t.moveNext()) {
-                    var d = $t.getCurrent();
-                    if (f(d)) {
-                        n = (n + 1) | 0;
-                    }
-                }
-
-                return n;
-            }
-        }
-    });
-
-    Bridge.ns("Nova.Utils2", $_);
-
-    Bridge.apply($_.Nova.Utils2, {
-        f1: function (v) {
-            return v == null;
-        },
-        f2: function (v) {
-            return v != null;
-        }
-    });
-
     /**
      * 协程管理器
      *
@@ -2196,129 +2345,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 w.Swift$IWriteableBuffer$Write$17(uid);
                 w.Swift$IWriteableBuffer$Write$17(pwd);
             }, Bridge.fn.bind(this, this.LoginCb), Bridge.fn.bind(this, this.ExpireCb));
-        }
-    });
-
-    Bridge.define("Nova.Utils", {
-        inherits: [Nova.Utils2],
-        statics: {
-            skipDrama: false,
-            SkipGuide: false,
-            getSystemMemSize: function () {
-                return UnityEngine.SystemInfo.getsystemMemorySize();
-            },
-            getSystemVMemSize: function () {
-                return UnityEngine.SystemInfo.getgraphicsMemorySize();
-            },
-            getDeviceID: function () {
-                return UnityEngine.SystemInfo.getdeviceUniqueIdentifier();
-            },
-            getDeviceInfo: function () {
-                return System.String.concat(UnityEngine.SystemInfo.getdeviceModel(), ",", UnityEngine.SystemInfo.getgraphicsDeviceName(), ",", UnityEngine.SystemInfo.getoperatingSystem(), ",", UnityEngine.SystemInfo.getsystemMemorySize(), ",", UnityEngine.SystemInfo.getgraphicsMemorySize(), ",", UnityEngine.SystemInfo.getdeviceUniqueIdentifier());
-            },
-            getSkipDrama: function () {
-                return Nova.Utils.skipDrama;
-            },
-            setSkipDrama: function (value) {
-                Nova.Utils.skipDrama = value;
-            },
-            AddChild$1: function (parent, child) {
-                Nova.Utils.AddChild$2(parent, child.gettransform());
-            },
-            AddChild: function (parent, child) {
-                Nova.Utils.AddChild$1(parent.gettransform(), child);
-            },
-            AddChild$2: function (parent, child) {
-                child.SetParent(parent);
-                child.setlocalPosition(UnityEngine.Vector3.getzero().$clone());
-                child.setlocalScale(UnityEngine.Vector3.getone().$clone());
-                child.setlocalRotation(UnityEngine.Quaternion.getidentity().$clone());
-            },
-            AddChild_Prefab: function (parent, prefab) {
-                if (UnityEngine.Object.op_Inequality(parent, null) && UnityEngine.Object.op_Inequality(prefab, null)) {
-                    var go = UnityEngine.Object.Instantiate(UnityEngine.GameObject, prefab);
-                    go.gettransform().SetParent$1(parent, false);
-                    Nova.Utils.AddChild$1(parent, go);
-                    return go;
-                }
-                return null;
-            },
-            AddUIChild: function (parent, child) {
-                // http://docs.unity3d.com/Manual/HOWTO-UICreateFromScripting.html
-                child.gettransform().SetParent$1(parent, false);
-            },
-            ProcessAllChildren: function (p, d) {
-                for (var i = 0; i < p.getchildCount(); i = (i + 1) | 0) {
-                    d(p.GetChild(i).getgameObject());
-                }
-            },
-            IndexOf: function (T, set, obj) {
-                var $t;
-                var i = 0;
-                $t = Bridge.getEnumerator(set, null, T);
-                while ($t.moveNext()) {
-                    var e = $t.getCurrent();
-                    if (Bridge.referenceEquals(e, obj)) {
-                        return i;
-                    } else {
-                        i = (i + 1) | 0;
-                    }
-                }
-
-                return -1;
-            },
-            GetUIRect: function (uiObj) {
-                if (UnityEngine.Object.op_Inequality(uiObj.GetComponent(UnityEngine.UI.Image), null)) {
-                    return uiObj.GetComponent(UnityEngine.UI.Image).GetPixelAdjustedRect();
-                } else {
-                    if (UnityEngine.Object.op_Inequality(uiObj.GetComponent(UnityEngine.UI.RawImage), null)) {
-                        return uiObj.GetComponent(UnityEngine.UI.RawImage).GetPixelAdjustedRect();
-                    } else {
-                        return new UnityEngine.Rect.$ctor1(0, 0, 0, 0);
-                    }
-                }
-            },
-            TravelChildren: function (go, fun) {
-                var $t;
-                if (UnityEngine.Object.op_Equality(go, null) || Bridge.staticEquals(fun, null)) {
-                    return;
-                }
-
-                var lst = new (System.Collections.Generic.List$1(UnityEngine.GameObject))();
-                lst.add(go);
-                while (lst.getCount() > 0) {
-                    var arr = lst.toArray();
-                    lst.clear();
-                    $t = Bridge.getEnumerator(arr);
-                    while ($t.moveNext()) {
-                        var obj = $t.getCurrent();
-                        fun(obj);
-                        for (var i = 0; i < obj.gettransform().getchildCount(); i = (i + 1) | 0) {
-                            lst.add(obj.gettransform().GetChild(i).getgameObject());
-                        }
-                    }
-                }
-            },
-            CopyCameraParameters: function (src, dst) {
-                var p = dst.gettransform().getparent();
-                Nova.Utils.AddChild$2(src.gettransform(), dst.gettransform());
-                dst.gettransform().setparent(p);
-
-                dst.setfieldOfView(src.getfieldOfView());
-                dst.setorthographic(src.getorthographic());
-                dst.setnearClipPlane(src.getnearClipPlane());
-                dst.setfarClipPlane(src.getfarClipPlane());
-                dst.setaspect(src.getaspect());
-                dst.setdepth(src.getdepth());
-            },
-            Travel: function (T, lst, fun) {
-                var $t;
-                $t = Bridge.getEnumerator(lst, null, T);
-                while ($t.moveNext()) {
-                    var e = $t.getCurrent();
-                    fun(e);
-                }
-            }
         }
     });
 
@@ -2529,6 +2555,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             }).Start();
         },
         OnLoginClick: function () {
+            //Nova.Utils.Md5
             UnityEngine.MonoBehaviour.print("Login!");
         }
     });

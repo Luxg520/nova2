@@ -216,7 +216,7 @@ namespace Swift
 
                 // 记录回调处理句柄
                 CallbackNode cbn = new CallbackNode();
-                cbn.time = Utils1.NowSecond;
+                cbn.time = TimeUtils.NowSecond;
                 cbn.cb = cb;
                 callbacks[-no] = cbn;
 
@@ -577,7 +577,7 @@ namespace Swift
 				return;
 			}
 
-            long checkPoint = Utils1.NowSecond - RequestExpireTime;
+            long checkPoint = TimeUtils.NowSecond - RequestExpireTime;
             KeyValuePair<long, CallbackNode> kv = checkTimeoutLst[0];
             checkTimeoutLst.RemoveAt(0);
             long no = kv.Key;

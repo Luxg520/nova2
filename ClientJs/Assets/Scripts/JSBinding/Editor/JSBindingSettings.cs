@@ -49,7 +49,11 @@ namespace jsb
             typeof(Swift.RingBuffer),
             typeof(Swift.Responser),
             typeof(Swift.WriteBuffer),
-            typeof(Swift.Utils1),
+
+            typeof(Swift.RandomUtils),
+            typeof(Swift.TimeUtils),
+            typeof(Swift.Md5Utils),
+            typeof(Swift.RleUtils),
 
             #endregion
 
