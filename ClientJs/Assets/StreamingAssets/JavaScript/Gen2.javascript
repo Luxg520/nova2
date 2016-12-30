@@ -966,7 +966,198 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("Msg", {
+        statics: {
+            msg: null,
+            config: {
+                init: function () {
+                    this.msg = new Msg();
+                }
+            },
+            Create: function (type) {
+                Msg.msg.type = type;
+                return Msg.msg;
+            }
+        },
+        type: null,
+        Set$3: function (k, v) {
+            return this;
+        },
+        Set$1: function (k, v) {
+            return this;
+        },
+        Set: function (k, v) {
+            return this;
+        },
+        Set$2: function (k, v) {
+            return this;
+        },
+        Set$4: function (k, v) {
+            return this;
+        },
+        Send: function () {
+
+        },
+        Request: function (cb) {
+
+        },
+        Request$1: function (cb, cbExpire) {
+
+        }
+    });
+
     /** @namespace Nova */
+
+    /**
+     * 游戏角色，包括玩家和 npc
+     *
+     * @public
+     * @class Nova.Actor
+     */
+    Bridge.define("Nova.Actor", {
+        px: System.Int64(0),
+        py: System.Int64(0),
+        dx: System.Int64(0),
+        dy: System.Int64(0),
+        speed: System.Int64(0),
+        skills: null,
+        config: {
+            properties: {
+                state: 0,
+                Hp: 0,
+                Mp: 0,
+                Gender: 0
+            },
+            init: function () {
+                this.skills = new (System.Collections.Generic.Dictionary$2(System.Int32,Nova.Skill))();
+            }
+        },
+        getPx: function () {
+            return this.px / 100.0;
+        },
+        setPx: function (value) {
+            this.px = Bridge.Int.clip64(value * 100);
+        },
+        getPy: function () {
+            return this.py / 100.0;
+        },
+        setPy: function (value) {
+            this.py = Bridge.Int.clip64(value * 100);
+        },
+        getDx: function () {
+            return this.dx / 100.0;
+        },
+        setDx: function (value) {
+            this.dx = Bridge.Int.clip64(value * 100);
+        },
+        getDy: function () {
+            return this.dy / 100.0;
+        },
+        setDy: function (value) {
+            this.dy = Bridge.Int.clip64(value * 100);
+        },
+        getSpeed: function () {
+            return this.speed / 100.0;
+        },
+        setSpeed: function (value) {
+            this.speed = Bridge.Int.clip64(value * 100);
+        },
+        CheckState: function (s) {
+            if (s === Nova.ActorState.Normal) {
+                return this.getstate() === Nova.ActorState.Normal;
+            } else {
+                return (this.getstate() & s) > 0;
+            }
+        },
+        SetState: function (s) {
+            if (s === Nova.ActorState.Normal) {
+                this.setstate(Nova.ActorState.Normal);
+            } else {
+                this.setstate(this.getstate()|s);
+            }
+        },
+        GetSkill: function (filter) {
+            var ss = this.GetSkills(filter);
+            return ss.length > 0 ? ss[0] : null;
+        },
+        GetSkills: function (filter) {
+            var $t;
+            if (Bridge.staticEquals(filter, null)) {
+                return System.Linq.Enumerable.from(this.skills.getValues()).toArray();
+            } else {
+                var ss = new (System.Collections.Generic.List$1(Nova.Skill))();
+                $t = Bridge.getEnumerator(this.skills.getValues(), "System$Collections$Generic$IEnumerable$1$Nova$Skill$getEnumerator");
+                while ($t.moveNext()) {
+                    var s = $t.getCurrent();
+                    if (filter(s)) {
+                        ss.add(s);
+                    }
+                }
+
+                ss.sort($_.Nova.Actor.f1);
+                return ss.toArray();
+            }
+        },
+        AddSkill: function (s) {
+            if (!this.skills.containsKey(s.getTid())) {
+                this.skills.set(s.getTid(), s);
+            }
+        },
+        RemoveSkill: function (tid) {
+            var s = null;
+            if (this.skills.containsKey(tid)) {
+                s = this.skills.get(tid);
+                this.skills.remove(tid);
+            }
+
+            return s;
+        }
+    });
+
+    var $_ = {};
+
+    Bridge.ns("Nova.Actor", $_);
+
+    Bridge.apply($_.Nova.Actor, {
+        f1: function (s1, s2) {
+            return ((s1.getPriority() - s2.getPriority()) | 0);
+        }
+    });
+
+    /**
+     * 角色状态，状态可以叠加
+     *
+     * @public
+     * @class Nova.ActorState
+     */
+    Bridge.define("Nova.ActorState", {
+        $kind: "enum",
+        statics: {
+            Normal: 0,
+            InCombat: 1,
+            Dizz: 16,
+            Dead: 256,
+            Faint: 512,
+            CanNotBeNormalAttacked: 4096
+        }
+    });
+
+    /**
+     * 角色性别
+     *
+     * @public
+     * @class Nova.Gender
+     */
+    Bridge.define("Nova.Gender", {
+        $kind: "enum",
+        statics: {
+            None: 0,
+            Male: 1,
+            Female: 2,
+            FemaledMale: 3,
+            MaledFemale: 4
+        }
+    });
 
     /**
      * 时间管理器接口
@@ -977,6 +1168,36 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
      */
     Bridge.define("Nova.ITimeMgr", {
         $kind: "interface"
+    });
+
+    /**
+     * 角色技能
+     *
+     * @abstract
+     * @public
+     * @class Nova.Skill
+     */
+    Bridge.define("Nova.Skill", {
+        config: {
+            properties: {
+                Tid: 0,
+                Priority: 0,
+                Order: 0
+            }
+        },
+        AvailableActors: function (candidates) {
+            var $t;
+            var actors = new (System.Collections.Generic.List$1(Nova.Actor))();
+            $t = Bridge.getEnumerator(candidates, null, Nova.Actor);
+            while ($t.moveNext()) {
+                var a = $t.getCurrent();
+                if (this.Available(a)) {
+                    actors.add(a);
+                }
+            }
+
+            return actors.toArray();
+        }
     });
 
     /**
@@ -1339,6 +1560,88 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("UIAni", {
+        $kind: "enum",
+        statics: {
+            None: 0
+        }
+    });
+
+    /**
+     * UI信息
+     *
+     * @public
+     * @class UIInfo
+     */
+    Bridge.define("UIInfo", {
+        type: 0,
+        style: 0,
+        layer: 0,
+        resName: null,
+        ui: null
+    });
+
+    /**
+     * UI层级
+     *
+     * @public
+     * @class UILayer
+     */
+    Bridge.define("UILayer", {
+        $kind: "enum",
+        statics: {
+            Game: 0,
+            Prepose: 1,
+            Guide: 2,
+            Test: 3
+        }
+    });
+
+    Bridge.define("UIState", {
+        $kind: "enum",
+        statics: {
+            None: 0,
+            Initial: 1,
+            Loading: 2,
+            Ready: 3,
+            Disabled: 4,
+            Closing: 5
+        }
+    });
+
+    /**
+     * UI样式
+     普通、全屏、模态等
+     *
+     * @public
+     * @class UIStyle
+     */
+    Bridge.define("UIStyle", {
+        $kind: "enum",
+        statics: {
+            Simple: 0,
+            Full: 1,
+            Modal: 2
+        }
+    });
+
+    /**
+     * UI类型，UI的唯一标识
+     *
+     * @public
+     * @class UIType
+     */
+    Bridge.define("UIType", {
+        $kind: "enum",
+        statics: {
+            LoginUI: 0,
+            ServerList: 1,
+            Loading: 2,
+            AccountUI: 3,
+            Dialog: 4
+        }
+    });
+
     Bridge.define("ItweenUtils.iTweenLookTo", {
         inherits: [ItweenUtils.iTweenAct],
         ctor: function (go) {
@@ -1534,6 +1837,20 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    /**
+     * 普通攻击
+     *
+     * @public
+     * @class Nova.NormalAttack
+     * @augments Nova.Skill
+     */
+    Bridge.define("Nova.NormalAttack", {
+        inherits: [Nova.Skill],
+        Available: function (a) {
+            return !a.CheckState(Nova.ActorState.Dead) && !a.CheckState(Nova.ActorState.Faint) && !a.CheckState(Nova.ActorState.CanNotBeNormalAttacked);
+        }
+    });
+
     Bridge.define("Nova.Utils2", {
         inherits: [Swift.Utils1],
         statics: {
@@ -1712,8 +2029,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             }
         }
     });
-
-    var $_ = {};
 
     Bridge.ns("Nova.Utils2", $_);
 
@@ -2216,6 +2531,114 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         OnLoginClick: function () {
             UnityEngine.MonoBehaviour.print("Login!");
         }
+    });
+
+    Bridge.define("UIBase", {
+        inherits: [UnityEngine.MonoBehaviour],
+        UIInfo: null,
+        Hide: function () {
+            this.OnHide();
+            this.getgameObject().SetActive(false);
+        },
+        /**
+         * 仅首次显示前调用
+         优先级高于Init
+         *
+         * @instance
+         * @protected
+         * @this UIBase
+         * @memberof UIBase
+         * @return  {void}
+         */
+        Awake: function () {
+
+        },
+        Start: function () {
+
+        },
+        /**
+         * 界面初始化阶段（主要用于界面数据处理）
+         每次开启界面都会调用一次
+         不要在这里面播放UI动画相关操作
+         *
+         * @instance
+         * @public
+         * @this UIBase
+         * @memberof UIBase
+         * @param   {Array.<Object>}    _params
+         * @return  {void}
+         */
+        OnInit: function (_params) {
+            if (_params === void 0) { _params = []; }
+
+        },
+        /**
+         * 界面显示阶段（相当于Start）
+         可用于播放动画
+         *
+         * @instance
+         * @protected
+         * @this UIBase
+         * @memberof UIBase
+         * @return  {void}
+         */
+        OnShow: function () {
+
+        },
+        /**
+         * 界面隐藏前调用
+         *
+         * @instance
+         * @protected
+         * @this UIBase
+         * @memberof UIBase
+         * @return  {void}
+         */
+        OnHide: function () {
+
+        },
+        /**
+         * 每帧执行函数
+         尽量不用，非必要时才用
+         *
+         * @instance
+         * @protected
+         * @this UIBase
+         * @memberof UIBase
+         * @param   {number}    _deltaTime
+         * @return  {void}
+         */
+        OnUpdate: function (_deltaTime) {
+
+        },
+        /**
+         * 当界面被卸载时
+         *
+         * @instance
+         * @protected
+         * @this UIBase
+         * @memberof UIBase
+         * @return  {void}
+         */
+        OnDestroy: function () {
+
+        },
+        /**
+         * 每帧运行（内部函数）
+         *
+         * @instance
+         * @private
+         * @this UIBase
+         * @memberof UIBase
+         * @return  {void}
+         */
+        Update: function () {
+            this.OnUpdate(UnityEngine.Time.getdeltaTime());
+        }
+    });
+
+    Bridge.define("UIManager", {
+        inherits: [UnityEngine.MonoBehaviour]
     });
 
     Bridge.define("jsb.Test.Logic.TestInherit2", {

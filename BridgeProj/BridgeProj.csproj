@@ -58,7 +58,9 @@
       <HintPath>packages\Bridge.Html5.15.3.0\lib\net40\Bridge.Html5.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Bridge.Min.15.3.0\build\Bridge.Min.targets" Condition="Exists('packages\Bridge.Min.15.3.0\build\Bridge.Min.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
