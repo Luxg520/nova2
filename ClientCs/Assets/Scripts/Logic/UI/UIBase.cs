@@ -5,7 +5,28 @@ public class UIBase : MonoBehaviour
 {
     // UI信息    
     public UIInfo UIInfo;
+    
+    private GameObject go = null;
+    public GameObject Go
+    {
+        get
+        {
+            if (go == null)
+                go = gameObject;
+            return go;
+        }
+    }
 
+    private Transform trans = null;
+    public Transform Trans
+    {
+        get
+        {
+            if (trans == null)
+                trans = transform;
+            return trans;
+        }
+    }
 
     // 隐藏该界面
     public void Hide()
@@ -13,7 +34,6 @@ public class UIBase : MonoBehaviour
         OnHide();
         gameObject.SetActive(false);
     }
-
 
     /// <summary>
     /// 仅首次显示前调用
@@ -23,6 +43,7 @@ public class UIBase : MonoBehaviour
     {
 
     }
+
     protected virtual void Start()
     {
 

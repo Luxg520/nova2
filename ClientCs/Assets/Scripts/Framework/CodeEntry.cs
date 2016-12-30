@@ -13,12 +13,7 @@ public class CodeEntry : MonoBehaviour
         // 
         //
 
-        GameObject prefab = (GameObject)AssetDatabase.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/Root.prefab");
-        GameObject go = (GameObject)Instantiate(prefab);
-
-        string n = go.name;
-        if (n.EndsWith("(Clone)"))
-            go.name = n.Substring(0, n.Length - 7);
+        GameObject go = gameObject;
 #if JS
         Instantiate(AssetDatabase.LoadMainAssetAtPath("Assets/Scripts/JSBinding/_JSEngine.prefab"));
         JSComponent.s_AddComponent(go, "GameDriver");
