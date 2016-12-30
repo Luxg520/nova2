@@ -42,7 +42,7 @@ public class Menus
         AssetDatabase.Refresh();
     }
 
-    [MenuItem("JSB/Update JavaScript", false, 1)]
+    //[MenuItem("JSB/Update JavaScript", false, 1)]
     public static void UpdateJavaScript()
     {
         string dir = JSBindingSettings.BridgeOutputDir;
