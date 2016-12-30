@@ -1227,6 +1227,84 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
     });
 
     /**
+     * 数学工具类
+     *
+     * @static
+     * @abstract
+     * @public
+     * @class Nova.MathUtils
+     */
+    Bridge.define("Nova.MathUtils", {
+        statics: {
+            ArcTb: null,
+            config: {
+                init: function () {
+                    this.ArcTb = [[1.0, 0.0, 0.0], [0.9807853, 0.1950903, 0.1963495], [0.9238795, 0.3826835, 0.3926991], [0.8314696, 0.5555702, 0.5890486], [0.7071068, 0.7071068, 0.7853982], [0.5555702, 0.8314696, 0.9817477], [0.3826834, 0.9238795, 1.178097], [0.1950904, 0.9807853, 1.374447], [-4.371139E-08, 1.0, 1.570796], [-0.1950903, 0.9807853, 1.767146], [-0.3826834, 0.9238796, 1.963495], [-0.5555702, 0.8314697, 2.159845], [-0.7071068, 0.7071068, 2.356194], [-0.8314697, 0.5555702, 2.552544], [-0.9238795, 0.3826835, 2.748893], [-0.9807853, 0.1950903, 2.945243], [-1.0, -8.742278E-08, 3.141593], [-0.9807853, -0.1950902, 3.337942], [-0.9238795, -0.3826834, 3.534292], [-0.8314695, -0.5555703, 3.730641], [-0.7071068, -0.7071067, 3.926991], [-0.5555704, -0.8314695, 4.12334], [-0.3826836, -0.9238795, 4.31969], [-0.1950904, -0.9807853, 4.516039], [1.192488E-08, -1.0, 4.712389], [0.1950904, -0.9807853, 4.908739], [0.3826836, -0.9238794, 5.105088], [0.5555701, -0.8314697, 5.301437], [0.7071066, -0.7071069, 5.497787], [0.8314696, -0.5555703, 5.694137], [0.9238796, -0.3826834, 5.890486], [0.9807853, -0.1950902, 6.086836], [1.0, 0.0, 6.283185]];
+                }
+            },
+            Almost0: function (f) {
+                return Math.abs(f) < 0.01;
+            },
+            Dist: function (x1, y1, x2, y2) {
+                var dx = x1 - x2;
+                var dy = y1 - y2;
+                return Math.sqrt(dx * dx + dy * dy);
+            },
+            DistPt: function (x1, y1, x2, y2, dist, px, py) {
+                var dx = x1 - x2;
+                var dy = y1 - y2;
+                var d = Math.sqrt(dx * dx + dy * dy);
+                if (Nova.MathUtils.Almost0(d)) {
+                    px.v = x2;
+                    py.v = y2;
+                } else {
+                    px.v = x1 + dist * dx / d;
+                    py.v = y1 + dist * dy / d;
+                }
+
+                return d;
+            },
+            Normalize: function (x, y) {
+                var d = Math.sqrt(x.v * x.v + y.v * y.v);
+                if (!Nova.MathUtils.Almost0(d)) {
+                    x.v /= d;
+                    y.v /= d;
+                }
+
+                return d;
+            },
+            IsInner: function (f, a, b) {
+                if (a >= b) {
+                    return f >= b && f <= a;
+                } else {
+                    return f >= a && f <= b;
+                }
+            },
+            Arc: function (vx, vy) {
+                vx = {v:vx};
+                vy = {v:vy};
+                if (Nova.MathUtils.Almost0(Nova.MathUtils.Normalize(vx, vy))) {
+                    return 0;
+                }
+
+                for (var i = 1; i < Nova.MathUtils.ArcTb.length; i = (i + 1) | 0) {
+                    var a1 = Nova.MathUtils.ArcTb[((i - 1) | 0)];
+                    var a2 = Nova.MathUtils.ArcTb[i];
+                    if (Nova.MathUtils.IsInner(vx.v, a1[0], a2[0]) && Nova.MathUtils.IsInner(vy.v, a1[1], a2[1])) {
+                        var divx = (vx.v - a1[0]) / (a2[0] - a1[0]);
+                        var divy = (vy.v - a1[1]) / (a2[1] - a1[1]);
+                        var div = (divx + divy) / 2;
+                        var arc = (a2[2] - a1[2]) * div + a1[2];
+                        return arc;
+                    }
+                }
+
+                throw new System.Exception(System.String.format("CalcVectorArc overflow: {0}, {1}", vx.v, vy.v));
+            }
+        }
+    });
+
+    /**
      * 角色技能
      *
      * @abstract
@@ -2187,6 +2265,87 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         inherits: [Nova.Skill],
         Available: function (a) {
             return !a.CheckState(Nova.ActorState.Dead) && !a.CheckState(Nova.ActorState.Faint) && !a.CheckState(Nova.ActorState.CanNotBeNormalAttacked);
+        }
+    });
+
+    /**
+     * 行走到指定地点
+     *
+     * @public
+     * @class Nova.Walk2
+     * @augments Nova.AI
+     */
+    Bridge.define("Nova.Walk2", {
+        inherits: [Nova.AI],
+        pts: null,
+        cx: 0,
+        cy: 0,
+        cd: 0,
+        ctor: function () {
+            this.$initialize();
+            Nova.AI.ctor.call(this);
+        },
+        $ctor1: function (o) {
+            this.$initialize();
+            Nova.AI.$ctor1.call(this, o);
+        },
+        SetPath: function (ps) {
+            var $t;
+            this.pts = new (System.Collections.Generic.List$1(Array))();
+            var lastPx = this.getOwner().getPx();
+            var lastPy = this.getOwner().getPy();
+            this.pts.add([this.getOwner().getPx(), this.getOwner().getPy(), 0]);
+            $t = Bridge.getEnumerator(ps, null, Array);
+            while ($t.moveNext()) {
+                var p = $t.getCurrent();
+                var x = p[0];
+                var y = p[1];
+                var d = Nova.MathUtils.Dist(lastPx, lastPy, x, y);
+                if (Nova.MathUtils.Almost0(d)) {
+                    continue;
+                }
+
+                this.pts.add([x, y, d]);
+            }
+
+            this.setEnabled(this.pts.getCount() > 1);
+            this.cx = this.pts.getItem(0)[0];
+            this.cy = this.pts.getItem(0)[1];
+            this.cd = this.pts.getItem(0)[2];
+        },
+        Stop: function () {
+            this.getOwner().setPx(this.cx);
+            this.getOwner().setPy(this.cy);
+            this.pts.clear();
+            this.setEnabled(false);
+        },
+        OnTimeElapsed: function (te) {
+            if (!this.getEnabled()) {
+                return;
+            }
+
+            var d = this.getOwner().getSpeed() * te;
+            while (d >= this.cd && this.pts.getCount() > 0) {
+                d -= this.cd;
+                this.getOwner().setPy(this.pts.getItem(0)[0]);
+                this.getOwner().setPy(this.pts.getItem(0)[1]);
+                this.pts.removeAt(0);
+            }
+
+            if (this.pts.getCount() === 0) {
+                this.Stop();
+                return;
+            }
+
+            this.cx = this.pts.getItem(0)[0];
+            this.cy = this.pts.getItem(0)[1];
+            this.cd = this.pts.getItem(0)[2];
+            var x = { }, y = { };
+            Nova.MathUtils.DistPt(this.getOwner().getPx(), this.getOwner().getPy(), this.cx, this.cy, this.cd, x, y);
+            this.cd -= d;
+
+            this.getOwner().setPx(x.v);
+            this.getOwner().setPy(y.v);
         }
     });
 

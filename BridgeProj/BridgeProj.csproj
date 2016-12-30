@@ -38,7 +38,18 @@
   <ItemGroup>
     <Compile Include="csw.cs" />
     <Compile Include="Logic\**\*.cs" />
-    <Compile Include="Logic_Common\**\*.cs" />
+    <Compile Include="Logic_Common\Battle\AIs\AI.cs" />
+    <Compile Include="Logic_Common\Battle\AIs\Walk2.cs" />
+    <Compile Include="Logic_Common\Battle\BattleActor.cs" />
+    <Compile Include="Logic_Common\Battle\Skills\NormalAttack.cs" />
+    <Compile Include="Logic_Common\Battle\Skills\Skill.cs" />
+    <Compile Include="Logic_Common\ReasonEnums.cs" />
+    <Compile Include="Logic_Common\SwiftIOSCompatible\Components\CoroutineManager.cs" />
+    <Compile Include="Logic_Common\TimeMgr.cs" />
+    <Compile Include="Logic_Common\User\UserInfo.cs" />
+    <Compile Include="Logic_Common\Utils\SortUtils.cs" />
+    <Compile Include="Logic_Common\X.cs" />
+    <Compile Include="Logic_Common\Utils\MathUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
