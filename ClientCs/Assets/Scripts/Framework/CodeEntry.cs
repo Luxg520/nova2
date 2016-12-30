@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace jsb
-{
-    public class XXX<T>
-    {
-
-    }
-}
-
 // CodeEntry是框架代码
 public class CodeEntry : MonoBehaviour
 {
@@ -21,20 +13,12 @@ public class CodeEntry : MonoBehaviour
         // 
         //
 
-        GameObject prefab = (GameObject)AssetDatabase.LoadMainAssetAtPath("Assets/AssetBundles/Prefabs/Root.prefab");
-        GameObject go = (GameObject)Instantiate(prefab);
-        DontDestroyOnLoad(go);
-
-        string n = go.name;
-        if (n.EndsWith("(Clone)"))
-            go.name = n.Substring(0, n.Length - 7);
+        GameObject go = gameObject;
 #if JS
         Instantiate(AssetDatabase.LoadMainAssetAtPath("Assets/Scripts/JSBinding/_JSEngine.prefab"));
         JSComponent.s_AddComponent(go, "GameDriver");
 #else
         go.AddComponent<GameDriver>();
 #endif
-
-        Destroy(gameObject);
     }
 }

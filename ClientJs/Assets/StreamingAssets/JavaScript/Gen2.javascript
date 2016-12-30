@@ -9,85 +9,17 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
      * @return  {void}
      */
 
-    /**
-     * 客户端游戏核心对象，引用所有逻辑模块并负责主要驱动
-     *
-     * @public
-     * @class GameCore
-     */
-    Bridge.define("GameCore", {
+    Bridge.define("ObjSingleton$1", function (T) { return {
         statics: {
             instance: null,
             getInstance: function () {
-                if (GameCore.instance == null) {
-                    GameCore.instance = new GameCore();
+                if (ObjSingleton$1(T).instance == null) {
+                    ObjSingleton$1(T).instance = Bridge.createInstance(T);
                 }
-                return GameCore.instance;
-            }
-        },
-        srvConn: null,
-        core: null,
-        core_Logic: null,
-        config: {
-            init: function () {
-                this.core = new Swift.Core();
-                this.core_Logic = new Swift.Core_Logic();
-            }
-        },
-        getCurrentServerConnection: function () {
-            return this.srvConn;
-        },
-        AddAgent: function (agent, comName, serverComName) {
-            agent.getA().setServerComponentName(serverComName);
-            this.core_Logic.Add$1(comName, agent);
-        },
-        InitAgents: function () {
-            this.AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
-        },
-        Init: function () {
-            // iTweenRoot
-            new UnityEngine.GameObject.$ctor1("iTweenRoot").AddComponent(iTweenRoot);
-
-            UIManager.getInstance().ShowUI(LoginUI, UIType.LoginUI, UILayer.Game);
-
-            // 显示登录界面
-            //         UnityEngine.GameObject prefab = (UnityEngine.GameObject)ResourceManager.Instance.Load("Assets/AssetBundles/Prefabs/LoginUI.prefab");
-            //         UnityEngine.GameObject go = (UnityEngine.GameObject)UnityEngine.Object.Instantiate(prefab);
-            //         UnityEngine.Transform uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").transform;
-            //         go.transform.SetParent(uiCanvas, false);
-            //         go.AddComponent<LoginUI>();
-        },
-        ConnectServer: function (ip, port, callback) {
-            var nc = this.core.Get(Swift.NetCore);
-            nc.Close();
-
-            UnityEngine.Debug.Log(System.String.concat("ConnectServer ", ip, ":", port));
-
-            nc.Connect2Peer$1(ip, port, Bridge.fn.bind(this, function (conn, reason) {
-                this.ResetAllConnection(conn);
-                callback(conn, reason);
-            }));
-        },
-        CloseNetConnections: function () {
-            var nc = this.core.Get(Swift.NetCore);
-            nc.Close();
-        },
-        OnTimeElapsed: function (te) {
-            this.core.RunOneFrame(te);
-            this.core_Logic.RunOneFrame(te);
-        },
-        ResetAllConnection: function (conn) {
-            this.srvConn = conn;
-            var arr = this.core.getAll();
-            for (var i = 0; i < arr.length; i = (i + 1) | 0) {
-                var c = arr[i];
-                if (Bridge.is(c, Swift.PortAgent)) {
-                    var pa = Bridge.as(c, Swift.PortAgent);
-                    pa.Setup(conn);
-                }
+                return ObjSingleton$1(T).instance;
             }
         }
-    });
+    }; });
 
     /**
      * 缓动动画工具类
@@ -1372,18 +1304,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("ObjSingleton$1", function (T) { return {
-        statics: {
-            instance: null,
-            getInstance: function () {
-                if (ObjSingleton$1(T).instance == null) {
-                    ObjSingleton$1(T).instance = Bridge.createInstance(T);
-                }
-                return ObjSingleton$1(T).instance;
-            }
-        }
-    }; });
-
     /**
      * 资源路径配置
      *
@@ -1458,24 +1378,6 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             },
             GetSpritePath: function (assetPath) {
                 return (System.String.concat("Sprites/", assetPath)).toLowerCase();
-            }
-        }
-    });
-
-    Bridge.define("ResourceManagerLocal", {
-        statics: {
-            instance: null,
-            getInstance: function () {
-                if (ResourceManagerLocal.instance == null) {
-                    ResourceManagerLocal.instance = new ResourceManagerLocal();
-                }
-                return ResourceManagerLocal.instance;
-            }
-        },
-        Load: function (path, cb) {
-            var obj = EditorEnv.LoadMainAssetAtPath(path);
-            if (!Bridge.staticEquals(cb, null)) {
-                cb(obj);
             }
         }
     });
@@ -1868,6 +1770,70 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    /**
+     * 客户端游戏核心对象，引用所有逻辑模块并负责主要驱动
+     *
+     * @public
+     * @class GameCore
+     * @augments ObjSingleton$1
+     */
+    Bridge.define("GameCore", {
+        inherits: function () { return [ObjSingleton$1(GameCore)]; },
+        srvConn: null,
+        core: null,
+        core_Logic: null,
+        config: {
+            init: function () {
+                this.core = new Swift.Core();
+                this.core_Logic = new Swift.Core_Logic();
+            }
+        },
+        getCurrentServerConnection: function () {
+            return this.srvConn;
+        },
+        AddAgent: function (agent, comName, serverComName) {
+            agent.getA().setServerComponentName(serverComName);
+            this.core_Logic.Add$1(comName, agent);
+        },
+        InitAgents: function () {
+            this.AddAgent(new LoginAgent(), "LoginAgent", "LoginPort");
+        },
+        Init: function () {
+            // iTweenRoot
+            new UnityEngine.GameObject.$ctor1("iTweenRoot").AddComponent(iTweenRoot);
+        },
+        ConnectServer: function (ip, port, callback) {
+            var nc = this.core.Get(Swift.NetCore);
+            nc.Close();
+
+            UnityEngine.Debug.Log(System.String.concat("ConnectServer ", ip, ":", port));
+
+            nc.Connect2Peer$1(ip, port, Bridge.fn.bind(this, function (conn, reason) {
+                this.ResetAllConnection(conn);
+                callback(conn, reason);
+            }));
+        },
+        CloseNetConnections: function () {
+            var nc = this.core.Get(Swift.NetCore);
+            nc.Close();
+        },
+        OnTimeElapsed: function (te) {
+            this.core.RunOneFrame(te);
+            this.core_Logic.RunOneFrame(te);
+        },
+        ResetAllConnection: function (conn) {
+            this.srvConn = conn;
+            var arr = this.core.getAll();
+            for (var i = 0; i < arr.length; i = (i + 1) | 0) {
+                var c = arr[i];
+                if (Bridge.is(c, Swift.PortAgent)) {
+                    var pa = Bridge.as(c, Swift.PortAgent);
+                    pa.Setup(conn);
+                }
+            }
+        }
+    });
+
     Bridge.define("ItweenUtils.iTweenLookTo", {
         inherits: [ItweenUtils.iTweenAct],
         ctor: function (go) {
@@ -2063,8 +2029,13 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
-    Bridge.define("ResourceManager", {
-        inherits: [ResourceManagerLocal]
+    Bridge.define("ResourceManagerLocal", {
+        inherits: function () { return [ObjSingleton$1(ResourceManagerLocal)]; },
+        Load: function (path, cb) {
+            if (!Bridge.staticEquals(cb, null)) {
+                cb(null);
+            }
+        }
     });
 
     /**
@@ -2225,6 +2196,10 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 
+    Bridge.define("ResourceManager", {
+        inherits: [ResourceManagerLocal]
+    });
+
     Bridge.define("GameDriver", {
         inherits: [UnityEngine.MonoBehaviour],
         statics: {
@@ -2240,11 +2215,11 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             //Screen.sleepTimeout = SleepTimeout.NeverSleep;
         },
         Start: function () {
-            GameCore.getInstance().Init();
+            ObjSingleton$1(GameCore).getInstance().Init();
         },
         FixedUpdate: function () {
             var te = Bridge.Int.clip32(UnityEngine.Time.getfixedDeltaTime() * 1000);
-            GameCore.getInstance().OnTimeElapsed(te);
+            ObjSingleton$1(GameCore).getInstance().OnTimeElapsed(te);
         }
     });
 
@@ -2585,7 +2560,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             // 加载UI资源并实例化GameObject
             var uiInfo = this.m_UIDict.get(_type);
             var abName = ResourceConfig.GetUIPath(uiInfo.resName);
-            ResourceManagerLocal.getInstance().Load(abName, Bridge.fn.bind(this, function (obj) {
+            ObjSingleton$1(ResourceManagerLocal).getInstance().Load(abName, Bridge.fn.bind(this, function (obj) {
                 var go = Bridge.cast(UnityEngine.Object.Instantiate$1(obj), UnityEngine.GameObject);
                 uiInfo.ui = go.AddComponent(T);
                 uiInfo.ui.UIInfo = uiInfo;

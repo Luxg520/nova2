@@ -32,15 +32,6 @@ public class GameCore : ObjSingleton<GameCore>
     {
         // iTweenRoot
         new UnityEngine.GameObject("iTweenRoot").AddComponent<iTweenRoot>();
-
-        UIManager.Instance.ShowUI<LoginUI>(UIType.LoginUI, UILayer.Game);
-
-        // 显示登录界面
-//         UnityEngine.GameObject prefab = (UnityEngine.GameObject)ResourceManager.Instance.Load("Assets/AssetBundles/Prefabs/LoginUI.prefab");
-//         UnityEngine.GameObject go = (UnityEngine.GameObject)UnityEngine.Object.Instantiate(prefab);
-//         UnityEngine.Transform uiCanvas = UnityEngine.GameObject.Find("Root/UICanvas").transform;
-//         go.transform.SetParent(uiCanvas, false);
-//         go.AddComponent<LoginUI>();
     }
 
     // 连接服务器
