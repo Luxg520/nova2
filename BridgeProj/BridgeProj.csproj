@@ -40,7 +40,7 @@
     <Compile Include="Logic\**\*.cs" />
     <Compile Include="Logic_Common\Battle\AIs\AI.cs" />
     <Compile Include="Logic_Common\Battle\AIs\Walk2.cs" />
-    <Compile Include="Logic_Common\Battle\BattleActor.cs" />
+    <Compile Include="Logic_Common\Battle\Actor.cs" />
     <Compile Include="Logic_Common\Battle\Skills\NormalAttack.cs" />
     <Compile Include="Logic_Common\Battle\Skills\Skill.cs" />
     <Compile Include="Logic_Common\ReasonEnums.cs" />

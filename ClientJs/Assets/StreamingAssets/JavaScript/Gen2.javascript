@@ -2281,6 +2281,11 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         cx: 0,
         cy: 0,
         cd: 0,
+        config: {
+            init: function () {
+                this.pts = new (System.Collections.Generic.List$1(Array))();
+            }
+        },
         ctor: function () {
             this.$initialize();
             Nova.AI.ctor.call(this);
@@ -2291,7 +2296,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         },
         SetPath: function (ps) {
             var $t;
-            this.pts = new (System.Collections.Generic.List$1(Array))();
+            this.pts.clear();
             var lastPx = this.getOwner().getPx();
             var lastPy = this.getOwner().getPy();
             this.pts.add([this.getOwner().getPx(), this.getOwner().getPy(), 0]);
@@ -2324,6 +2329,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 return;
             }
 
+            // 直接丢弃在指定步长内越过的点
             var d = this.getOwner().getSpeed() * te;
             while (d >= this.cd && this.pts.getCount() > 0) {
                 d -= this.cd;
@@ -2332,11 +2338,13 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
                 this.pts.removeAt(0);
             }
 
+            // 到终点就结束
             if (this.pts.getCount() === 0) {
                 this.Stop();
                 return;
             }
 
+            // 计算下一目标点
             this.cx = this.pts.getItem(0)[0];
             this.cy = this.pts.getItem(0)[1];
             this.cd = this.pts.getItem(0)[2];
@@ -2344,6 +2352,7 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
             Nova.MathUtils.DistPt(this.getOwner().getPx(), this.getOwner().getPy(), this.cx, this.cy, this.cd, x, y);
             this.cd -= d;
 
+            // 更新位置
             this.getOwner().setPx(x.v);
             this.getOwner().setPy(y.v);
         }
