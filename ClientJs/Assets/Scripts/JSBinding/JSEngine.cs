@@ -70,6 +70,20 @@ public class JSEngine : MonoBehaviour
             if (jse == null)
             {
                 GameObject jseGO = GameObject.Find("_JSEngine");
+
+#if UNITY_EDITOR
+                if (jseGO == null)
+                {
+                    var o = UnityEditor.AssetDatabase.LoadMainAssetAtPath("Assets/Scripts/JSBinding/_JSEngine.prefab");
+                    if (o != null)
+                    {
+                        jseGO = (GameObject)Instantiate(o);
+                        jseGO.name = "_JSEngine";
+                        return;
+                    }
+                }
+#endif
+
                 if (jseGO == null)
                 {
                     initFail = true;
