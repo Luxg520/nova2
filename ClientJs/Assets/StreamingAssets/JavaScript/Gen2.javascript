@@ -2430,4 +2430,3 @@ Bridge.assembly("BridgeProj", function ($asm, globals) {
         }
     });
 });
-
